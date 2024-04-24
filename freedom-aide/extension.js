@@ -1,5 +1,8 @@
 const vscode = require('vscode');
 const wxml_format = require("./FormatWxml");
+const light_activeText = require("./ActiveText");
+const saveFormat_1 = require("./saveFormat");
+const config_1 = require("./config");
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -102,6 +105,12 @@ function activate(context) {
 	  const wxml = new wxml_format.default();
 		wxml.init();
 	})
+	const wxml = new wxml_format.default();
+	const activeText = new light_activeText.default(config_1.config);
+	config_1.configActivate(activeText, () => {
+			saveFormat_1.default(wxml);
+	});
+	context.subscriptions.push(activeText);
 }
 
 function deactivate() {

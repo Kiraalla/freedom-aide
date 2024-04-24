@@ -22,7 +22,7 @@ class FormatWxml {
     }
     getConfig() {
         let wxmlFormatConf = vscode_1.workspace
-            .getConfiguration('wxmlConfig')
+            .getConfiguration('freedomAide')
             .get('format', {});
         if (!wxmlFormatConf) {
             return;

@@ -1,5 +1,5 @@
 {
-  "name": "freedom-aide",
+  "name": "aaa-aide",
   "displayName": "自由的小助手",
   "description": "",
   "version": "0.0.5",
@@ -8,10 +8,18 @@
   "engines": {
     "vscode": "^1.88.0"
   },
+  "keywords": [
+		"wxml",
+		"小程序",
+		"mini",
+		"wechat",
+		"weapp"
+	],
   "categories": [
     "Other"
   ],
   "activationEvents": [
+    "onCommand:extension.formatwxml",
 		"onLanguage:wxml"
 	],
   "main": "./extension.js",
@@ -64,7 +72,68 @@
         "mac": "shift+alt+f",
         "when": "editorLangId == 'wxml' && editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+			"title": "freedom-aide",
+			"properties": {
+        "freedomAide.format": {
+					"type": "object",
+					"description": "wxml格式化的属性。无特殊说明的配置的属性可以这里看https://github.com/beautify-web/js-beautify",
+					"default": {
+						"brace_style": "collapse",
+						"end_with_newline": false,
+						"indent_char": "",
+						"indent_handlebars": false,
+						"indent_inner_html": false,
+						"indent_scripts": "keep",
+						"indent_size": 2,
+						"indent_with_tabs": true,
+						"max_preserve_newlines": 1,
+						"wrap_attributes_count": 4,
+						"unformatted": "['text']",
+						"disable_automatic_closing_labels": false,
+						"preserve_newlines": true,
+						"wrap_attributes": "force-expand-multiline"
+					}
+				},
+				"freedomAide.onSaveFormat": {
+					"type": "boolean",
+					"description": "是否开启保存自动格式化",
+					"default": false
+				},
+				"freedomAide.activeDisable": {
+					"type": "boolean",
+					"description": "是否禁用高亮组件",
+					"default": false
+				},
+				"freedomAide.activeColor": {
+					"type": "object",
+					"description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
+					"default": {
+						"color": "#e5c07b"
+					}
+				},
+				"freedomAide.tagNoActiveArr": {
+					"type": "array",
+					"description": "高亮所忽略的组件数组",
+					"default": [
+						"view",
+						"button",
+						"text",
+						"icon",
+						"image",
+						"navigator",
+						"block",
+						"input",
+						"label",
+						"template",
+						"form",
+						"camera",
+						"textarea"
+					]
+				}
+			}
+		}
   },
   "scripts": {
     "lint": "eslint .",
