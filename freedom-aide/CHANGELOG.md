@@ -15,3 +15,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.3]
 
 - 修复index.json里的初始配置
+
+## [0.0.4]
+
+- 增加wxml格式化！
+
+## [0.0.5]
+
+- 增加js/wxml代码块！

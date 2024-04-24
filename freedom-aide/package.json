@@ -1,8 +1,8 @@
 {
   "name": "freedom-aide",
-  "displayName": "freedom-aide",
+  "displayName": "自由的小助手",
   "description": "",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -11,14 +11,12 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+		"onLanguage:wxml"
+	],
   "main": "./extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "creat-miniapp-template.helloWorld",
-        "title": "hello"
-      },
       {
         "command": "extension.createMiniappTemplate",
         "title": "创建小程序组件"
@@ -32,7 +30,41 @@
           "group": "navigation"
         }
       ]
-    }
+    },
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/snippets.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/snippets.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/snippets.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./snippets/snippets.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/miniprogram-js.json"
+      },
+      {
+        "language": "wxml",
+        "path": "./snippets/miniprogram-wxml.json"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.formatwxml",
+        "key": "shift+alt+f",
+        "mac": "shift+alt+f",
+        "when": "editorLangId == 'wxml' && editorTextFocus"
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",
@@ -40,12 +72,15 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.88.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "eslint": "^8.57.0",
-    "typescript": "^5.3.3",
+    "@types/vscode": "^1.88.0",
     "@vscode/test-cli": "^0.0.8",
-    "@vscode/test-electron": "^2.3.9"
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "cny_js_beautify": "^0.0.8"
   }
 }

@@ -1,20 +1,11 @@
 const vscode = require('vscode');
-
+const wxml_format = require("./FormatWxml");
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-
-	let disposable = vscode.commands.registerCommand('creat-miniapp-template.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from  创建小程序模板!');
-	});
-	context.subscriptions.push(disposable);
-
-	let creatMiniTemplate = vscode.commands.registerCommand('extension.createMiniappTemplate', async (resource) => {
-		const componentName = await vscode.window.showInputBox({
+	registerCommand(context, 'extension.createMiniappTemplate', async (resource) => {
+	  const componentName = await vscode.window.showInputBox({
 			prompt: '请输入组件名称',
 			placeHolder: '请输入组件名称',
 		});
@@ -105,14 +96,24 @@ function activate(context) {
 			}
 		}
 		vscode.window.showInformationMessage('小程序组件模板创建成功！');
-	});
-	context.subscriptions.push(creatMiniTemplate);
+	})
 
+	registerCommand(context, 'extension.formatwxml', () => {
+	  const wxml = new wxml_format.default();
+		wxml.init();
+	})
 }
 
-
-function deactivate() { }
-
+function deactivate() {
+	console.log('扩展 Freedom cide 已被禁用！');
+}
+//  注册函数
+function registerCommand(context, command, func) {
+	let com = vscode.commands.registerCommand(command, (param) => {
+			func(param)
+	})
+	context.subscriptions.push(com);
+}
 module.exports = {
 	activate,
 	deactivate
