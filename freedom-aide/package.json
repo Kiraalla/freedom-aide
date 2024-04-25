@@ -1,29 +1,36 @@
 {
-  "name": "aaa-aide",
+  "name": "freedom-aide",
   "displayName": "自由的小助手",
   "description": "",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
     "vscode": "^1.88.0"
   },
   "keywords": [
-		"wxml",
-		"小程序",
-		"mini",
-		"wechat",
-		"weapp"
-	],
+    "wxml",
+    "小程序",
+    "mini",
+    "wechat",
+    "weapp"
+  ],
   "categories": [
     "Other"
   ],
   "activationEvents": [
     "onCommand:extension.formatwxml",
-		"onLanguage:wxml"
-	],
+    "onLanguage:wxml"
+  ],
   "main": "./extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "wxml",
+        "extensions": [".wxml"],
+        "aliases": ["WXML", "wxml"]
+      }
+    ],
     "commands": [
       {
         "command": "extension.createMiniappTemplate",
@@ -74,66 +81,84 @@
       }
     ],
     "configuration": {
-			"title": "freedom-aide",
-			"properties": {
+      "title": "freedom-aide",
+      "properties": {
         "freedomAide.format": {
-					"type": "object",
-					"description": "wxml格式化的属性。无特殊说明的配置的属性可以这里看https://github.com/beautify-web/js-beautify",
-					"default": {
-						"brace_style": "collapse",
-						"end_with_newline": false,
-						"indent_char": "",
-						"indent_handlebars": false,
-						"indent_inner_html": false,
-						"indent_scripts": "keep",
-						"indent_size": 2,
-						"indent_with_tabs": true,
-						"max_preserve_newlines": 1,
-						"wrap_attributes_count": 4,
-						"unformatted": "['text']",
-						"disable_automatic_closing_labels": false,
-						"preserve_newlines": true,
-						"wrap_attributes": "force-expand-multiline"
-					}
-				},
-				"freedomAide.onSaveFormat": {
-					"type": "boolean",
-					"description": "是否开启保存自动格式化",
-					"default": false
-				},
-				"freedomAide.activeDisable": {
-					"type": "boolean",
-					"description": "是否禁用高亮组件",
-					"default": false
-				},
-				"freedomAide.activeColor": {
-					"type": "object",
-					"description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
-					"default": {
-						"color": "#e5c07b"
-					}
-				},
-				"freedomAide.tagNoActiveArr": {
-					"type": "array",
-					"description": "高亮所忽略的组件数组",
-					"default": [
-						"view",
-						"button",
-						"text",
-						"icon",
-						"image",
-						"navigator",
-						"block",
-						"input",
-						"label",
-						"template",
-						"form",
-						"camera",
-						"textarea"
-					]
-				}
-			}
-		}
+          "type": "object",
+          "description": "wxml格式化的属性。无特殊说明的配置的属性可以这里看https://github.com/beautify-web/js-beautify",
+          "default": {
+            "brace_style": "collapse",
+            "end_with_newline": false,
+            "indent_char": "",
+            "indent_handlebars": false,
+            "indent_inner_html": false,
+            "indent_scripts": "keep",
+            "indent_size": 2,
+            "indent_with_tabs": true,
+            "max_preserve_newlines": 1,
+            "wrap_attributes_count": 4,
+            "unformatted": "['text']",
+            "disable_automatic_closing_labels": false,
+            "preserve_newlines": true,
+            "wrap_attributes": "force-expand-multiline"
+          }
+        },
+        "freedomAide.onSaveFormat": {
+          "type": "boolean",
+          "description": "是否开启保存自动格式化",
+          "default": false
+        },
+        "freedomAide.activeDisable": {
+          "type": "boolean",
+          "description": "是否禁用高亮组件",
+          "default": false
+        },
+        "freedomAide.activeColor": {
+          "type": "object",
+          "description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
+          "default": {
+            "color": "#e5c07b"
+          }
+        },
+        "freedomAide.tagNoActiveArr": {
+          "type": "array",
+          "description": "高亮所忽略的组件数组",
+          "default": [
+            "view",
+            "scroll-view",
+            "swiper",
+            "movable-view",
+            "cover-view",
+            "text",
+            "icon",
+            "progress",
+            "rich-text",
+            "button",
+            "checkbox",
+            "form",
+            "input",
+            "label",
+            "picker",
+            "picker-view",
+            "radio",
+            "slider",
+            "switch",
+            "textarea",
+            "navigator",
+            "functional-page-navigator",
+            "image",
+            "audio",
+            "video",
+            "map",
+            "canvas",
+            "ad",
+            "official-account",
+            "open-data",
+            "web-vie"
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",

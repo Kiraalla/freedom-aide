@@ -1,22 +1,17 @@
 "use strict";
-// @ts-ignore
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        // @ts-ignore
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
-    return t;
-};
+
+function __rest(source, excluded) {
+    const rest = {};
+    for (const key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key) && !excluded.includes(key)) {
+            rest[key] = source[key];
+        }
+    }
+    return rest;
+}
+
 Object.defineProperty(exports, "__esModule", { value: true });
-/*
- * @Author: cnyballk[https://github.com/cnyballk]
- * @Date: 2018-09-01 15:45:26
- * @Last Modified by: cnyballk[https://github.com/cnyballk]
- * @Last Modified time: 2018-10-25 10:08:13
- */
+
 const config_1 = require("./config");
 const vscode_1 = require("vscode");
 const COMMENT_REGEXP = /<!--([\s\S]*?)-->/g;

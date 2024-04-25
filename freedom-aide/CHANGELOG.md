@@ -23,3 +23,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.5]
 
 - 增加js/wxml代码块！
+
+## [0.0.6]
+
+- 增加wxml标签高亮、可配置。

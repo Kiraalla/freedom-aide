@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/*
- * @Author: cnyballk[https://github.com/cnyballk]
- * @Date: 2018-08-31 10:44:00
- * @Last Modified by: cnyballk[https://github.com/cnyballk]
- * @Last Modified time: 2018-10-09 16:47:16
- */
+
 const vscode_1 = require("vscode");
 let listener;
 exports.config = {
@@ -43,4 +38,3 @@ function configDeactivate() {
     listener.dispose();
 }
 exports.configDeactivate = configDeactivate;
-//# sourceMappingURL=config.js.map

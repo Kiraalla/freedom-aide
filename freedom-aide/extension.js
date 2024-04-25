@@ -8,7 +8,7 @@ const config_1 = require("./config");
  */
 function activate(context) {
 	registerCommand(context, 'extension.createMiniappTemplate', async (resource) => {
-	  const componentName = await vscode.window.showInputBox({
+		const componentName = await vscode.window.showInputBox({
 			prompt: '请输入组件名称',
 			placeHolder: '请输入组件名称',
 		});
@@ -102,27 +102,34 @@ function activate(context) {
 	})
 
 	registerCommand(context, 'extension.formatwxml', () => {
-	  const wxml = new wxml_format.default();
+		const wxml = new wxml_format.default();
 		wxml.init();
 	})
-	const wxml = new wxml_format.default();
-	const activeText = new light_activeText.default(config_1.config);
-	config_1.configActivate(activeText, () => {
-			saveFormat_1.default(wxml);
-	});
-	context.subscriptions.push(activeText);
+	registerCommand(context, 'extension.getSetting', () => {
+	  const wxml = new wxml_format.default();
+    config_1.getConfig();
+    const activeText = new light_activeText.default(config_1.config);
+    config_1.configActivate(activeText, () => {
+        saveFormat_1.default(wxml);
+    });
+	})
+	 // 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
+	 vscode.commands.executeCommand('extension.getSetting');
 }
 
 function deactivate() {
-	console.log('扩展 Freedom cide 已被禁用！');
+    config_1.configDeactivate();
+		console.log('扩展 Freedom cide 已被禁用！');
 }
+
 //  注册函数
 function registerCommand(context, command, func) {
 	let com = vscode.commands.registerCommand(command, (param) => {
-			func(param)
+		func(param)
 	})
 	context.subscriptions.push(com);
 }
+
 module.exports = {
 	activate,
 	deactivate
