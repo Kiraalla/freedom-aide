@@ -1,8 +1,8 @@
 {
   "name": "freedom-aide",
-  "displayName": "自由的小助手",
+  "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -33,16 +33,25 @@
     ],
     "commands": [
       {
-        "command": "extension.createMiniappTemplate",
+        "command": "extension.createMiniappModule",
         "title": "创建小程序组件"
+      },
+      {
+        "command": "extension.createMiniappPage",
+        "title": "创建小程序页面"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "extension.createMiniappTemplate",
+          "command": "extension.createMiniappModule",
           "when": "resourceScheme == 'file'",
-          "group": "navigation"
+          "group": "1_creatTemplate"
+        },
+        {
+          "command": "extension.createMiniappPage",
+          "when": "resourceScheme == 'file'",
+          "group": "1_creatTemplate"
         }
       ]
     },

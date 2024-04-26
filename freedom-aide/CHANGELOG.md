@@ -27,3 +27,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.6]
 
 - 增加wxml标签高亮、可配置。
+
+## [0.0.7]
+
+- 支持小程序页面创建

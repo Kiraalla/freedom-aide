@@ -7,7 +7,7 @@ const config_1 = require("./config");
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-	registerCommand(context, 'extension.createMiniappTemplate', async (resource) => {
+	registerCommand(context, 'extension.createMiniappModule', async (resource) => {
 		const componentName = await vscode.window.showInputBox({
 			prompt: '请输入组件名称',
 			placeHolder: '请输入组件名称',
@@ -99,6 +99,81 @@ function activate(context) {
 			}
 		}
 		vscode.window.showInformationMessage('小程序组件模板创建成功！');
+	})
+	registerCommand(context, 'extension.createMiniappPage', async (resource) => {
+		const pageName = await vscode.window.showInputBox({
+			prompt: '请输入页面名称',
+			placeHolder: '请输入页面名称',
+		});
+
+		if (!pageName) {
+			vscode.window.showErrorMessage('页面名称不能为空！');
+			return;
+		}
+
+		// 创建组件文件夹
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const componentFolderUri = vscode.Uri.joinPath(folderUri, pageName);
+		await vscode.workspace.fs.createDirectory(componentFolderUri);
+
+		// 创建组件文件
+		const filesToCreate = ['index.wxml', 'index.scss', 'index.json', 'index.js'];
+		for (const fileName of filesToCreate) {
+			if (fileName === 'index.json') {
+				// 创建 index.json 文件并写入初始内容
+				const initialContent = {
+					navigationBarTitleText: "",
+					usingComponents: {},
+					// 在这里添加你想要的其他初始内容
+				};
+				const jsonContent = JSON.stringify(initialContent, null, 4);
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(jsonContent, 'utf8'));
+			} else if (fileName === 'index.js') {
+				// 创建 index.js 文件并写入初始内容
+				const initialJsContent = `
+				const options = {
+					data: {
+
+					},
+					onLoad(options) {
+				
+					},
+					onReady() {
+				
+					},
+					onShow() {
+				
+					},
+					onHide() {
+				
+					},
+					onUnload() {
+				
+					},
+					onShareAppMessage() {
+						return {
+							title: '',
+						};
+					},
+				}
+				
+				Page(options)				
+				`.replace(/^\s+/gm, '');
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
+			} else if (fileName === 'index.wxml') {
+				// 创建 index.js 文件并写入初始内容
+				const initialJsContent = `
+				<view>
+						<!-- ${pageName}页面 -->
+				</view>
+				`.replace(/^\s+/gm, '');
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
+			} else {
+				// 对于其他文件，创建空文件
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), new Uint8Array());
+			}
+		}
+		vscode.window.showInformationMessage('小程序页面模板创建成功！');
 	})
 
 	registerCommand(context, 'extension.formatwxml', () => {
