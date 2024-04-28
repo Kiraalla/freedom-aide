@@ -113,8 +113,8 @@ function activate(context) {
 
 		// 创建组件文件夹
 		const folderUri = vscode.Uri.file(resource.fsPath);
-		const componentFolderUri = vscode.Uri.joinPath(folderUri, pageName);
-		await vscode.workspace.fs.createDirectory(componentFolderUri);
+		const pageFolderUri = vscode.Uri.joinPath(folderUri, pageName);
+		await vscode.workspace.fs.createDirectory(pageFolderUri);
 
 		// 创建组件文件
 		const filesToCreate = ['index.wxml', 'index.scss', 'index.json', 'index.js'];
@@ -127,7 +127,7 @@ function activate(context) {
 					// 在这里添加你想要的其他初始内容
 				};
 				const jsonContent = JSON.stringify(initialContent, null, 4);
-				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(jsonContent, 'utf8'));
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), Buffer.from(jsonContent, 'utf8'));
 			} else if (fileName === 'index.js') {
 				// 创建 index.js 文件并写入初始内容
 				const initialJsContent = `
@@ -159,7 +159,7 @@ function activate(context) {
 				
 				Page(options)				
 				`.replace(/^\s+/gm, '');
-				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
 			} else if (fileName === 'index.wxml') {
 				// 创建 index.js 文件并写入初始内容
 				const initialJsContent = `
@@ -167,13 +167,50 @@ function activate(context) {
 						<!-- ${pageName}页面 -->
 				</view>
 				`.replace(/^\s+/gm, '');
-				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
 			} else {
 				// 对于其他文件，创建空文件
-				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), new Uint8Array());
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), new Uint8Array());
 			}
 		}
 		vscode.window.showInformationMessage('小程序页面模板创建成功！');
+
+		// 添加页面到 app.json
+
+		// 获取当前工作区文件夹
+		const workspaceFolders = vscode.workspace.workspaceFolders;
+		let relativePath = vscode.workspace.asRelativePath(pageFolderUri);
+		// 找到 pages 文件夹在相对路径中的位置
+		const pagesIndex = relativePath.indexOf('pages');
+		if (pagesIndex !== -1) {
+			// 截取 pages 文件夹后面的部分作为相对路径
+			relativePath = relativePath.slice(pagesIndex);
+		}
+		// 假设您只有一个工作区文件夹，您可以根据自己的需求进行适当的更改
+		const workspaceFolderUri = workspaceFolders[0].uri;
+
+		// 创建页面文件夹的 URI
+		const pagePath = `${relativePath}/index`;
+
+		// 读取 app.json 文件内容
+		const appJsonUri = vscode.Uri.joinPath(workspaceFolderUri, 'app.json');
+		const appJsonContent = await vscode.workspace.fs.readFile(appJsonUri);
+
+		// 解析 app.json 文件内容
+		const appJson = JSON.parse(appJsonContent.toString());
+
+		// 如果 app.json 中已存在相同路径，则不重复添加
+		if (!appJson.pages.includes(pagePath)) {
+			// 将页面路径添加到 app.json 中的 pages 字段
+			appJson.pages.push(pagePath);
+
+			// 将更新后的 app.json 内容写入文件
+			await vscode.workspace.fs.writeFile(appJsonUri, Buffer.from(JSON.stringify(appJson, null, 2)));
+			vscode.window.showInformationMessage(`路径"${pagePath}" 已添加到 app.json 中`);
+		} else {
+			vscode.window.showInformationMessage(`app.json 中已存在页面路径"${pagePath}"`);
+		}
+
 	})
 
 	registerCommand(context, 'extension.formatwxml', () => {
@@ -181,20 +218,20 @@ function activate(context) {
 		wxml.init();
 	})
 	registerCommand(context, 'extension.getSetting', () => {
-	  const wxml = new wxml_format.default();
-    config_1.getConfig();
-    const activeText = new light_activeText.default(config_1.config);
-    config_1.configActivate(activeText, () => {
-        saveFormat_1.default(wxml);
-    });
+		const wxml = new wxml_format.default();
+		config_1.getConfig();
+		const activeText = new light_activeText.default(config_1.config);
+		config_1.configActivate(activeText, () => {
+			saveFormat_1.default(wxml);
+		});
 	})
-	 // 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
-	 vscode.commands.executeCommand('extension.getSetting');
+	// 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
+	vscode.commands.executeCommand('extension.getSetting');
 }
 
 function deactivate() {
-    config_1.configDeactivate();
-		console.log('扩展 Freedom cide 已被禁用！');
+	config_1.configDeactivate();
+	console.log('扩展 Freedom cide 已被禁用！');
 }
 
 //  注册函数

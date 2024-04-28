@@ -31,3 +31,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.7]
 
 - 支持小程序页面创建
+
+## [0.0.8]
+
+- 添加微信API简写、es6语法简写的简写对照
+- 添加小程序页面时，可以将路径追加在app.js的pages中了
