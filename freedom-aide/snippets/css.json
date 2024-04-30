@@ -25,7 +25,7 @@
     "description": "布局样式"
   },
   "文字样式": {
-    "prefix": "font",
+    "prefix": "fs",
     "body": [
       "font-size: ${1:14px};",
       "font-weight: ${2:normal};",
@@ -36,7 +36,7 @@
     "description": "文字样式"
   },
   "文字省略": {
-    "prefix": "over1",
+    "prefix": "ov1",
     "body": [
       "overflow: hidden;",
       "text-overflow: ellipsis;",
@@ -46,11 +46,12 @@
     "description": "文字省略"
   },
   "文字省略-多行": {
-    "prefix": "over2",
+    "prefix": "ov2",
     "body": [
       "display: -webkit-box;",
       "-webkit-box-orient: vertical;",
       "-webkit-line-clamp: ${1:2};",
+      "text-overflow: ellipsis;",
       "overflow: hidden;",
       "$2"
     ],
