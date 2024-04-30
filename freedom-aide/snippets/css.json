@@ -1,0 +1,101 @@
+{
+  
+  "简单注释结构": {
+    "prefix": "bd",
+    "body": [
+      "// 变量",
+      "$${1:name}:${2:var(--${3:value})};",
+      "// 布局",
+      "$4",
+      "// 文字",
+      "$5"
+    ],
+    "description": "简单注释结构"
+  },
+  "布局样式": {
+    "prefix": "df",
+    "body": [
+      "display:${1:flex};",
+      "justify-content:${2:center};",
+      "align-items:${3:center};",
+      "gap:${5:10px};",
+      "flex-wrap:${6:wrap};",
+      "$7"
+    ],
+    "description": "布局样式"
+  },
+  "文字样式": {
+    "prefix": "font",
+    "body": [
+      "font-size: ${1:14px};",
+      "font-weight: ${2:normal};",
+      "color: ${3:#123};",
+      "line-height: ${4:1.5};",
+      "$5"
+    ],
+    "description": "文字样式"
+  },
+  "文字省略": {
+    "prefix": "over1",
+    "body": [
+      "overflow: hidden;",
+      "text-overflow: ellipsis;",
+      "white-space: nowrap;",
+      "$1"
+    ],
+    "description": "文字省略"
+  },
+  "文字省略-多行": {
+    "prefix": "over2",
+    "body": [
+      "display: -webkit-box;",
+      "-webkit-box-orient: vertical;",
+      "-webkit-line-clamp: ${1:2};",
+      "overflow: hidden;",
+      "$2"
+    ],
+    "description": "文字省略-多行"
+  },
+  "绝对定位-上左": {
+    "prefix": "posl0",
+    "body": [
+      "position:absolute;",
+      "top:0;",
+      "left:0;",
+      "$1"
+    ],
+    "description": "绝对定位-上左"
+  },
+  "绝对定位-左右居中": {
+    "prefix": "poscx",
+    "body": [
+      "position:absolute;",
+      "left:50%;",
+      "transform:translateX(-50%);",
+      "$1"
+    ],
+    "description": "绝对定位-左右居中"
+  },
+  "绝对定位-上下居中": {
+    "prefix": "poscy",
+    "body": [
+      "position:absolute;",
+      "top:50%;",
+      "transform:translateY(-50%);",
+      "$1"
+    ],
+    "description": "绝对定位-上下居中"
+  },
+  "绝对定位-居中": {
+    "prefix": "posc",
+    "body": [
+      "position:absolute;",
+      "top:50%;",
+      "left:50%;",
+      "transform:translate(-50%,-50%);",
+      "$1"
+    ],
+    "description": "绝对定位-居中"
+  }
+  
+}

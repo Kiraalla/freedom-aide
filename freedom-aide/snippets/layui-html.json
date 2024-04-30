@@ -1,0 +1,458 @@
+{
+  "layui form表单外壳": {
+    "prefix": "lay-form:box",
+    "body": [
+      "<form class=\"layui-form\" action=\"\" lay-filter=\"${2:testform}\">",
+      "  <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">$3</label>",
+      "    <div class=\"layui-input-${1|block,inline|}\">",
+      "      $4",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-form-item\">",
+      "    <div class=\"layui-input-block\">",
+      "      <button class=\"layui-btn\" lay-submit lay-filter=\"formDemo\">立即提交</button>",
+      "      <button type=\"reset\" class=\"layui-btn layui-btn-primary\">重置</button>",
+      "    </div>",
+      "  </div>",
+      "</form>"
+    ],
+    "description": "layui form表单外壳"
+  },
+  "layui form表单空外壳": {
+    "prefix": "lay-form:box-null",
+    "body": [
+      "<form class=\"layui-form\" action=\"\" lay-filter=\"${2:testform}\">",
+      "  $1",
+      "  <div class=\"layui-form-item\">",
+      "    <div class=\"layui-input-block\">",
+      "      <button class=\"layui-btn\" lay-submit lay-filter=\"formDemo\">立即提交</button>",
+      "      <button type=\"reset\" class=\"layui-btn layui-btn-primary\">重置</button>",
+      "    </div>",
+      "  </div>",
+      "</form>"
+    ],
+    "description": "layui form表单空外壳"
+  },
+  "layui form 样例代码": {
+    "prefix": "lay-form:demo",
+    "body": [
+      "<form class=\"layui-form\" action=\"\">",
+      "  <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">输入框</label>",
+      "    <div class=\"layui-input-block\">",
+      "      <input type=\"text\" name=\"title\" required  lay-verify=\"required\" placeholder=\"请输入标题\" autocomplete=\"off\" class=\"layui-input\">",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">密码框</label>",
+      "    <div class=\"layui-input-inline\">",
+      "      <input type=\"password\" name=\"password\" required lay-verify=\"required\" placeholder=\"请输入密码\" autocomplete=\"off\" class=\"layui-input\">",
+      "    </div>",
+      "    <div class=\"layui-form-mid layui-word-aux\">辅助文字</div>",
+      "  </div>",
+      "  <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">选择框</label>",
+      "    <div class=\"layui-input-block\">",
+      "      <select name=\"city\" lay-verify=\"required\">",
+      "        <option value=\"\"></option>",
+      "        <option value=\"0\">北京</option>",
+      "        <option value=\"1\">上海</option>",
+      "        <option value=\"2\">广州</option>",
+      "        <option value=\"3\">深圳</option>",
+      "        <option value=\"4\">杭州</option>",
+      "      </select>",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">复选框</label>",
+      "    <div class=\"layui-input-block\">",
+      "      <input type=\"checkbox\" name=\"like[write]\" title=\"写作\">",
+      "      <input type=\"checkbox\" name=\"like[read]\" title=\"阅读\" checked>",
+      "      <input type=\"checkbox\" name=\"like[dai]\" title=\"发呆\">",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">开关</label>",
+      "    <div class=\"layui-input-block\">",
+      "      <input type=\"checkbox\" name=\"switch\" lay-skin=\"switch\">",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">单选框</label>",
+      "    <div class=\"layui-input-block\">",
+      "      <input type=\"radio\" name=\"sex\" value=\"男\" title=\"男\">",
+      "      <input type=\"radio\" name=\"sex\" value=\"女\" title=\"女\" checked>",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-form-item layui-form-text\">",
+      "    <label class=\"layui-form-label\">文本域</label>",
+      "    <div class=\"layui-input-block\">",
+      "      <textarea name=\"desc\" placeholder=\"请输入内容\" class=\"layui-textarea\"></textarea>",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-form-item\">",
+      "    <div class=\"layui-input-block\">",
+      "      <button class=\"layui-btn\" lay-submit lay-filter=\"formDemo\">立即提交</button>",
+      "      <button type=\"reset\" class=\"layui-btn layui-btn-primary\">重置</button>",
+      "    </div>",
+      "  </div>",
+      "</form>"
+    ],
+    "description": "layui form 样例代码"
+  },
+	"layui单行输入框": {
+		"prefix": "lay-input",
+		"body": [
+			"<div class=\"layui-form-item\">",
+			"     <label class=\"layui-form-label\">${1:标题}</label>",
+			"     <div class=\"layui-input-${2|block,inline|}\">",
+			"       <input type=\"${3|text,password,number|}\" name=\"title\" value=\"\" required  lay-verify=\"required\" placeholder=\"请输入${1:标题}\" autocomplete=\"off\" class=\"layui-input\">",
+			"     </div>",
+			"</div>"
+		],
+		"description": "layui单行输入框"
+	},
+  "layui文本域输入框": {
+    "prefix": "lay-textarea",
+    "body": [
+      "<div class=\"layui-form-item layui-form-text\">",
+      "    <label class=\"layui-form-label\">${2:文本域}</label>",
+      "    <div class=\"layui-input-${1|block,inline|}\">",
+      "      <textarea name=\"desc\" placeholder=\"请输入内容\" class=\"layui-textarea\"></textarea>",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "layui文本域输入框"
+  },
+	"layui单选框": {
+		"prefix": "lay-radio",
+		"body": [
+			"<div class=\"layui-form-item\">",
+			"    <label class=\"layui-form-label\">${2:单选框}</label>",
+			"    <div class=\"layui-input-${1|block,inline|}\">",
+			"      <input type=\"radio\" name=\"sex\" value=\"男\" title=\"男\">",
+			"      <input type=\"radio\" name=\"sex\" value=\"女\" title=\"女\" checked>",
+			"    </div>",
+			"  </div>"
+		],
+		"description": "layui单选框"
+	},
+  "layui复选框": {
+    "prefix": "lay-checkbox",
+    "body": [
+      "<div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">${2:复选框}</label>",
+      "    <div class=\"layui-input-${1|block,inline|}\">",
+      "      <input type=\"checkbox\" name=\"like[read]\" title=\"${3:阅读}\" checked>",
+      "      <input type=\"checkbox\" name=\"like[write]\" title=\"写作\">",
+      "      <input type=\"checkbox\" name=\"like[dai]\" title=\"发呆\">",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "layui复选框"
+  },
+	"layui下拉菜单": {
+		"prefix": "lay-select",
+		"body": [
+			"<div class=\"layui-form-item\">",
+			"    <label class=\"layui-form-label\">${2:选择框}</label>",
+			"    <div class=\"layui-input-${1|block,inline|}\">",
+			"      <select name=\"city\" lay-verify=\"required\">",
+			"        <option value=\"\"></option>",
+			"      </select>",
+			"    </div>",
+			"  </div>"
+		],
+		"description": "layui下拉菜单"
+  },
+  "layui开关": {
+    "prefix": "lay-switch",
+    "body": [
+      " <div class=\"layui-form-item\">",
+      "    <label class=\"layui-form-label\">${2:开关}</label>",
+      "    <div class=\"layui-input-${1|block,inline|}\">",
+      "      <input type=\"checkbox\" name=\"switch\" lay-skin=\"switch\">",
+      "    </div>",
+      "  </div>"
+    ],
+    "description": "layui switch开关"
+  },
+  "layui 表单辅助文字": {
+    "prefix": "lay-wordaux",
+    "body": [
+      "<div class=\"layui-form-mid layui-word-aux\">${1:辅助文字}</div>"
+    ],
+    "description": "layui 表单辅助文字"
+  },
+  "layui按钮": {
+    "prefix": "lay-button",
+    "body": [
+      "<button type=\"button\" class=\"layui-btn layui-btn-${1|primary,normal,warm,danger,disabled,lg,sm,xs,radius|}\">按钮</button>"
+    ],
+    "description": "layui按钮"
+  },
+  "layui按钮组": {
+    "prefix": "lay-btn-group",
+    "body": [
+      "<div class=\"layui-btn-group\">",
+      "  <button type=\"button\" class=\"layui-btn\">增加</button>",
+      "  <button type=\"button\" class=\"layui-btn\">编辑</button>",
+      "</div>"
+    ],
+    "description": "layui按钮组"
+  },
+  "layui按钮容器": {
+    "prefix": "lay-btn-container",
+    "body": [
+      "<div class=\"layui-btn-container\">",
+      "  <button type=\"button\" class=\"layui-btn\">按钮一</button> ",
+      "  <button type=\"button\" class=\"layui-btn\">按钮二</button> ",
+      "</div>"
+    ],
+    "description": "layui按钮容器"
+  },
+  "layui图标按钮": {
+    "prefix": "lay-btn-icon",
+    "body": [
+      "<button type=\"button\" class=\"layui-btn layui-btn-sm layui-btn-primary\">",
+      "  <i class=\"layui-icon layui-icon-left\"></i>",
+      "</button>"
+    ],
+    "description": "layui图标按钮"
+  },
+  "layui按钮class样式": {
+    "prefix": "lay-button:css",
+    "body": [
+      "layui-btn-${1|primary,normal,warm,danger,disabled,lg,sm,xs,radius|}"
+    ],
+    "description": "layui按钮class样式"
+  },
+  "layui背景色Class类": {
+    "prefix": "lay-bg:css",
+    "body": [
+      "layui-bg-${1|red,orange,green,cyan,blue,black,gray|}"
+    ],
+    "description": "layui背景class样式名"
+  },
+  "layui提交重置按钮": {
+    "prefix": "lay-submit",
+    "body": [
+      "<div class=\"layui-form-item\">",
+      "    <div class=\"layui-input-${1|block,inline|}\">",
+      "      <button class=\"layui-btn\" lay-submit lay-filter=\"formDemo\">${2:立即提交}</button>",
+      "      <button type=\"reset\" class=\"layui-btn layui-btn-primary\">重置</button>",
+      "    </div>",
+      "</div>"
+    ],
+    "description": "layui提交重置按钮"
+  },
+  "layui纯html表格": {
+    "prefix": "lay-table:html",
+    "body": [
+      "<table class=\"layui-table\" ${3:lay-even} lay-skin=\"${1|line,row,nob|}\" lay-size=\"${2|lg,sm|}\">",
+      "  <colgroup>",
+      "    <col width=\"150\">",
+      "    <col>",
+      "  </colgroup>",
+      "  <thead>",
+      "    <tr>",
+      "      <th>昵称</th>",
+      "      <th>签名</th>",
+      "    </tr> ",
+      "  </thead>",
+      "  <tbody>",
+      "    <tr>",
+      "      <td>贤心</td>",
+      "      <td>人生就像是一场修行</td>",
+      "    </tr>",
+      "    <tr>",
+      "      <td>许闲心</td>",
+      "      <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>",
+      "    </tr>",
+      "  </tbody>",
+      "</table>"
+    ],
+    "description": "layui纯html表格"
+  },
+  "layui表格模块": {
+    "prefix": "lay-table:module",
+    "body": [
+      "<table id=\"${1:demotable}\" lay-filter=\"${1:demotable}\"></table>"
+    ],
+    "description": "layui表格模块"
+  },
+  "layui表格工具条模板": {
+    "prefix": "lay-table-tool-tpl",
+    "body": [
+      "<script type=\"text/html\" id=\"barDemo\">",
+      "  <a class=\"layui-btn layui-btn-xs\" lay-event=\"detail\">查看</a>",
+      "  <a class=\"layui-btn layui-btn-xs\" lay-event=\"edit\">编辑</a>",
+      "  <a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>",
+      "  ",
+      "  <!-- 这里同样支持 laytpl 语法，如： -->",
+      "  {{#  if(d.auth > 2){ }}",
+      "    <a class=\"layui-btn layui-btn-xs\" lay-event=\"check\">审核</a>",
+      "  {{#  } }}",
+      "</script>"
+    ],
+    "description": "layui表格工具条模板"
+  },
+  "layui container布局": {
+    "prefix": "lay-cont",
+    "body": [
+      "<div class=\"layui-${1|container,fluid|}\">",      
+      "   $2",
+      "</div>"
+    ],
+    "description": "layui container 布局"
+  },
+  "layui container栅格布局": {
+    "prefix": "lay-cont:row",
+    "body": [
+      "<div class=\"layui-${3|container,fluid|}\">",
+      "  <div class=\"layui-row\">",
+      "    <div class=\"layui-col-${1|xs,sm,md,lg|}9\">",
+      "      $4",
+      "    </div>",
+      "    <div class=\"layui-col-${2|xs,sm,md,lg|}3\">",
+      "      $5",
+      "    </div>",
+      "  </div>",
+      "</div>"
+    ],
+    "description": "layui container 栅格布局"
+  },
+  "layui row 一行": {
+    "prefix": "lay-row",
+    "body": [
+      "<div class=\"layui-row\">",
+      "  $1",
+      "</div>"
+    ],
+    "description": "layui row 一行"
+  },
+  "layui col 一列": {
+    "prefix": "lay-col",
+    "body": [
+      "    <div class=\"layui-col-${1|xs,sm,md,lg|}9\">",
+      "      $2",
+      "    </div>"
+    ],
+    "description": "layui rcol 一列"
+  },
+  "layui card 卡片面板": {
+    "prefix": "lay-card",
+    "body": [
+      "<div class=\"layui-card\">",
+      "   <div class=\"layui-card-header\">${1:卡片面板}</div>",
+      "   <div class=\"layui-card-body\">",
+      "    ${2:卡片式面板面板通常用于非白色背景色的主体内",
+      "    从而映衬出边框投影}",
+      "  </div>",
+      "</div>"
+    ],
+    "description": "layui card 卡片面板"
+  },
+  "layui collapse 折叠面板": {
+    "prefix": "lay-collapse",
+    "body": [
+      "<div class=\"layui-collapse\">",
+      "  <div class=\"layui-colla-item\">",
+      "    <h2 class=\"layui-colla-title\">杜甫</h2>",
+      "    <div class=\"layui-colla-content layui-show\">",
+      "      内容区域",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-colla-item\">",
+      "    <h2 class=\"layui-colla-title\">李清照</h2>",
+      "    <div class=\"layui-colla-content layui-show\">",
+      "      内容区域",
+      "    </div>",
+      "  </div>",
+      "  <div class=\"layui-colla-item\">",
+      "    <h2 class=\"layui-colla-title\">鲁迅</h2>",
+      "    <div class=\"layui-colla-content layui-show\">",
+      "      内容区域",
+      "    </div>",
+      "  </div>",
+      "</div>"
+    ],
+    "description": "layui collapse 折叠面板"
+  },
+  "layui动画class": {
+    "prefix": "lay-anim",
+    "body": [
+      "layui-anim${1|-up,-upbit,-scale,-scaleSpring,-fadein,-fadeout,-rotate,-loop|}"
+    ],
+    "description": "layui动画class"
+  },
+  "layui水平导航": {
+    "prefix": "lay-nav",
+    "body": [
+      "<ul class=\"layui-nav ${1|layui-nav-tree,layui-nav-side|}\" lay-filter=\"\" ${2|lay-shrink=\"\",lay-shrink=\"all\"|}>",
+      "  <li class=\"layui-nav-item\"><a href=\"\">最新活动</a></li>",
+      "  <li class=\"layui-nav-item layui-this\"><a href=\"\">产品</a></li>",
+      "  <li class=\"layui-nav-item\"><a href=\"\">大数据</a></li>",
+      "  <li class=\"layui-nav-item\">",
+      "    <a href=\"javascript:;\">解决方案</a>",
+      "    <dl class=\"layui-nav-child\"> <!-- 二级菜单 -->",
+      "      <dd><a href=\"\">移动模块</a></dd>",
+      "      <dd><a href=\"\">后台模版</a></dd>",
+      "      <dd><a href=\"\">电商平台</a></dd>",
+      "    </dl>",
+      "  </li>",
+      "  <li class=\"layui-nav-item\"><a href=\"\">社区</a></li>",
+      "</ul>"
+    ],
+    "description": "layui水平导航"
+  },
+  "layui面包屑导航": {
+    "prefix": "lay-breadcrumb",
+    "body": [
+      "<span class=\"layui-breadcrumb\" ${1|lay-separator=\"-\",lay-separator=\">\",lay-separator=\"\\|\"|}>",
+      "  <a href=\"\">首页</a>",
+      "  <a href=\"\">国际新闻</a>",
+      "  <a href=\"\">亚太地区</a>",
+      "  <a><cite>正文</cite></a>",
+      "</span>"
+    ],
+    "description": "layui面包屑导航"
+  },
+  "layui tab选项卡外壳": {
+    "prefix": "lay-tab_box",
+    "body": [
+      "<div class=\"layui-tab ${1:layui-tab-brief}\" ${2:lay-filter=\"docDemoTabBrief\" }${3:lay-allowClose=\"true\"}>",
+      "  <ul class=\"layui-tab-title\">",
+      "    <li class=\"layui-this\">网站设置</li>",
+      "    <li>用户管理</li>",
+      "    <li>权限分配</li>",
+      "  </ul>",
+      "  <div class=\"layui-tab-content\">",
+      "    <div class=\"layui-tab-item layui-show\">内容1</div>",
+      "    <div class=\"layui-tab-item\">内容2</div>",
+      "    <div class=\"layui-tab-item\">内容3</div>",
+      "  </div>",
+      "</div>"
+    ],
+    "description": "layui tab选项卡外壳"
+  }
+  ,
+  "layui progress进度条": {
+    "prefix": "lay-progress",
+    "body": [
+      "<div class=\"layui-progress ${1:layui-progress-big}\" ${2:lay-showPercent=\"true\"}>",
+      "  <div class=\"layui-progress-bar layui-bg-${3|red,orange,green,cyan,blue,black,gray|}\" lay-percent=\"${4:30%}\"></div>",
+      "</div>"
+    ],
+    "description": "layui progress进度条"
+  },
+  "layui CDN网址2.5.7": {
+    "prefix": "lay-cdn",
+    "body": [
+      "  <link rel=\"stylesheet\" media=\"screen\" href=\"https://www.layuicdn.com/layui-v2.5.7/css/layui.css\">",
+      "  <script src=\"https://www.layuicdn.com/layui-v2.5.7/layui.js\"></script>"
+    ],
+    "description": "layui CDN网址2.5.7"
+  }
+}

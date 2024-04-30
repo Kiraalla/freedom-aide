@@ -1,0 +1,297 @@
+{
+
+	"layer确认框": {
+		"prefix": "lay-confirm",
+		"body": [
+			"layer.confirm('确定要删除这条吗？', {",
+			"    btn: ['删除','取消'] ",
+			"}, function(){",
+			"  ${1}",
+			"}, function(){",
+			" ",
+			"});"
+		],
+		"description": "layer确认框"
+	},
+	"layer内容框": {
+		"prefix": "lay-open",
+		"body": [
+			"layer.open({",
+			"  type: ${1|1,2,3,4|},//1 dom或文本，2 iframe,3 加载层,4 tips",
+			"  shadeClose:true,",
+			"  title:'${2:温馨提示}',",
+			"  area: ['500px', '300px'],",
+			"  content: \\$('#id') ,",
+			"  success: function(layero){",
+			"       $3",
+			"   }",
+			"});"
+		],
+		"description": "layer内容框"
+	},
+	"layer小吸附框": {
+		"prefix": "lay-tips",
+		"body": [
+			"layer.tips('我是另外一个tips', '吸附元素选择器', {",
+			"  tips: [1, '#3595CC'],",
+			"  time: 4000",
+			"});"
+		],
+		"description": "layer小吸附框"
+	},
+	"layer小吸附框(极简)": {
+		"prefix": "lay-tips-sim",
+		"body": [
+			"layer.tips('$1', '$2');"
+		],
+		"description": "layer小吸附框(极简)"
+	},
+	"layer小吸附框(鼠标经过显示)": {
+		"prefix": "lay-tips-demo",
+		"body": [
+			"//<button type=\"button\" class=\"layui-btn\" data-laytips=\"提示\">按钮</button>",
+			"let laytips_ind=null",
+			"$(document).on('mouseenter','[data-laytips]',function(e){",
+			"  let t=$(this).attr('data-laytips')",
+			"  if(!!t){",
+			"    laytips_ind = layer.tips(t, this,{",
+			"      tips: 1,",
+			"      time:0",
+			"    });",
+			"  }",
+			"}).on('mouseleave','[data-laytips]',function(e) {",
+			"  if(!!laytips_ind){",
+			"    layer.close(laytips_ind)",
+			"    laytips_ind = null",
+			"  }",
+			"})"
+		],
+		"description": "layer小吸附框(鼠标经过显示)"
+	},
+	"layer输入确认框": {
+		"prefix": "lay-prompt",
+		"body": [
+			"layer.prompt({title: '请输入，再确认', formType: ${1|0,1,2|}}, function(val, index){",
+			"  // layer.close(index);",
+			"  ",
+			"});"
+		],
+		"description": "layer输入确认框"
+	},
+  "layui监听提交": {
+    "prefix": "lay-submit-on",
+    "body": [
+      "form.on('submit(formDemo)', function(data){",
+      "    layer.msg(JSON.stringify(data.field));",
+      "    return false;",
+      "});"
+    ],
+    "description": "layui监听提交form"
+  },
+	"form监听触发事件": {
+		"prefix": "lay-form-on",
+		"body": [
+			"//<button lay-submit lay-filter=\"filter\">提交</button>",
+			"form.on('${1|select,checkbox,switch,radio,submit|}(filter)', function(data){",
+			"  console.log(data,data.elem); //原始DOM对象",
+			"  console.log(data.value); //被选中的值",
+			"  console.log(data.othis); //美化后的DOM对象",
+			"}); "
+		],
+		"description": "form监听事件"
+	},
+	"layui主动提交表单": {
+		"prefix": "lay-from-sub",
+		"body": [
+			"form.submit('${1:filter}', function(data){",
+			"      var field = data.field; // 获取表单全部字段值",
+			"      console.log(data); // 回调函数返回的 data 参数和提交事件中返回的一致",
+			"      // 执行提交",
+			"      layer.confirm('确定提交吗？', function(index){",
+			"        layer.close(index); // 关闭确认提示框",
+			"        // 显示填写结果，仅作演示用",
+			"        layer.alert(JSON.stringify(field), {",
+			"          title: '当前填写的字段值'",
+			"        });",
+			"        // 此处可执行 Ajax 等操作",
+			"        // …",
+			"      });",
+			"    });"
+		],
+		"description": "layui主动提交表单"
+	},
+	"layui表单赋值": {
+		"prefix": "lay-from-val",
+		"body": [
+			"form.val('filter', {",
+			"    \"name\": \"value\"",
+			"});"
+		],
+		"description": "layui表单赋值"
+	},
+  "layer弹出消息": {
+    "prefix": "lay-msg",
+    "body": [
+      "layer.msg('${1:hello}'); "
+    ],
+    "description": "layer弹出消息"
+	},
+	"layui表格渲染": {
+		"prefix": "lay-table:render",
+		"body": [
+			"table.render({",
+			"  elem: '#demo',",
+			"  height: 312,",
+			"  skin: '${1|line,row,nob|}',",
+			"  size: '${2|lg,sm|}',",
+			"  even: true,",
+			"  defaultToolbar: ['filter', 'print', 'exports'],",
+			"  url: '/demo/table/user/',",
+			"  page: true,",
+			"  cols: [[",
+			"    {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}",
+			"    ,{field: 'username', title: '用户名', minWidth:80}",
+			"    ,{field: 'sex', title: '性别', width:80, sort: true}",
+			"    ,{field: 'city', title: '城市', width:80} ",
+			"    ,{field: 'sign', title: '签名', width: 177}",
+			"    ,{field: 'experience', title: '积分', width: 80, sort: true}",
+			"    ,{field: 'score', title: '评分', width: 80, sort: true}",
+			"    ,{field: 'classify', title: '职业', width: 80}",
+			"    ,{field: 'wealth', title: '财富', width: 135, sort: true}",
+			"  ]],",
+			"  done: function(res, curr, count){",
+			"    console.log('res, curr, count: ', res, curr, count);",
+			"    $3",
+			"  }",
+			"});"
+		],
+		"description": "layui表格渲染"
+	}
+  ,
+	"layui表格常用方法": {
+		"prefix": "lay-table:fun",
+		"body": [
+			"table.${1|render(options),set(options),on('event(filter)'\\, callback),init(filter\\, options),checkStatus(id),reload(id\\, options),resize(id),exportFile(id\\, data\\, type)|};"
+		],
+		"description": "layui表格常用方法"
+	},
+	"layui表格工具条js事件": {
+		"prefix": "lay-table-tool-js",
+		"body": [
+			"table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter=\"对应的值\"",
+			"  var data = obj.data; //获得当前行数据",
+			"  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）",
+			"  var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）",
+			" ",
+			"  if(layEvent === 'detail'){ //查看",
+			"    //do somehing",
+			"  } else if(layEvent === 'del'){ //删除",
+			"    layer.confirm('真的删除行么', function(index){",
+			"      obj.del(); //删除对应行（tr）的DOM结构，并更新缓存",
+			"      layer.close(index);",
+			"      //向服务端发送删除指令",
+			"    });",
+			"  } else if(layEvent === 'edit'){ //编辑",
+			"    //do something",
+			"    ",
+			"    //同步更新缓存对应的值",
+			"    obj.update({",
+			"      username: '123'",
+			"      ,title: 'xxx'",
+			"    });",
+			"  } else if(layEvent === 'LAYTABLE_TIPS'){",
+			"    layer.alert('Hi，头部工具栏扩展的右侧图标。');",
+			"  }",
+			"});"
+		],
+		"description": "layui表格工具条js事件"
+	},
+	"layui日期时间渲染": {
+		"prefix": "lay-date_render",
+		"body": [
+			"laydate.render({ ",
+			"  elem: '${3:#test}',",
+			"  range: ${2|true,'~','-'|},",
+			"  type: '${1|datetime,date,month,year,time|}'",
+			"});"
+		],
+		"description": "layui日期时间渲染"
+	},
+	"layui日期范围": {
+		"prefix": "lay-date_minmax",
+		"body": [
+			"laydate.render({ ",
+			"  elem: '${3:#test}',",
+			"  type: '${1|datetime,date,month,year,time|}',",
+			"  min: '${4:2021-1-1}',",
+			"  max: '${5:2021-2-1}'",
+			"});"
+		],
+		"description": "layui日期范围"
+	},
+	"layui模块的定义": {
+		"prefix": "lay-define",
+		"body": [
+			"layui.define([${1:mods}], function(exports){",
+			"  $2",
+			"  exports('mod', api);",
+			"});  "
+		],
+		"description": "layui模块的定义"
+	},
+	"layui模块的使用": {
+		"prefix": "lay-use",
+		"body": [
+			"layui.use(['${1|layer,jquery,element|}'], function(args){",
+			"  var ${1|layer,jquery,element|} = layui.${1|layer,jquery,element|};",
+			"  $2",
+			"}); "
+		],
+		"description": "layui模块的使用"
+	},
+	"layui常用模块的使用": {
+		"prefix": "lay-use:ele",
+		"body": [
+			"layui.use(['layer','jquery','element','form'], function(args){",
+			"  var $ = layui.jquery,layer=layui.layer,element=layui.element,form=layui.form;",
+			"  $1",
+			"}); "
+		],
+		"description": "layui模块的使用"
+	},
+	"layui动态加载 CSS路径": {
+		"prefix": "lay-linkcss",
+		"body": [
+			"layui.link(${1:href})"
+		],
+		"description": "layui动态加载 CSS路径"
+	},
+	"layui本地数据读取": {
+		"prefix": "lay-data:get",
+		"body": [
+			"var local_${1:test} = layui.data('${1:test}');"
+		],
+		"description": "layui本地数据读取"
+	},
+	"layui本地数据存储": {
+		"prefix": "lay-data:set",
+		"body": [
+			"layui.data('${1:test}', {key: '${2:nickname}',value: '${3:猫叔}'});"
+		],
+		"description": "layui本地数据存储"
+	},
+	"layui本地数据删除": {
+		"prefix": "lay-data:remove",
+		"body": [
+			"layui.data('${1:test}', {key: '${2:nickname}',remove: true});"
+		],
+		"description": "layui本地数据删除"
+	},
+	"layui本地数据删除表": {
+		"prefix": "lay-data:removeTable",
+		"body": [
+			"layui.data('${1:test}', null);"
+		],
+		"description": "layui本地数据删除表"
+	}
+}
