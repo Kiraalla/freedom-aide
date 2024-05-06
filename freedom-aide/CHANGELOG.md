@@ -56,3 +56,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.14]
 
 - 加了vue代码块，支持vue-peek，可以快速查看组件的属性和方法，突出一个大杂烩
+
+## [0.0.15]
+
+- 修复bug
+
+## [0.0.16]
+
+- 修复bug

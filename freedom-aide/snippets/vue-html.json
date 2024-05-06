@@ -2,15 +2,15 @@
     "VueInit": {
         "prefix": "VueInit",
         "body": [
-            "<template lang=\"$1\">",
-            "\t<div$3>",
+            "<template>",
+            "\t<div$2>",
             "\t\t$0",
             "\t</div>",
             "</template>",
             "<script setup>",
             "\t",
             "</script>",
-            "<style lang=\"${2:scss\">",
+            "<style lang=\"${1:scss}\">",
             "\t",
             "</style>"
         ],
