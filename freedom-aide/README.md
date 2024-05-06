@@ -3,7 +3,7 @@
 1. 创建小程序组件、小程序页面，自动生成wxml、js、wxss、json文件、自动追加页面路径到app.json的pages中
 2. 非微信原生标签高亮、wxml格式化可配置
 3. 支持css、js(es6)、微信API、jq、layui、VantUI、vue的代码块，并在下文添加了简写对照
-4. 支持vue peek跳转定义组件
+4. 支持vue-peek、wxml跳转定义组件
    
 - 后续会添加更多功能
 

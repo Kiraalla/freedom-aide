@@ -4,11 +4,21 @@ const light_activeText = require("./wxml_plus/ActiveText");
 const saveFormat_1 = require("./wxml_plus/saveFormat");
 const config_1 = require("./wxml_plus/config");
 const PeekFileDefinitionProvider_1 = require("./vue_plus/PeekFileDefinitionProvider");
+const wxmlCompletionItemProvider = require('./util/wxmlCompletionItemProvider')
+const wxmlDefinitionProvider = require('./util/wxmlDefinitionProvider')
+const jsonDefinitionProvider = require('./util/jsonDefinitionProvider')
+const documentSelector = [
+	{ scheme: 'file', language: 'wxml', pattern: '**/*.wxml' },
+]
+const documentSelectorJson = [
+	{ scheme: 'file', language: 'json', pattern: '**/*.json' },
+]
+
 /**
  * @param {vscode.ExtensionContext} context
  */
 const languageConfiguration = {
-    wordPattern: /(\w+((-\w+)+)?)/
+	wordPattern: /(\w+((-\w+)+)?)/
 };
 
 function activate(context) {
@@ -230,19 +240,47 @@ function activate(context) {
 			saveFormat_1.default(wxml);
 		});
 	})
-	registerCommand(context, 'extension.vuePeek', () => { 
+	registerCommand(context, 'extension.vuePeek', () => {
 		const configParams = vscode.workspace.getConfiguration('freedomAide');
-    const supportedLanguages = configParams.get('supportedLanguages');
-    const targetFileExtensions = configParams.get('targetFileExtensions');
-    context.subscriptions.push(vscode.languages.registerDefinitionProvider(supportedLanguages, new PeekFileDefinitionProvider_1.default(targetFileExtensions)));
-    /* Provides way to get selected text even if there is dash
-     * ( must have fot retrieving component name )
-     */
-    context.subscriptions.push(vscode.languages.setLanguageConfiguration('vue', languageConfiguration));
+		const supportedLanguages = configParams.get('supportedLanguages');
+		const targetFileExtensions = configParams.get('targetFileExtensions');
+		context.subscriptions.push(vscode.languages.registerDefinitionProvider(supportedLanguages, new PeekFileDefinitionProvider_1.default(targetFileExtensions)));
+		/* Provides way to get selected text even if there is dash
+		 * ( must have fot retrieving component name )
+		 */
+		context.subscriptions.push(vscode.languages.setLanguageConfiguration('vue', languageConfiguration));
+	})
+	registerCommand(context, 'extension.jumpDefinitionWxml', () => {
+		// 注册跳转到定义
+		context.subscriptions.push(
+			vscode.languages.registerDefinitionProvider(
+				documentSelector,
+				wxmlDefinitionProvider,
+			))
+	})
+	registerCommand(context, 'extension.jumpDefinitionJson', () => {
+		// 注册json跳转到定义
+		context.subscriptions.push(
+			vscode.languages.registerDefinitionProvider(
+				documentSelectorJson,
+				jsonDefinitionProvider,
+			))
+	})
+	registerCommand(context, 'extension.jumpDefinitionWxmlItem', () => {
+		// 注册自动补全提示，只有当按下空格时才触发
+		context.subscriptions.push(
+			vscode.languages.registerCompletionItemProvider(
+				documentSelector,
+				wxmlCompletionItemProvider,
+				...[' '],
+			))
 	})
 	// 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
 	vscode.commands.executeCommand('extension.getSetting');
 	vscode.commands.executeCommand('extension.vuePeek');
+	vscode.commands.executeCommand('extension.jumpDefinitionWxml');
+	vscode.commands.executeCommand('extension.jumpDefinitionJson');
+	vscode.commands.executeCommand('extension.jumpDefinitionWxmlItem');
 }
 
 function deactivate() {

@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -33,13 +33,23 @@
     "languages": [
       {
         "id": "wxml",
-        "extensions": [".wxml"],
-        "aliases": ["WXML", "wxml"]
+        "extensions": [
+          ".wxml"
+        ],
+        "aliases": [
+          "WXML",
+          "wxml"
+        ]
       },
       {
         "id": "vue",
-        "extensions": [".vue"],
-        "aliases": ["VUE", "vue"]
+        "extensions": [
+          ".vue"
+        ],
+        "aliases": [
+          "VUE",
+          "vue"
+        ]
       }
     ],
     "commands": [
@@ -108,41 +118,41 @@
         "path": "./snippets/miniprogram-wxml.json"
       },
       {
-				"language": "javascript",
-				"path": "./snippets/layui-jq.json"
-			},
-			{
-				"language": "html",
-				"path": "./snippets/layui-html.json"
-			},
+        "language": "javascript",
+        "path": "./snippets/layui-jq.json"
+      },
       {
-				"language": "javascript",
-				"path": "./snippets/vant-js.json"
-			},
-			{
-				"language": "html",
-				"path": "./snippets/vant-html.json"
-			},
-			{
-				"language": "json",
-				"path": "./snippets/vant-json.json"
-			},
+        "language": "html",
+        "path": "./snippets/layui-html.json"
+      },
       {
-				"language": "vue",
-				"path": "./snippets/vant-vue.json"
-			},
+        "language": "javascript",
+        "path": "./snippets/vant-js.json"
+      },
       {
-				"language": "wxml",
-				"path": "./snippets/vant-wxml.json"
-			},
+        "language": "html",
+        "path": "./snippets/vant-html.json"
+      },
       {
-				"language": "vue",
-				"path": "./snippets/vue-html.json"
-			},
+        "language": "json",
+        "path": "./snippets/vant-json.json"
+      },
       {
-				"language": "vue",
-				"path": "./snippets/vue-js.json"
-			}
+        "language": "vue",
+        "path": "./snippets/vant-vue.json"
+      },
+      {
+        "language": "wxml",
+        "path": "./snippets/vant-wxml.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue-html.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue-js.json"
+      }
     ],
     "keybindings": [
       {
@@ -230,25 +240,25 @@
           ]
         },
         "freedomAide.supportedLanguages": {
-					"type": "array",
-					"default": [
-						"vue"
-					],
-					"items": {
-						"type": "string"
-					},
-					"description": "应使用扩展名的vscode语言名称列表"
-				},
-				"freedomAide.targetFileExtensions": {
-					"type": "array",
-					"default": [
-						".vue"
-					],
-					"items": {
-						"type": "string"
-					},
-					"description": "应尝试查找定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
-				}
+          "type": "array",
+          "default": [
+            "vue"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "应使用扩展名的vscode语言名称列表"
+        },
+        "freedomAide.targetFileExtensions": {
+          "type": "array",
+          "default": [
+            ".vue"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "应尝试查找定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
+        }
       }
     }
   },
@@ -267,6 +277,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "cny_js_beautify": "^0.0.8"
+    "cny_js_beautify": "^0.0.8",
+    "recast": "^0.23.6"
   }
 }
