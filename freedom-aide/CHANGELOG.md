@@ -44,3 +44,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.10]
 
 - 添加了css、JQ、Layui、Vant代码块
+
+## [0.0.11 -0.0.12]
+
+- 修复bug
+
+## [0.0.13]
+
+- 加了点css代码块
+
+## [0.0.14]
+
+- 加了vue代码块，支持vue-peek，可以快速查看组件的属性和方法，突出一个大杂烩

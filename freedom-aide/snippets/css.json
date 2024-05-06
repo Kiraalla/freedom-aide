@@ -97,6 +97,200 @@
       "$1"
     ],
     "description": "绝对定位-居中"
+  },
+  "伪类-before": {
+    "prefix": "before",
+    "body": [
+      "::before{",
+      "content: '';",
+      "display: block;",
+      "width: ${1:10px};",
+      "height: ${2:10px};",
+      "background-color: ${3:#123};",
+      "position: absolute;",
+      "top: ${4:0};",
+      "left: ${5:0};",
+      "z-index: ${6:1};",
+      "}"
+    ],
+    "description": "伪类-before"
+  },
+  "伪类-after": {
+    "prefix": "after",
+    "body": [
+      "::after{",
+      "content: '';",
+      "display: block;",
+      "width: ${1:10px};",
+      "height: ${2:10px};",
+      "background-color: ${3:#123};",
+      "position: absolute;",
+      "top: ${4:0};",
+      "left: ${5:0};",
+      "z-index: ${6:1};",
+      "}"
+    ],
+    "description": "伪类-after"
+  },
+  "伪类-hover": {
+    "prefix": "hover",
+    "body": [
+      ":hover{",
+      "background-color: ${1:#123};",
+      "color: ${2:#fff};",
+      "}"
+    ],
+    "description": "伪类-hover"
+  },
+  "伪类-focus": {
+    "prefix": "focus",
+    "body": [
+      ":focus{",
+      "outline: none;",
+      "box-shadow: 0 0 0 2px ${1:#123};",
+      "}"
+    ],
+    "description": "伪类-focus"
+  },
+  "伪类-active": {
+    "prefix": "active",
+    "body": [
+      ":active{",
+      "background-color: ${1:#123};",
+      "color: ${2:#fff};",
+      "}"
+    ],
+    "description": "伪类-active"
+  },
+  "伪类-disabled": {
+    "prefix": "disabled",
+    "body": [
+      ":disabled{",
+      "background-color: ${1:#ccc};",
+      "color: ${2:#999};",
+      "cursor: not-allowed;",
+      "}"
+    ],
+    "description": "伪类-disabled"
+  },
+  "变量": {
+    "prefix": "var",
+    "body": [
+      "$${1:name}:${2:var(--${3:value})};"
+    ],
+    "description": "变量"
+  },
+  "按钮": {
+    "prefix": "btn",
+    "body": [
+      "display: inline-block;",
+      "padding: 10px 20px;",
+      "border: 1px solid #ccc;",
+      "border-radius: 4px;",
+      "background-color: #fff;",
+      "color: #333;",
+      "text-decoration: none;",
+      "cursor: pointer;",
+      "$1"
+    ],
+    "description": "按钮"
+  },
+  "标签样式重置": {
+    "prefix": "reset",
+    "body": [
+      "margin: 0;",
+      "padding: 0;",
+      "border: 0;",
+      "font-size: 100%;",
+      "font: inherit;",
+      "vertical-align: baseline;",
+      "box-sizing: border-box;"
+    ],
+    "description": "标签样式重置"
+  },
+  "标签样式-链接": {
+    "prefix": "link",
+    "body": [
+      "color: ${1:#333};",
+      "text-decoration: none;",
+      "$2"
+    ],
+    "description": "标签样式-链接"
+  },
+  "标签样式-标题": {
+    "prefix": "title",
+    "body": [
+      "font-size: ${1:24px};",
+      "font-weight: ${2:bold};",
+      "line-height: ${3:1.2};",
+      "margin-bottom: ${4:10px};",
+      "color: ${5:#333};",
+      "$6"
+    ],
+    "description": "标签样式-标题"
+  },
+  "标签样式-段落": {
+    "prefix": "p",
+    "body": [
+      "font-size: ${1:16px};",
+      "line-height: ${2:1.5};",
+      "margin-bottom: ${3:10px};",
+      "color: ${4:#333};",
+      "$5"
+    ],
+    "description": "标签样式-段落"
+  },
+  "标签样式-列表": {
+    "prefix": "ul",
+    "body": [
+      "list-style: none;",
+      "margin: 0;",
+      "padding: 0;",
+      "$1"
+    ],
+    "description": "标签样式-列表"
+  },
+  "标签样式-列表项": {
+    "prefix": "li",
+    "body": [
+      "margin-bottom: ${1:10px};",
+      "$2"
+    ],
+    "description": "标签样式-列表项"
+  },
+  "标签样式-表格": {
+    "prefix": "table",
+    "body": [
+      "border-collapse: collapse;",
+      "border-spacing: 0;",
+      "$1"
+    ],
+    "description": "标签样式-表格"
+  },
+  "标签样式-表格行": {
+    "prefix": "tr",
+    "body": [
+      "border-bottom: 1px solid #ccc;",
+      "$1"
+    ],
+    "description": "标签样式-表格行"
+  },
+  "标签样式-表格单元格": {
+    "prefix": "td",
+    "body": [
+      "padding: 10px;",
+      "border: 1px solid #ccc;",
+      "$1"
+    ],
+    "description": "标签样式-表格单元格"
+  },
+  "标签样式-表单": {
+    "prefix": "form",
+    "body": [
+      "margin: 0;",
+      "padding: 0;",
+      "$1"
+    ],
+    "description": "标签样式-表单"
   }
-  
 }

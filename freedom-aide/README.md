@@ -2,7 +2,8 @@
 
 1. 创建小程序组件、小程序页面，自动生成wxml、js、wxss、json文件、自动追加页面路径到app.json的pages中
 2. 非微信原生标签高亮、wxml格式化可配置
-3. 支持css、js(es6)、微信API、jq、layui、VantUI的代码块，并在下文添加了简写对照
+3. 支持css、js(es6)、微信API、jq、layui、VantUI、vue的代码块，并在下文添加了简写对照
+4. 支持vue peek跳转定义组件
    
 - 后续会添加更多功能
 
@@ -16,13 +17,31 @@
 | ---- | ---- |
 | bd | 简单注释结构 |
 | df | 布局样式 |
-| font | 文字样式 |
-| over1 | 文字省略 |
-| over2 | 文字省略-多行 |
+| fs | 文字样式 |
+| ov1 | 文字省略 |
+| ov2 | 文字省略-多行 |
 | posl0 | 绝对定位-上左 |
 | poscx | 绝对定位-左右居中 |
 | poscy | 绝对定位-上下居中 |
 | posc | 绝对定位-居中 |
+| before | 伪类-before |
+| after | 伪类-after |
+| hover | 伪类-hover |
+| focus | 伪类-focus |
+| active | 伪类-active |
+| disabled | 伪类-disabled |
+| var | 变量 |
+| btn | 按钮 |
+| reset | 标签样式重置 |
+| link | 标签样式-链接 |
+| title | 标签样式-标题 |
+| p | 标签样式-段落 |
+| ul | 标签样式-列表 |
+| li | 标签样式-列表项 |
+| table | 标签样式-表格 |
+| tr | 标签样式-表格行 |
+| td | 标签样式-表格单元格 |
+| form | 标签样式-表单 |
 
 
 ### JS代码块
@@ -941,3 +960,258 @@
 | van-goods-action-icon | GoodsActionIcon | WXML |
 | van-goods-action-button | GoodsActionButton | WXML |
 | van-cascader | 级联选择框，用于多层级数据的选择，典型场景为省市区选择。 | WXML |
+
+### Vue 代码块
+
+| 缩写| 描述 | 其他 |
+| ---- | ---- | ---- |
+| VueInit | VueInit |  VUE-HTML | 
+| templateLang | templateelement | VUE-HTML | 
+| ss | script setup | VUE-HTML | 
+| script | script元素 | VUE-HTML | 
+| scss | 具有lang=scss属性的style元素 | VUE-HTML | 
+| template | template元素 | VUE-HTML | 
+| vText | 应为：string。更新元素的textContent。 | VUE-HTML | 
+| vHtml | 应为：字符串。更新元素的innerHTML。 | VUE-HTML | 
+| vShow | 应为：任意 | VUE-HTML | 
+| vIf | 预期：任意 | VUE-HTML | 
+| vElse | 不需要表达式。上一个同级元素必须具有v-if或v-else-if。 | VUE-HTML | 
+| vElseIf | 应为：任意。上一个同级元素必须具有v-if或v-else-if。 | VUE-HTML | 
+| vForWithoutKey | 应为：数组|对象|数字|字符串 | VUE-HTML | 
+| vFor | 应为：数组|对象|数字|字符串 |  VUE-HTML | 
+| vOn | 预期：函数 | 内联语句 |  VUE-HTML | 
+| vBind | 应为：any（带参数） | Object（不带参数） | VUE-HTML | 
+| vModel | 预期：根据表单输入元素的值或组件的输出而变化 | VUE-HTML | 
+| vSlot | 预期：在函数参数位置有效的JavaScript表达式（支持在支持的环境中进行析构函数）。可选-仅当需要将道具传递到插槽时才需要。 | VUE-HTML | 
+| vPre | 不需要表达式 | VUE-HTML | 
+| vCloak | 不需要表达式 | VUE-HTML | 
+| vOnce | 不需要表达式 | VUE-HTML | 
+| key | 应为：string。同一公共父级的子级必须具有唯一的键。重复的关键帧将导致渲染错误。 | VUE-HTML | 
+| ref | 应为：string。ref用于注册对元素或子组件的引用。引用将在父组件的$refs对象下注册。如果在普通DOM元素上使用，则引用将是该元素；如果用于子组件，则引用将是组件实例。 | VUE-HTML | 
+| slotA | slot=''。应为：字符串。用于插入子组件的内容，以指示内容属于哪个命名槽。 | VUE-HTML | 
+| slotE | <slot></slot>。应为：字符串。用于插入子组件的内容，以指示内容属于哪个命名槽。 | VUE-HTML | 
+| slotScope | 用于将元素或组件表示为作用域槽。属性的值应该是一个有效的JavaScript表达式，可以出现在函数签名的参数位置。这意味着在受支持的环境中，您也可以在表达式中使用ES2015析构函数。用作2.5.0+中作用域的替换。 | VUE-HTML | 
+| teleport | <teleport to=''/> | VUE-HTML | 
+| scope | 用于将template元素表示为scoped slot，在2.5.0+中用“slot scope”替换。 | VUE-HTML | 
+| component | component元素 | VUE-HTML | 
+| keepAlive | keep-alive元素 | VUE-HTML | 
+| transition | transition元素 | VUE-HTML | 
+| transitionGroup | 转换组元素 | VUE-HTML | 
+| enterClass | enter class=''。应为：字符串。 | VUE-HTML | 
+| leaveClass | leave class=''。应为：字符串。 | VUE-HTML | 
+| appearClass | appear class=''。应为：字符串。 | VUE-HTML | 
+| enterToClass | 输入到class=“”。应为：字符串。 | VUE-HTML | 
+| leaveToClass | leave to class=''。应为：字符串。 | VUE-HTML | 
+| appearToClass | 出现在class=“”。应为：字符串。 | VUE-HTML | 
+| enterActiveClass | 输入activeclass=''。应为：字符串。 | VUE-HTML | 
+| leaveActivitClass | 保留活动类=''。应为：字符串。 | VUE-HTML | 
+| appearActivatClass | appearActiveClass=''。应为：字符串。 | VUE-HTML | 
+| beforeEnterEvent | @before-enter='' | VUE-HTML | 
+| beforeLeaveEvent | @before-leave=“” | VUE-HTML | 
+| beforeAppearEvent | @before-appeare='' | VUE-HTML | 
+| enterEvent | @enter='' | VUE-HTML | 
+| leaveEvent | @leave='' | VUE-HTML | 
+| appearEvent | @appeare='' | VUE-HTML | 
+| afterEnterEvent | @afterenter='' | VUE-HTML | 
+| afterLeaveEvent | @after leave='' | VUE-HTML | 
+| afterAppearEvent | @after appeare='' | VUE-HTML | 
+| enterCancelledEvent | @entercancelled='' | VUE-HTML | 
+| leaveCancelledEvent | @leavecancelled=''（仅限v-show） | VUE-HTML | 
+| appearCancelledEvent | @appearcancelled='' | VUE-HTML | 
+| routerLink | router-link | VUE-HTML | 
+| routerLinkTo | router-link to='' 路由器链接元素 | VUE-HTML | 
+| to | to='' | VUE-HTML | 
+| tag | tag='' | VUE-HTML | 
+| routerView | router视图元素 | VUE-HTML | 
+| nuxt | 此组件仅在用于显示页面组件的布局中使用。 | VUE-HTML | 
+| nuxtChild | 此组件用于显示嵌套路由中的子组件。 | VUE-HTML | 
+| nuxtLink | 此组件用于提供页面组件之间的导航。 | VUE-HTML | 
+| componentIs | component:is='' | VUE-HTML | 
+| import | import ... from ... | VUE-JS |
+| importFromVue | import ... from 'vue' | VUE-JS |
+| newVue | new Vue() | VUE-JS |
+| VueConfigSilent | Vue.config.silent | VUE-JS |
+| VueConfigOptionMergeStrategies | app.config.optionMergeStrategies | VUE-JS |
+| VueConfigDevtools | Vue.config.devtools | VUE-JS |
+| VueConfigErrorHandler | app.config.errorHandler | VUE-JS |
+| VueConfigWarnHandler | app.config.warnHandler | VUE-JS |
+| AppConfigGlobalProperties | app.config.globalProperties | VUE-JS |
+| AppConfigIsCustomElement | app.config.isCustomElement | VUE-JS |
+| VueConfigIgnoredElements | Vue.config.ignoredElements | VUE-JS |
+| VueConfigKeyCodes | Vue.config.keyCodes | VUE-JS |
+| VueConfigPerformance | app.config.performance | VUE-JS |
+| VueConfigProductionTip | Vue.config.productionTip | VUE-JS |
+| defineComponent | defineComponent() | VUE-JS |
+| defineAsyncComponent | just a word | VUE-JS |
+| defineAsyncComponentWithObj | defineAsyncComponentWithObj | VUE-JS |
+| resolveComponent | just a word | VUE-JS |
+| resolveComponentExpression | const MyComponent = resolveComponent('MyComponent') | VUE-JS |
+| resolveDynamicComponent | just a word | VUE-JS |
+| resolveDynamicComponentExpression | const MyComponent = resolveDynamicComponent('MyComponent') | VUE-JS |
+| resolveDirective  | just a word | VUE-JS |
+| resolveDirective | const highlightDirective = resolveDirective('highlight') | VUE-JS |
+| withDirectives  | just a word | VUE-JS |
+| vueExtend | Vue.extend( options ) | VUE-JS |
+| VueNextTick | Vue.nextTick( callback, [context] ) | VUE-JS |
+| VueNextTickThen | Vue.nextTick( callback, [context] ).then(function(){ }) | VUE-JS |
+| VueSet | Vue.set( target, key, value ) | VUE-JS |
+| VueDelete | Vue.delete( target, key ) | VUE-JS |
+| VueDirective | Vue.directive( id, [definition] ) | VUE-JS |
+| VueFilter | Vue.filter( id, [definition] ) | VUE-JS |
+| VueComponent | Vue.component( id, [definition] ) | VUE-JS |
+| VueUse | Vue.use( plugin ) | VUE-JS |
+| VueMixin | Vue.mixin( mixin ) | VUE-JS |
+| VueCompile | Vue.compile( template ) | VUE-JS |
+| VueObservable | Vue.observable( object ) | VUE-JS |
+| VueVersion | Vue.version.split('.')[] | VUE-JS |
+| data | The data object for the Vue instance. | VUE-JS |
+| props | A list/hash of attributes that are exposed to accept data from the parent component.  | VUE-JS |
+| propsData | Restriction: only respected in instance creation via `new`. Pass props to an instance during its creation. This is primarily intended to make unit testing easier. | VUE-JS |
+| scopedSlots | just a word | VUE-JS |
+| computedV2 | Computed properties to be mixed into the Vue instance.  | VUE-JS |
+| methods | Methods to be mixed into the Vue instance. | VUE-JS |
+| watchV2 | An object where keys are expressions to watch and values are the corresponding callbacks. The value can also be a string of a method name, or an Object that contains additional options. Note that you should not use an arrow function to define a watcher. | VUE-JS |
+| watchWithOptions | Vue Watcher with options. | VUE-JS |
+| el | just a word | VUE-JS |
+| template | just a word | VUE-JS |
+| render | An alternative to string templates allowing you to leverage the full programmatic power of JavaScript. | VUE-JS |
+| renderError | Provide an alternative render output when the default render function encounters an error. | VUE-JS |
+| beforeCreate | Type: Function. | VUE-JS |
+| created | Type: Function. | VUE-JS |
+| beforeMount | Type: Function. | VUE-JS |
+| mounted | Type: Function. | VUE-JS |
+| beforeUpdate | Type: Function. | VUE-JS |
+| updated | Type: Function. | VUE-JS |
+| activated | Type: Function. | VUE-JS |
+| deactivated | Type: Function. | VUE-JS |
+| beforeUnmount | Type: Function. | VUE-JS |
+| unmounted | Type: Function. | VUE-JS |
+| beforeDestroy | Type: Function. | VUE-JS |
+| destroyed | Type: Function. | VUE-JS |
+| errorCaptured | Type: (err: Error, vm: Component, info: string) => ?boolean | VUE-JS |
+| renderTracked | renderTracked. Called when virtual DOM re-render is tracked.  | VUE-JS |
+| renderTriggered | Called when virtual DOM re-render is triggered.  | VUE-JS |
+| directives | just a word | VUE-JS |
+| filters | just a word | VUE-JS |
+| component | just a word | VUE-JS |
+| components | just a word | VUE-JS |
+| parent | just a word | VUE-JS |
+| mixins | just a word | VUE-JS |
+| extends | just a word | VUE-JS |
+| provide | just a word | VUE-JS |
+| inject | just a word | VUE-JS |
+| name | just a word | VUE-JS |
+| delimiters | just a word | VUE-JS |
+| functional | just a word | VUE-JS |
+| model | just a word | VUE-JS |
+| inheritAttrs | just a word | VUE-JS |
+| comments | just a word | VUE-JS |
+| deep | just a word | VUE-JS |
+| immediate | just a word | VUE-JS |
+| vmData | Type: Object. Read only. | VUE-JS |
+| vmProps | Type: Object. Read only. | VUE-JS |
+| vmEl | Type: HTMLElement. Read only. | VUE-JS |
+| vmOptions | Type: Object. Read only. | VUE-JS |
+| vmParent | Type: Vue instance. Read only. | VUE-JS |
+| vmRoot | Type: Vue instance. Read only. | VUE-JS |
+| vmChildren | Type: Array<Vue instance>. Read only. | VUE-JS |
+| vmSlots | Type: Object. Read only. | VUE-JS |
+| vmScopedSlots | Type: { [name: string]: props => VNode | Array<VNode> }. Read only. | VUE-JS |
+| vmRefs | Type: Object. Read only. | VUE-JS |
+| vmIsServer | Type: boolean. Read only. | VUE-JS |
+| vmAttrs | Type: { [key: string]: string }. Read only. | VUE-JS |
+| vmListeners | Type: { [key: string]: Function | Array<Function> }. Read only. | VUE-JS |
+| vmWatch | vm.$watch( expOrFn, callback, [options] )\n Arguments:\n {string | Function} expOrFn\n {Function | Object} callback\n {Object} [options]\n {boolean} [options.deep]\n\t {boolean} [options.immediate] | VUE-JS |
+| vmSet | vm.$set( target, key, value ). This is the alias of the global Vue.set. | VUE-JS |
+| vmDelete | vm.$delete( target, key ) | VUE-JS |
+| vmOn | vm.$on( event, callback ) | VUE-JS |
+| vmOnce | vm.$once( event, callback ) | VUE-JS |
+| vmOff | vm.$off( [event, callback] ) | VUE-JS |
+| vmEmit | vm.$emit( event, […args] ) | VUE-JS |
+| vmMount | vm.$mount( [elementOrSelector] ) | VUE-JS |
+| vmForceUpdate | vm.$forceUpdate() | VUE-JS |
+| vmNextTick | vm.$nextTick( callback ) | VUE-JS |
+| vmDestroy | vm.$destroy() | VUE-JS |
+| renderer | require('vue-server-renderer').createRenderer() | VUE-JS |
+| createRenderer | createRenderer({ }) | VUE-JS |
+| renderToString | just a word | VUE-JS |
+| renderToStream | just a word | VUE-JS |
+| createBundleRenderer | just a word | VUE-JS |
+| bundleRendererRenderToString | just a word | VUE-JS |
+| bundleRendererRenderToStream | just a word | VUE-JS |
+| preventDefault | preventDefault() | VUE-JS |
+| stopPropagation | stopPropagation() | VUE-JS |
+| importVueRouter | import VueRouter from 'vue-router' | VUE-JS |
+| newVueRouter | const router = newVueRouter({ }) | VUE-JS |
+| routerBeforeEach | router.beforeEach | VUE-JS |
+| routerBeforeResolve | router.beforeResolve | VUE-JS |
+| routerAfterEach | router.afterEach | VUE-JS |
+| routerPush | router.push() | VUE-JS |
+| routerReplace | router.replace() | VUE-JS |
+| routerGo | router.go() | VUE-JS |
+| routerBack | router.back() | VUE-JS |
+| routerForward | router.forward() | VUE-JS |
+| routerGetMatchedComponents | router.getMatchedComponents() | VUE-JS |
+| routerResolve | router.resolve() | VUE-JS |
+| routerAddRoutes | router.addRoutes() | VUE-JS |
+| routerOnReady | router.onReady() | VUE-JS |
+| routerOnError | router.onError() | VUE-JS |
+| routes | routes: [] | VUE-JS |
+| beforeEnter | beforeEnter: (to, from, next) => { } | VUE-JS |
+| beforeRouteEnter | beforeRouteEnter (to, from, next) { } | VUE-JS |
+| beforeRouteLeave | beforeRouteLeave (to, from, next) { } | VUE-JS |
+| scrollBehavior | scrollBehavior (to, from, savedPosition) { } | VUE-JS |
+| path | just a word | VUE-JS |
+| alias | just a word | VUE-JS |
+| mode | just a word | VUE-JS |
+| children | just a word | VUE-JS |
+| meta | just a word | VUE-JS |
+| newVuexStore | const store = new Vuex.Store({ }) | VUE-JS |
+| state | just a word | VUE-JS |
+| getters | just a word | VUE-JS |
+| mutations | just a word | VUE-JS |
+| actions | just a word | VUE-JS |
+| modules | just a word | VUE-JS |
+| plugins | just a word | VUE-JS |
+| commit | just a word | VUE-JS |
+| dispatch | just a word | VUE-JS |
+| replaceState | just a word | VUE-JS |
+| subscribe | just a word | VUE-JS |
+| registerModule | just a word | VUE-JS |
+| unregisterModule | just a word | VUE-JS |
+| hotUpdate | just a word | VUE-JS |
+| mapState | just a word | VUE-JS |
+| mapGetters | just a word | VUE-JS |
+| mapActions | just a word | VUE-JS |
+| mapMutations | just a word | VUE-JS |
+| asyncData | Type: Function. | VUE-JS |
+| VueCreateApp | const app = Vue.createApp({}) | VUE-JS |
+| reactive | const obj = reactive() | VUE-JS |
+| readonly | const obj = readonly() | VUE-JS |
+| isProxy | just a word | VUE-JS |
+| isReactive | just a word | VUE-JS |
+| isReadonly | just a word | VUE-JS |
+| toRaw | just a word | VUE-JS |
+| markRaw | just a word | VUE-JS |
+| shallowReactive | just a word | VUE-JS |
+| ref | just a word | VUE-JS |
+| unref | just a word | VUE-JS |
+| toRef | just a word | VUE-JS |
+| toRefs | just a word | VUE-JS |
+| isRef | just a word | VUE-JS |
+| customRef | just a word | VUE-JS |
+| shallowRef | just a word | VUE-JS |
+| triggerRef | just a word | VUE-JS |
+| computed | just a word | VUE-JS |
+| watchEffect | just a word | VUE-JS |
+| watch | just a word | VUE-JS |
+| setup | setup() { } | VUE-JS |
+| onBeforeMount | onBeforeMount(() => {}) | VUE-JS |
+| onMounted | onMounted(() => {}) | VUE-JS |
+| onBeforeUpdate | onBeforeUpdate(() => {}) | VUE-JS |
+| onUpdated | onUpdated(() => {}) | VUE-JS |
+| onBeforeUnmount | onBeforeUnmount(() => {}) | VUE-JS |
+| onUnmounted | onUnmounted(() => {}) | VUE-JS |
+| onErrorCaptured | onErrorCaptured(() => {}) | VUE-JS |
+| onRenderTracked | onRenderTracked(() => {}) | VUE-JS |
+| onRenderTriggered | onRenderTriggered(() => {}) | VUE-JS |

@@ -1,11 +1,16 @@
 const vscode = require('vscode');
-const wxml_format = require("./FormatWxml");
-const light_activeText = require("./ActiveText");
-const saveFormat_1 = require("./saveFormat");
-const config_1 = require("./config");
+const wxml_format = require("./wxml_plus/FormatWxml");
+const light_activeText = require("./wxml_plus/ActiveText");
+const saveFormat_1 = require("./wxml_plus/saveFormat");
+const config_1 = require("./wxml_plus/config");
+const PeekFileDefinitionProvider_1 = require("./vue_plus/PeekFileDefinitionProvider");
 /**
  * @param {vscode.ExtensionContext} context
  */
+const languageConfiguration = {
+    wordPattern: /(\w+((-\w+)+)?)/
+};
+
 function activate(context) {
 	registerCommand(context, 'extension.createMiniappModule', async (resource) => {
 		const componentName = await vscode.window.showInputBox({
@@ -225,8 +230,19 @@ function activate(context) {
 			saveFormat_1.default(wxml);
 		});
 	})
+	registerCommand(context, 'extension.vuePeek', () => { 
+		const configParams = vscode.workspace.getConfiguration('freedomAide');
+    const supportedLanguages = configParams.get('supportedLanguages');
+    const targetFileExtensions = configParams.get('targetFileExtensions');
+    context.subscriptions.push(vscode.languages.registerDefinitionProvider(supportedLanguages, new PeekFileDefinitionProvider_1.default(targetFileExtensions)));
+    /* Provides way to get selected text even if there is dash
+     * ( must have fot retrieving component name )
+     */
+    context.subscriptions.push(vscode.languages.setLanguageConfiguration('vue', languageConfiguration));
+	})
 	// 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
 	vscode.commands.executeCommand('extension.getSetting');
+	vscode.commands.executeCommand('extension.vuePeek');
 }
 
 function deactivate() {

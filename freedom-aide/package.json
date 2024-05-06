@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -22,7 +22,8 @@
   ],
   "activationEvents": [
     "onCommand:extension.formatwxml",
-    "onLanguage:wxml"
+    "onLanguage:wxml",
+    "onLanguage:vue"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -130,6 +131,14 @@
       {
 				"language": "wxml",
 				"path": "./snippets/vant-wxml.json"
+			},
+      {
+				"language": "vue",
+				"path": "./snippets/vue-html.json"
+			},
+      {
+				"language": "vue",
+				"path": "./snippets/vue-js.json"
 			}
     ],
     "keybindings": [
@@ -216,7 +225,27 @@
             "open-data",
             "web-vie"
           ]
-        }
+        },
+        "freedomAide.supportedLanguages": {
+					"type": "array",
+					"default": [
+						"vue"
+					],
+					"items": {
+						"type": "string"
+					},
+					"description": "应使用扩展名的vscode语言名称列表"
+				},
+				"freedomAide.targetFileExtensions": {
+					"type": "array",
+					"default": [
+						".vue"
+					],
+					"items": {
+						"type": "string"
+					},
+					"description": "应尝试查找定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
+				}
       }
     }
   },
