@@ -4,6 +4,7 @@
 2. 非微信原生标签高亮、wxml格式化可配置
 3. 支持css、js(es6)、微信API、jq、layui、VantUI、vue的代码块，并在下文添加了简写对照
 4. 支持vue-peek、wxml跳转定义组件
+5. 优化vue的style模块内代码提示，现在lang=scss|postcss|less|stylus|css可以自动提示
    
 - 后续会添加更多功能
 

@@ -68,3 +68,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.17]
 
  - 添加标签跳转定义
+
+## [0.0.18]
+
+ - 修复bug 优化vue的style模块内代码提示，现在lang=scss|postcss|less|stylus|css可以自动提示
