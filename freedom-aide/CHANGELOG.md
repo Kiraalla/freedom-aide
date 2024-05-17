@@ -72,3 +72,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.18]
 
  - 修复bug 优化vue的style模块内代码提示，现在lang=scss|postcss|less|stylus|css可以自动提示
+
+## [0.0.19]
+
+ - 添加部分代码块,优化pug在vue模板中的代码提示
+
+## [0.0.20]
+
+ - 支持创建html、vue2\vue3、pinia\vuex\service模板

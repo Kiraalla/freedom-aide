@@ -1,4 +1,26 @@
 {
+	"延时器": {
+		"scope": "javascript",
+		"prefix": "seto",
+		"body": [
+			"const ${2:sync} = (async (e) => {",
+			"\tlet timeoutId = await new Promise(resolve => setTimeout(resolve, ${1:3000}))",
+			"\tclearTimeout(timeoutId);",
+			"})()"
+		],
+		"description": "创建延时器"
+	},
+
+	"加载完执行": {
+		"scope": "javascript",
+		"prefix": "$r",
+		"body": [
+			"$(($1) => {",
+			"\t$2",
+			"})"
+		],
+		"description": "加载完执行"
+	},
 	"func": {
 		"prefix": "func",
 		"body": [
@@ -12,6 +34,25 @@
 			"$(${selector}).after(${content});"
 		],
 		"description": "Insert content, specified by the parameter, after each element in the set of matched elements."
+	},
+	"ajax请求": {
+		"scope": "javascript",
+		"prefix": "aj",
+		"body": [
+			"(async function getUse() {",
+			"\ttry {",
+			"\t\tconst data = await $.ajax({",
+			"\t\t\turl: '${1:https://}',",
+			"\t\t\tmethod: '${2:GET}',",
+			"\t\t})",
+			"\t\t$3",
+			"\t} catch (error) {",
+			"\t\t// 请求失败",
+			"\t\tthrow error;",
+			"\t}",
+			"})();"
+		],
+		"description": "ajax请求"
 	},
 	"jqAjax": {
 		"prefix": "jqAjax",

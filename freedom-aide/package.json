@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.18",
+  "version": "0.0.20",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -41,6 +41,12 @@
         ]
       },
       {
+        "id": "pug",
+        "aliases": [
+          "jade"
+        ]
+      },
+      {
         "id": "vue",
         "aliases": [
           "Vue",
@@ -57,6 +63,28 @@
           "Vue-html"
         ],
         "configuration": "./languages/vue-html-language-configuration.json"
+      },
+      {
+        "id": "vue-jade",
+        "aliases": [
+          "Vue-jade"
+        ],
+        "configuration": "./languages/vue-html-language-configuration.json"
+      },
+      {
+        "id": "vue-pug",
+        "aliases": [
+          "Vue-pug"
+        ],
+        "configuration": "./languages/vue-html-language-configuration.json"
+      },
+      
+      {
+        "id": "vue-js",
+        "aliases": [
+          "Vue-js"
+        ],
+        "configuration": "./languages/vue-js-language-configuration.json"
       },
       {
         "id": "vue-postcss",
@@ -76,19 +104,82 @@
       {
         "command": "extension.createMiniappPage",
         "title": "创建小程序页面"
+      },
+      {
+        "command": "extension.createdHtml",
+        "title": "创建HTML文件模板"
+      },
+      {
+        "command": "extension.createdVue2",
+        "title": "创建Vue2文件模板"
+      },
+      {
+        "command": "extension.createdVue3",
+        "title": "创建Vue3文件模板"
+      },
+      {
+        "command": "extension.createdVuex",
+        "title": "创建Vuex文件模板"
+      },
+      {
+        "command": "extension.createdPinia",
+        "title": "创建Pinia文件模板"
+      },
+      {
+        "command": "extension.createdService",
+        "title": "创建Service文件模板"
+      },
+      {
+        "command": "extension.createdTools",
+        "title": "创建Tools文件模板"
       }
     ],
     "menus": {
       "explorer/context": [
         {
+          "command": "extension.createdHtml",
+          "when": "resourceScheme == 'file'",
+          "group": "1_creatTools"
+        },
+        {
+          "command": "extension.createdVue2",
+          "when": "resourceScheme == 'file'",
+          "group": "1_creatTools"
+        },
+        {
+          "command": "extension.createdVue3",
+          "when": "resourceScheme == 'file'",
+          "group": "1_creatTools"
+        },
+        {
+          "command": "extension.createdPinia",
+          "when": "resourceScheme == 'file'",
+          "group": "2_creatTools"
+        },
+        {
+          "command": "extension.createdVuex",
+          "when": "resourceScheme == 'file'",
+          "group": "2_creatTools"
+        },
+        {
+          "command": "extension.createdService",
+          "when": "resourceScheme == 'file'",
+          "group": "2_creatTools"
+        },
+        {
           "command": "extension.createMiniappModule",
           "when": "resourceScheme == 'file'",
-          "group": "1_creatTemplate"
+          "group": "3_creatTemplate"
         },
         {
           "command": "extension.createMiniappPage",
           "when": "resourceScheme == 'file'",
-          "group": "1_creatTemplate"
+          "group": "3_creatTemplate"
+        },
+        {
+          "command": "extension.createdTools",
+          "when": "resourceScheme == 'file'",
+          "group": "4_creatTools"
         }
       ]
     },
@@ -106,13 +197,32 @@
           "text.slim": "slim",
           "text.html.liquid": "liquid",
           "source.css": "css",
-          "source.css.scss": ["scss","css"],
-          "source.css.less": ["less","css"],
-          "source.css.postcss": ["vue-postcss","css"],
-          "source.sass": ["sass","css"],
+          "source.css.scss": [
+            "scss",
+            "css"
+          ],
+          "source.css.less": [
+            "less",
+            "css"
+          ],
+          "source.css.postcss": [
+            "vue-postcss",
+            "css"
+          ],
+          "source.sass": [
+            "sass",
+            "css"
+          ],
           "source.stylus": "stylus",
-          "source.js": ["javascript","vue-js"],
-          "source.ts": ["typescript","vue-js","javascript"],
+          "source.js": [
+            "javascript",
+            "vue-js"
+          ],
+          "source.ts": [
+            "typescript",
+            "vue-js",
+            "javascript"
+          ],
           "source.coffee": "coffeescript",
           "text.html.markdown": "md",
           "source.yaml": "yaml",
@@ -152,10 +262,6 @@
       }
     ],
     "snippets": [
-      {
-        "language": "vue-postcss",
-        "path": "./snippets/css.json"
-      },
       {
         "language": "css",
         "path": "./snippets/basic/css.json"
@@ -237,7 +343,7 @@
         "path": "./snippets/layui-html.json"
       },
       {
-        "language": "html",
+        "language": "vue-html",
         "path": "./snippets/vant-html.json"
       },
       {
@@ -247,6 +353,14 @@
       {
         "language": "html",
         "path": "./snippets/vue-html.json"
+      },
+      {
+        "language": "html",
+        "path": "./snippets/vue-html.json"
+      },
+      {
+        "language": "vue-postcss",
+        "path": "./snippets/css.json"
       },
       {
         "language": "vue-js",
@@ -270,6 +384,10 @@
       },
       {
         "language": "pug",
+        "path": "./snippets/pug.json"
+      },
+      {
+        "language": "vue-pug",
         "path": "./snippets/pug.json"
       }
     ],

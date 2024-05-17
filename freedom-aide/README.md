@@ -1,10 +1,11 @@
 ### 自由の助手
 
-1. 创建小程序组件、小程序页面，自动生成wxml、js、wxss、json文件、自动追加页面路径到app.json的pages中
+1. 支持创建html、vue2\vue3、pinia\vuex\service模板、创建小程序组件、小程序页面，自动生成wxml、js、wxss、json文件、自动追加页面路径到app.json的pages中
 2. 非微信原生标签高亮、wxml格式化可配置
 3. 支持css、js(es6)、微信API、jq、layui、VantUI、vue的代码块，并在下文添加了简写对照
 4. 支持vue-peek、wxml跳转定义组件
 5. 优化vue的style模块内代码提示，现在lang=scss|postcss|less|stylus|css可以自动提示
+   
    
 - 后续会添加更多功能
 
@@ -49,6 +50,7 @@
 
 | 缩写| 描述 |
 | ---- | ---- |
+| *f | 函数注释 |
 | ci | "console.info" |
 | cl | "console.log" |
 | ce | "console.error" |
@@ -108,6 +110,8 @@
 
 | 缩写| 描述 |
 | ---- | ---- |
+| seto | 延时器 |
+| $r | 加载完执行 |
 | func | 一个匿名函数. |
 | jqAfter | 在匹配元素集中的每个元素之后插入由参数指定的内容. |
 | jqAjax | 执行异步HTTP（Ajax）请求. |
@@ -729,6 +733,13 @@
 | lay-data:set | layui本地数据存储 | JQ |
 | lay-data:remove | layui本地数据删除 | JQ |
 | lay-data:removeTable | layui本地数据删除表 | JQ |
+| lydf | 创建lay模块 | JS |
+| lydm | 创建lay组件 | JS |
+| lyus | 调用layUI模块 | JS |
+| layum | 调用layUI组件 | JS |
+| lydm | lay-jquery | JS |
+| laycg | layUI配置 | JS |
+| layop | layer弹窗 | JS |
 
 
 ### VantUI 代码块(包含html、js和小程序)

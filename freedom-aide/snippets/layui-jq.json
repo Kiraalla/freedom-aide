@@ -1,5 +1,120 @@
 {
-
+	"创建lay模块": {
+		"scope": "javascript",
+		"prefix": "lydf",
+		"body": [
+			"layui.define((exports)=> {",
+			"\tconst $ = layui.jquery;",
+			"\t$2",
+			"\tconst api = {",
+			"\t\t//",
+			"\t};",
+			"\texports('${1:demo}', api)",
+			"});"
+		],
+		"description": "创建${1:demo}模块"
+	},
+	"创建lay组件": {
+		"scope": "javascript",
+		"prefix": "lydm",
+		"body": [
+			"layui.define((exports)=> {",
+			"\tconst $ = layui.jquery;",
+			"\tconst styles = `",
+			"\t\t$2",
+			"\t`",
+			"\tconst api = {",
+			"\t\trender: function (options) {",
+			"\t\t\tconst defaultOptions = {",
+			"\t\t\ttext: '${3:text}',",
+			"\t\t\tcontainer: '${4:body}',",
+			"\t\t\tclass: '$5',",
+			"\t\t\tstyle: styles,",
+			"\t\t\tonClick: () => { },",
+			"\t\t\t}",
+			"\t\t\toptions = $.extend(defaultOptions, options);",
+			"\t\t\tconst ${1:demo} = $(`<div class=\"${options.class}\" style=\"${options.style}\">${options.text}</div>`);",
+			"\t\t\t$(options.container).append(${1:demo});",
+			"\t\t\t${1:demo}.on('click', options.onClick);",
+			"\t\t}",
+			"\t};",
+			"\texports('${1:demo}', api)",
+			"});"
+		],
+		"description": "创建${1:demo}组件"
+	},
+	"lay-jquery": {
+		"scope": "javascript",
+		"prefix": "lyjq",
+		"body": [
+			"layui.use(() => {",
+			"\tconst { $ } = layui;",
+			"\t$2",
+			"});"
+		],
+		"description": "lay-jquery"
+	},
+	"调用layui模块": {
+		"scope": "javascript",
+		"prefix": "lyus",
+		"body": [
+			"layui.use(['${1:demo}',], () => {",
+			"\tconst { $, ${1:demo} } = layui;",
+			"\t$2",
+			"});"
+		],
+		"description": "调用layui模块"
+	},
+	"调用lay组件": {
+		"scope": "javascript",
+		"prefix": "layum",
+		"body": [
+			"layui.use(['${1:demo}',], () => {",
+			"\tconst { $, ${1:demo} } = layui;",
+			"\t${1:demo}.render({",
+			"\t\ttext: '${2:text}',",
+			"\t\tcontainer: '${3:body}',",
+			"\t\tclass: '$4',",
+			"\t\tstyle: '$5',",
+			"\t\tonClick: ()=>{$6},",
+			"\t});",
+			"});"
+		],
+		"description": "调用lay组件"
+	},
+	"layUI配置": {
+		"scope": "javascript",
+		"prefix": "laycg",
+		"body": [
+			"layui.config({",
+			"\tbase: '$1lay_modules/', // 扩展模块存放路径",
+			"}).extend({",
+			"\tdemo: '${2:demo_module}', // 导入模块名, 继承 base 路径",
+			"});",
+			"$3"
+		],
+		"description": "创建layUI模块"
+	},
+	"layer弹窗": {
+		"scope": "javascript",
+		"prefix": "layop",
+		"body": [
+			"layer.open({",
+			"\ttype: ${1:0}, //1 dom或文本，2 iframe,3 加载层,4 tips",
+			"\tarea: ['${2:500px}', '${3:300px}'],",
+			"\ttitle: '${4:Hello}',",
+			"\tshade: ${5:0.6}, // 遮罩透明度",
+			"\tshadeClose: true, // 点击遮罩区域，关闭弹层",
+			"\tanim: -1, // 0-6 的动画形式，-1 不开启",
+			"\tcontent: '${6:content}',",
+			"\tsuccess: (layero) => {",
+			"\t\t// 弹层成功后的回调函数",
+			"\t$7",
+			"\t}",
+			"});"
+		],
+		"description": "layer弹窗"
+	},
 	"layer确认框": {
 		"prefix": "lay-confirm",
 		"body": [
@@ -78,16 +193,16 @@
 		],
 		"description": "layer输入确认框"
 	},
-  "layui监听提交": {
-    "prefix": "lay-submit-on",
-    "body": [
-      "form.on('submit(formDemo)', function(data){",
-      "    layer.msg(JSON.stringify(data.field));",
-      "    return false;",
-      "});"
-    ],
-    "description": "layui监听提交form"
-  },
+	"layui监听提交": {
+		"prefix": "lay-submit-on",
+		"body": [
+			"form.on('submit(formDemo)', function(data){",
+			"    layer.msg(JSON.stringify(data.field));",
+			"    return false;",
+			"});"
+		],
+		"description": "layui监听提交form"
+	},
 	"form监听触发事件": {
 		"prefix": "lay-form-on",
 		"body": [
@@ -129,12 +244,12 @@
 		],
 		"description": "layui表单赋值"
 	},
-  "layer弹出消息": {
-    "prefix": "lay-msg",
-    "body": [
-      "layer.msg('${1:hello}'); "
-    ],
-    "description": "layer弹出消息"
+	"layer弹出消息": {
+		"prefix": "lay-msg",
+		"body": [
+			"layer.msg('${1:hello}'); "
+		],
+		"description": "layer弹出消息"
 	},
 	"layui表格渲染": {
 		"prefix": "lay-table:render",
@@ -166,8 +281,7 @@
 			"});"
 		],
 		"description": "layui表格渲染"
-	}
-  ,
+	},
 	"layui表格常用方法": {
 		"prefix": "lay-table:fun",
 		"body": [

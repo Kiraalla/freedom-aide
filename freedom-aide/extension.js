@@ -13,7 +13,14 @@ const documentSelector = [
 const documentSelectorJson = [
 	{ scheme: 'file', language: 'json', pattern: '**/*.json' },
 ]
-
+const createdPloyfill = require('./template/tools/ployfill')
+const createdUtils = require('./template/tools/utils')
+const createdVue2 = require('./template/vue2-component')
+const createdVue3 = require('./template/vue3-component')
+const createdPinia = require('./template/pinia-module')
+const createdVuex = require('./template/vuex-module')
+const createdHtml = require('./template/html-container')
+const createdService = require('./template/service-module')
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -275,6 +282,143 @@ function activate(context) {
 				...[' '],
 			))
 	})
+	registerCommand(context, 'extension.createdTools', async (resource) => {
+		let toolsName = await vscode.window.showInputBox({
+			prompt: '请输入工具文件夹名称',
+			placeHolder: '请输入工具文件夹名称',
+		});
+
+		if (!toolsName) {
+			vscode.window.showErrorMessage('工具文件夹名称不能为空,已设置为默认值tools!');
+			toolsName = 'tools';
+		}
+
+		// 创建工具文件夹
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const componentFolderUri = vscode.Uri.joinPath(folderUri, toolsName);
+		await vscode.workspace.fs.createDirectory(componentFolderUri);
+
+		// 创建工具文件
+		const filesToCreate = ['ployfill.js', 'utils.js'];
+		for (const fileName of filesToCreate) {
+			if (fileName === 'ployfill.js') {
+				// 创建 ployfill.js 文件并写入初始内容
+				const initialContent = createdPloyfill.contentFile;
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialContent, 'utf8'));
+			} else if (fileName === 'utils.js') {
+				// 创建 utils.js 文件并写入初始内容
+				const initialContent = createdUtils.contentFile;
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialContent, 'utf8'));
+			} else {
+				// 对于其他文件，创建空文件
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), new Uint8Array());
+			}
+		}
+		vscode.window.showInformationMessage('工具文件模板创建成功！');
+	})
+	registerCommand(context, 'extension.createdVue2', async (resource) => {
+		let vue2ModuleName = await vscode.window.showInputBox({
+			prompt: '请输入vue2文件模板名称',
+			placeHolder: '请输入vue2文件模板名称',
+		});
+
+		if (!vue2ModuleName) {
+			vscode.window.showErrorMessage('vue2文件模板名称不能为空,已设置为默认值vue2_module.vue!');
+			vue2ModuleName = 'vue2_module.vue';
+		}
+		// 创建vue2文件模板并写入初始内容
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, vue2ModuleName);
+		const initialContent = createdVue2.componentFile;
+		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
+		vscode.window.showInformationMessage('vue2文件模板创建成功！');
+	})
+	registerCommand(context, 'extension.createdVue3', async (resource) => {
+		let vue3ModuleName = await vscode.window.showInputBox({
+			prompt: '请输入vue3文件模板名称',
+			placeHolder: '请输入vue3文件模板名称',
+		});
+
+		if (!vue3ModuleName) {
+			vscode.window.showErrorMessage('vue3文件模板名称不能为空,已设置为默认值vue3_module.vue!');
+			vue3ModuleName = 'vue3_module.vue';
+		}
+		// 创建vue3文件模板并写入初始内容
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, vue3ModuleName);
+		const initialContent = createdVue3.componentFile;
+		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
+		vscode.window.showInformationMessage('vue3文件模板创建成功！');
+	})
+	registerCommand(context, 'extension.createdHtml', async (resource) => {
+		let htmlModuleName = await vscode.window.showInputBox({
+			prompt: '请输入html文件模板名称',
+			placeHolder: '请输入html文件模板名称',
+		});
+
+		if (!htmlModuleName) {
+			vscode.window.showErrorMessage('html文件模板名称不能为空,已设置为默认值page.html!');
+			htmlModuleName = 'page.html';
+		}
+		// 创建html文件模板并写入初始内容
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, htmlModuleName);
+		const initialContent = createdHtml.containerFile;
+		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
+		vscode.window.showInformationMessage('html文件模板创建成功！');
+	})
+	registerCommand(context, 'extension.createdPinia', async (resource) => {
+		let piniaModuleName = await vscode.window.showInputBox({
+			prompt: '请输入pinia文件模板名称',
+			placeHolder: '请输入pinia文件模板名称',
+		});
+
+		if (!piniaModuleName) {
+			vscode.window.showErrorMessage('pinia文件模板名称不能为空,已设置为默认值pinia_module.js!');
+			piniaModuleName = 'pinia_module.js';
+		}
+		// 创建pinia文件模板并写入初始内容
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, piniaModuleName);
+		const initialContent = createdPinia.moduleFile;
+		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
+		vscode.window.showInformationMessage('pinia文件模板创建成功！');
+	})
+	registerCommand(context, 'extension.createdVuex', async (resource) => {
+		let vuexModuleName = await vscode.window.showInputBox({
+			prompt: '请输入vuex文件模板名称',
+			placeHolder: '请输入vuex文件模板名称',
+		});
+
+		if (!vuexModuleName) {
+			vscode.window.showErrorMessage('vuex文件模板名称不能为空,已设置为默认值vuex_module.js!');
+			vuexModuleName = 'vuex_module.js';
+		}
+		// 创建vuex文件模板并写入初始内容
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, vuexModuleName);
+		const initialContent = createdVuex.moduleFile;
+		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
+		vscode.window.showInformationMessage('vuex文件模板创建成功！');
+	})
+	registerCommand(context, 'extension.createdService', async (resource) => {
+		let serviceModuleName = await vscode.window.showInputBox({
+			prompt: '请输入service文件模板名称',
+			placeHolder: '请输入service文件模板名称',
+		});
+
+		if (!serviceModuleName) {
+			vscode.window.showErrorMessage('service文件模板名称不能为空,已设置为默认值service_module.js!');
+			serviceModuleName = 'service_module.js';
+		}
+		// 创建service文件模板并写入初始内容
+		const folderUri = vscode.Uri.file(resource.fsPath);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, serviceModuleName);
+		const initialContent = createdService.serviceFile;
+		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
+		vscode.window.showInformationMessage('service文件模板创建成功！');
+	})
+
 	// 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
 	vscode.commands.executeCommand('extension.getSetting');
 	vscode.commands.executeCommand('extension.vuePeek');
