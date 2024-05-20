@@ -1,6 +1,7 @@
 exports.componentFile = `
 <template>
-  <div></div>
+  <div >
+  </div>
 </template>
 
 <script setup>
@@ -8,7 +9,7 @@ import { ref } from 'vue'
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>
 `;

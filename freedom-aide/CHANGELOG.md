@@ -80,3 +80,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.20]
 
  - 支持创建html、vue2\vue3、pinia\vuex\service模板
+
+## [0.0.21]
+
+ - 优化创建模板，现在不必写后缀.vue了，直接写模板名即可

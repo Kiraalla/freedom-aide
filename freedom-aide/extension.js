@@ -324,11 +324,11 @@ function activate(context) {
 
 		if (!vue2ModuleName) {
 			vscode.window.showErrorMessage('vue2文件模板名称不能为空,已设置为默认值vue2_module.vue!');
-			vue2ModuleName = 'vue2_module.vue';
+			vue2ModuleName = 'vue2_module';
 		}
 		// 创建vue2文件模板并写入初始内容
 		const folderUri = vscode.Uri.file(resource.fsPath);
-		const fileFolderUri = vscode.Uri.joinPath(folderUri, vue2ModuleName);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, vue2ModuleName+'.vue');
 		const initialContent = createdVue2.componentFile;
 		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
 		vscode.window.showInformationMessage('vue2文件模板创建成功！');
@@ -341,11 +341,11 @@ function activate(context) {
 
 		if (!vue3ModuleName) {
 			vscode.window.showErrorMessage('vue3文件模板名称不能为空,已设置为默认值vue3_module.vue!');
-			vue3ModuleName = 'vue3_module.vue';
+			vue3ModuleName = 'vue3_module';
 		}
 		// 创建vue3文件模板并写入初始内容
 		const folderUri = vscode.Uri.file(resource.fsPath);
-		const fileFolderUri = vscode.Uri.joinPath(folderUri, vue3ModuleName);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, vue3ModuleName+'.vue');
 		const initialContent = createdVue3.componentFile;
 		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
 		vscode.window.showInformationMessage('vue3文件模板创建成功！');
@@ -358,11 +358,11 @@ function activate(context) {
 
 		if (!htmlModuleName) {
 			vscode.window.showErrorMessage('html文件模板名称不能为空,已设置为默认值page.html!');
-			htmlModuleName = 'page.html';
+			htmlModuleName = 'page';
 		}
 		// 创建html文件模板并写入初始内容
 		const folderUri = vscode.Uri.file(resource.fsPath);
-		const fileFolderUri = vscode.Uri.joinPath(folderUri, htmlModuleName);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, htmlModuleName+'.html');
 		const initialContent = createdHtml.containerFile;
 		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
 		vscode.window.showInformationMessage('html文件模板创建成功！');
@@ -375,11 +375,11 @@ function activate(context) {
 
 		if (!piniaModuleName) {
 			vscode.window.showErrorMessage('pinia文件模板名称不能为空,已设置为默认值pinia_module.js!');
-			piniaModuleName = 'pinia_module.js';
+			piniaModuleName = 'pinia_module';
 		}
 		// 创建pinia文件模板并写入初始内容
 		const folderUri = vscode.Uri.file(resource.fsPath);
-		const fileFolderUri = vscode.Uri.joinPath(folderUri, piniaModuleName);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, piniaModuleName+'.js');
 		const initialContent = createdPinia.moduleFile;
 		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
 		vscode.window.showInformationMessage('pinia文件模板创建成功！');
@@ -392,11 +392,11 @@ function activate(context) {
 
 		if (!vuexModuleName) {
 			vscode.window.showErrorMessage('vuex文件模板名称不能为空,已设置为默认值vuex_module.js!');
-			vuexModuleName = 'vuex_module.js';
+			vuexModuleName = 'vuex_module';
 		}
 		// 创建vuex文件模板并写入初始内容
 		const folderUri = vscode.Uri.file(resource.fsPath);
-		const fileFolderUri = vscode.Uri.joinPath(folderUri, vuexModuleName);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, vuexModuleName+'.js');
 		const initialContent = createdVuex.moduleFile;
 		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
 		vscode.window.showInformationMessage('vuex文件模板创建成功！');
@@ -409,11 +409,11 @@ function activate(context) {
 
 		if (!serviceModuleName) {
 			vscode.window.showErrorMessage('service文件模板名称不能为空,已设置为默认值service_module.js!');
-			serviceModuleName = 'service_module.js';
+			serviceModuleName = 'service_module';
 		}
 		// 创建service文件模板并写入初始内容
 		const folderUri = vscode.Uri.file(resource.fsPath);
-		const fileFolderUri = vscode.Uri.joinPath(folderUri, serviceModuleName);
+		const fileFolderUri = vscode.Uri.joinPath(folderUri, serviceModuleName+'.js');
 		const initialContent = createdService.serviceFile;
 		await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
 		vscode.window.showInformationMessage('service文件模板创建成功！');
@@ -428,7 +428,7 @@ function activate(context) {
 }
 
 function deactivate() {
-	config_1.configDeactivate();
+	config_1.configDeactivate(); 
 	console.log('扩展 Freedom cide 已被禁用！');
 }
 
