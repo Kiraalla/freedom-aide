@@ -1,5 +1,4 @@
-exports.serviceFile = `
-import ServiceController from '@/{serviceName}/ServiceController';
+exports.serviceFile = `import ServiceController from '@/{serviceName}/ServiceController';
 import { serviceConfig } from '@/config';
 
 const namespace = '{serviceName}'

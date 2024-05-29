@@ -84,3 +84,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.21]
 
  - 优化创建模板，现在不必写后缀.vue了，直接写模板名即可
+
+## [0.0.22]
+
+ - 优化创建模板,现在禁止创建同名文件夹，而创建同名文件会提示覆盖。新增vue的语法提示和代码格式化，现在vue文件的style默认使用postcss，不必写lang了

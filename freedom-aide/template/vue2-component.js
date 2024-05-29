@@ -1,5 +1,4 @@
-exports.componentFile = `
-<template>
+exports.componentFile = `<template>
   <div >
   </div>
 </template>

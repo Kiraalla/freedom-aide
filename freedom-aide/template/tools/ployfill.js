@@ -1,5 +1,4 @@
-exports.contentFile = `
-// @ts-nocheck
+exports.contentFile = `// @ts-nocheck
 /**
  * 去除谷歌浏览器的scroll、wheel等事件警告
  */

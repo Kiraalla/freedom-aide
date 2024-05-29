@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -41,12 +41,6 @@
         ]
       },
       {
-        "id": "pug",
-        "aliases": [
-          "jade"
-        ]
-      },
-      {
         "id": "vue",
         "aliases": [
           "Vue",
@@ -64,21 +58,6 @@
         ],
         "configuration": "./languages/vue-html-language-configuration.json"
       },
-      {
-        "id": "vue-jade",
-        "aliases": [
-          "Vue-jade"
-        ],
-        "configuration": "./languages/vue-html-language-configuration.json"
-      },
-      {
-        "id": "vue-pug",
-        "aliases": [
-          "Vue-pug"
-        ],
-        "configuration": "./languages/vue-html-language-configuration.json"
-      },
-      
       {
         "id": "vue-js",
         "aliases": [
@@ -132,6 +111,11 @@
       {
         "command": "extension.createdTools",
         "title": "创建Tools文件模板"
+      },
+      {
+        "when": "editorLangId == vue",
+        "command": "extension.formatvue",
+        "title": "Vue 格式化"
       }
     ],
     "menus": {
@@ -245,7 +229,6 @@
         }
       },
       {
-        "language": "vue-jade",
         "path": "./syntaxes/pug/directives.tmLanguage.json",
         "scopeName": "vue.pug.directives",
         "injectTo": [
@@ -253,7 +236,6 @@
         ]
       },
       {
-        "language": "vue-pug",
         "path": "./syntaxes/pug/interpolations.tmLanguage.json",
         "scopeName": "vue.pug.interpolations",
         "injectTo": [
@@ -363,6 +345,10 @@
         "path": "./snippets/css.json"
       },
       {
+				"language": "vue",
+				"path": "./snippets/vue.json"
+			},
+      {
         "language": "vue-js",
         "path": "./snippets/vant-vue.json"
       },
@@ -383,11 +369,7 @@
         "path": "./snippets/vue-html.json"
       },
       {
-        "language": "pug",
-        "path": "./snippets/pug.json"
-      },
-      {
-        "language": "vue-pug",
+        "language": "jade",
         "path": "./snippets/pug.json"
       }
     ],
@@ -397,6 +379,12 @@
         "key": "shift+alt+f",
         "mac": "shift+alt+f",
         "when": "editorLangId == 'wxml' && editorTextFocus"
+      },
+      {
+        "command": "extension.formatvue",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "editorTextFocus && !editorReadonly && editorLangId == vue"
       }
     ],
     "configuration": {
@@ -495,6 +483,138 @@
             "type": "string"
           },
           "description": "应尝试查找定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
+        },
+        "freedomAide.arrowParens": {
+          "type": "string",
+          "enum": [
+            "avoid",
+            "always"
+          ],
+          "default": "always",
+          "markdownDescription": "在唯一的箭头函数参数周围包括括号.",
+          "scope": "resource"
+        },
+        "freedomAide.bracketSpacing": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "控制对象文字内部空间的打印.",
+          "scope": "resource"
+        },
+        "freedomAide.endOfLine": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "lf",
+            "crlf",
+            "cr"
+          ],
+          "default": "lf",
+          "markdownDescription": "指定Vue 3代码段使用的行的末尾.",
+          "scope": "resource"
+        },
+        "freedomAide.htmlWhitespaceSensitivity": {
+          "type": "string",
+          "enum": [
+            "css",
+            "strict",
+            "ignore"
+          ],
+          "default": "css",
+          "markdownDescription": "指定HTML文件的全局空白敏感度。\n有效选项：\n-`css`-尊重css显示属性的默认值。\n-`strict`-空格被认为是敏感的。\n-`ignores`-空格被认为是不敏感的.",
+          "scope": "resource"
+        },
+        "freedomAide.insertPragma": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Vue 3 Snippets可以在文件的顶部插入一个特殊的@format标记，指定文件已经用它进行了格式化。当与“--require pragma”选项一起使用时，这种标记效果很好。如果文件顶部已经有一个文档块，则此选项将使用@format标记向其添加新行.",
+          "scope": "resource"
+        },
+        "freedomAide.jsxBracketSameLine": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "如果为true，则将多行jsx元素的“>”放在最后一行的末尾，而不是单独放在下一行.",
+          "scope": "resource"
+        },
+        "freedomAide.jsxSingleQuote": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "在JSX中使用单引号而不是双引号.",
+          "scope": "resource"
+        },
+        "freedomAide.printWidth": {
+          "type": "integer",
+          "default": 90,
+          "markdownDescription": "将代码拟合在此行限制内.",
+          "scope": "resource"
+        },
+        "freedomAide.proseWrap": {
+          "type": "string",
+          "enum": [
+            "preserve",
+            "always",
+            "never"
+          ],
+          "default": "preserve",
+          "markdownDescription": "（Markdown）用多行文字包装散文.",
+          "scope": "resource"
+        },
+        "freedomAide.quoteProps": {
+          "type": "string",
+          "enum": [
+            "as-needed",
+            "consistent",
+            "preserve"
+          ],
+          "default": "as-needed",
+          "markdownDescription": "引用对象中的特性时发生更改.",
+          "scope": "resource"
+        },
+        "freedomAide.requirePragma": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Vue 3 Snippets可以将自己限制为仅格式化在文件顶部包含特殊注释（称为杂注）的文件。当逐渐将大型、未格式化的代码库转换为它时，这非常有用.",
+          "scope": "resource"
+        },
+        "freedomAide.semi": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "是否在每行末尾添加分号.",
+          "scope": "resource"
+        },
+        "freedomAide.singleQuote": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "如果为true，将使用单引号而不是双引号.",
+          "scope": "resource"
+        },
+        "freedomAide.tabWidth": {
+          "type": "integer",
+          "default": 2,
+          "markdownDescription": "每个选项卡应使用的空间数.",
+          "scope": "resource"
+        },
+        "freedomAide.trailingComma": {
+          "type": "string",
+          "enum": [
+            "none",
+            "es5",
+            "all"
+          ],
+          "default": "es5",
+          "markdownDescription": "尽可能控制尾部逗号的打印。有效选项：\n-`none`-没有尾随逗号\n-`es5`-在es5中有效的尾随逗号（对象、数组等）\n-`all`-尽可能尾随逗号（函数参数）.",
+          "scope": "resource"
+        },
+        "freedomAide.useTabs": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "用制表符缩进行.",
+          "scope": "resource"
+        },
+        "freedomAide.vueIndentScriptAndStyle": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "是否缩进Vue文件中“<script>”和“<style>”标记内的代码。有些人（比如Vue的创建者）不缩进以保存缩进级别，但这可能会破坏编辑器中的代码折叠.",
+          "scope": "resource"
         }
       }
     }
@@ -515,6 +635,7 @@
   },
   "dependencies": {
     "cny_js_beautify": "^0.0.8",
+    "prettier": "^2.2.1",
     "recast": "^0.23.6"
   }
 }

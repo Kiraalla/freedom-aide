@@ -1,5 +1,4 @@
-exports.containerFile =`
-<!DOCTYPE html>
+exports.containerFile =`<!DOCTYPE html>
 <html lang="en">
 
 <head>

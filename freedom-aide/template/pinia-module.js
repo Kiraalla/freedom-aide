@@ -1,5 +1,4 @@
-exports.moduleFile = `
-import { defineStore } from 'pinia';
+exports.moduleFile = `import { defineStore } from 'pinia';
 
 export const useMyStore = defineStore({
   id: 'myStore',

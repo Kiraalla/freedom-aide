@@ -1,5 +1,4 @@
-exports.contentFile =`
-// @ts-nocheck
+exports.contentFile =`// @ts-nocheck
 /**
    * 柯里化函数
    * @param fn 要柯里化的函数

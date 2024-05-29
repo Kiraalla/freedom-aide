@@ -1,5 +1,4 @@
-exports.moduleFile = `
-export default {
+exports.moduleFile = `export default {
   state: {},
   getters: {},
   actions: {},
