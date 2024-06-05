@@ -88,3 +88,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.22]
 
  - 优化创建模板,现在禁止创建同名文件夹，而创建同名文件会提示覆盖。新增vue的语法提示和代码格式化，现在vue文件的style默认使用postcss，不必写lang了
+
+## [0.0.23]
+
+ - 修个bug，vue-js里像af、afb、cl这样的缩写没支持到，现在支持了
