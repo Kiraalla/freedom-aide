@@ -17,6 +17,7 @@ const vscode_1 = require("vscode");
 const COMMENT_REGEXP = /<!--([\s\S]*?)-->/g;
 // const TAG_REGEXP = /<\/?([A-Z]+\w+)/g
 const TAG_REGEXP = /<\/?((\w+-*)+)/g;
+
 class ActiveText {
     constructor(config) {
         this.config = config;
@@ -161,4 +162,3 @@ function shouldCreateRange(word) {
         !key.startsWith('{{') &&
         !/\d/.test(firstChar));
 }
-//# sourceMappingURL=ActiveText.js.map

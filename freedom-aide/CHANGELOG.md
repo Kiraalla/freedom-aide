@@ -92,3 +92,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.23]
 
  - 修个bug，vue-js里像af、afb、cl这样的缩写没支持到，现在支持了
+
+## [0.0.24]
+
+ - 修复大量bug，大量大量大量……

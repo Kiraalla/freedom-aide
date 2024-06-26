@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -24,7 +24,6 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.formatwxml",
     "onLanguage:wxml"
   ],
   "main": "./extension.js",
@@ -116,6 +115,11 @@
         "when": "editorLangId == vue",
         "command": "extension.formatvue",
         "title": "Vue 格式化"
+      },
+      {
+        "when": "editorLangId == wxml",
+        "command": "extension.formatwxml",
+        "title": "Wxml 格式化"
       }
     ],
     "menus": {
@@ -171,7 +175,7 @@
       {
         "language": "vue",
         "scopeName": "source.vue",
-        "path": "./syntaxes/vue-generated.json",
+        "path": "./syntaxes/vue/vue-generated.json",
         "embeddedLanguages": {
           "text.html.basic": "html",
           "text.html.vue-html": "vue-html",
@@ -218,12 +222,12 @@
       {
         "language": "vue-postcss",
         "scopeName": "source.css.postcss",
-        "path": "./syntaxes/vue-postcss.json"
+        "path": "./syntaxes/vue/vue-postcss.json"
       },
       {
         "language": "vue-html",
         "scopeName": "text.html.vue-html",
-        "path": "./syntaxes/vue-html.tmLanguage.json",
+        "path": "./syntaxes/vue/vue-html.tmLanguage.json",
         "embeddedLanguages": {
           "source.js": "javascript"
         }
@@ -241,6 +245,16 @@
         "injectTo": [
           "source.vue"
         ]
+      },
+      {
+        "language": "wxml",
+        "scopeName": "text.wxml.basic",
+        "path": "./syntaxes/wxml/wxml.tmLanguage.json"
+      },
+      {
+        "language": "wxml",
+        "scopeName": "text.wxml.derivative",
+        "path": "./syntaxes/wxml/wxml-derivative.tmLanguage.json"
       }
     ],
     "snippets": [
@@ -249,120 +263,72 @@
         "path": "./snippets/basic/css.json"
       },
       {
-        "language": "css",
-        "path": "./snippets/css.json"
-      },
-      {
-        "language": "scss",
-        "path": "./snippets/css.json"
-      },
-      {
-        "language": "less",
-        "path": "./snippets/css.json"
-      },
-      {
-        "language": "javascript",
-        "path": "./snippets/js.json"
-      },
-      {
-        "language": "javascript",
-        "path": "./snippets/jq.json"
-      },
-      {
-        "language": "javascript",
-        "path": "./snippets/miniprogram-js.json"
-      },
-      {
-        "language": "javascript",
-        "path": "./snippets/layui-jq.json"
-      },
-      {
-        "language": "javascript",
-        "path": "./snippets/vant-js.json"
-      },
-      {
-        "language": "javascript",
-        "path": "./snippets/javascript.json"
+        "language": "html",
+        "path": "./snippets/basic/html.json"
       },
       {
         "language": "javascript",
         "path": "./snippets/basic/javascript.json"
       },
       {
-        "language": "typescript",
-        "path": "./snippets/js.json"
+        "language": "javascript",
+        "path": "./snippets/basic/jq.json"
       },
       {
-        "language": "typescript",
-        "path": "./snippets/javascript.json"
+        "language": "jade",
+        "path": "./snippets/basic/pug.json"
       },
       {
-        "language": "javascriptreact",
-        "path": "./snippets/js.json"
+        "language": "html",
+        "path": "./snippets/layui/layui-html.json"
       },
       {
-        "language": "typescriptreact",
-        "path": "./snippets/js.json"
+        "language": "javascript",
+        "path": "./snippets/layui/layui-jq.json"
       },
       {
-        "language": "typescriptreact",
-        "path": "./snippets/vue-js.json"
+        "language": "wxml",
+        "path": "./snippets/weapp/miniprogram-wxml.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/weapp/miniprogram-js.json"
+      },
+      {
+        "language": "html",
+        "path": "./snippets/vant/vant-html.json"
+      },
+      {
+        "language": "wxml",
+        "path": "./snippets/vant/vant-wxml.json"
       },
       {
         "language": "json",
-        "path": "./snippets/vant-json.json"
+        "path": "./snippets/vant/vant-json.json"
       },
       {
-        "language": "wxml",
-        "path": "./snippets/miniprogram-wxml.json"
+        "language": "javascript",
+        "path": "./snippets/vant/vant-js.json"
       },
       {
-        "language": "wxml",
-        "path": "./snippets/vant-wxml.json"
-      },
-      {
-        "language": "html",
-        "path": "./snippets/layui-html.json"
+        "language": "vue",
+        "path": "./snippets/vant/vant-vue.json"
       },
       {
         "language": "vue-html",
-        "path": "./snippets/vant-html.json"
+        "path": "./snippets/vant/vant-html.json"
+      },
+      {
+        "language": "vue-js",
+        "path": "./snippets/vant/vant-js.json"
       },
       {
         "language": "html",
-        "path": "./snippets/javascript.json"
+        "path": "./snippets/vue/html.json"
       },
       {
-        "language": "html",
-        "path": "./snippets/vue-html.json"
-      },
-      {
-        "language": "html",
-        "path": "./snippets/vue-html.json"
-      },
-      {
-        "language": "vue-postcss",
-        "path": "./snippets/css.json"
-      },
-      {
-				"language": "vue",
-				"path": "./snippets/vue.json"
-			},
-      {
-        "language": "vue-js",
-        "path": "./snippets/vant-vue.json"
-      },
-      {
-        "language": "vue-js",
-        "path": "./snippets/vue-js.json"
-      },
-      {
-        "language": "vue-js",
-        "path": "./snippets/javascript.json"
-      },
-      {
-        "language": "vue-js",
-        "path": "./snippets/js.json"
+        "language": "vue",
+        "path": "./snippets/vue/vue.json"
       },
       {
         "language": "vue-html",
@@ -370,11 +336,15 @@
       },
       {
         "language": "vue-html",
-        "path": "./snippets/vue-html.json"
+        "path": "./snippets/vue/vue-html.json"
       },
       {
-        "language": "jade",
-        "path": "./snippets/pug.json"
+        "language": "vue-js",
+        "path": "./snippets/vue/javascript.json"
+      },
+      {
+        "language": "vue-js",
+        "path": "./snippets/vue/vue-js.json"
       }
     ],
     "keybindings": [
@@ -382,19 +352,19 @@
         "command": "extension.formatwxml",
         "key": "shift+alt+f",
         "mac": "shift+alt+f",
-        "when": "editorLangId == 'wxml' && editorTextFocus"
+        "when": "editorTextFocus && !editorReadonly && editorLangId == wxml"
       },
       {
         "command": "extension.formatvue",
-        "key": "ctrl+shift+f",
-        "mac": "cmd+shift+f",
+        "key": "shift+alt+f",
+        "mac": "shift+alt+f",
         "when": "editorTextFocus && !editorReadonly && editorLangId == vue"
       }
     ],
     "configuration": {
       "title": "freedom-aide",
       "properties": {
-        "freedomAide.format": {
+        "freedomAide.wxml-format": {
           "type": "object",
           "description": "wxml格式化的属性。无特殊说明的配置的属性可以这里看https://github.com/beautify-web/js-beautify",
           "default": {
@@ -414,24 +384,24 @@
             "wrap_attributes": "force-expand-multiline"
           }
         },
-        "freedomAide.onSaveFormat": {
+        "freedomAide.wxml-format-save-code": {
           "type": "boolean",
           "description": "是否开启保存自动格式化",
           "default": false
         },
-        "freedomAide.activeDisable": {
+        "freedomAide.wxml-activeDisable": {
           "type": "boolean",
           "description": "是否禁用高亮组件",
           "default": false
         },
-        "freedomAide.activeColor": {
+        "freedomAide.wxml-activeColor": {
           "type": "object",
           "description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
           "default": {
-            "color": "#e5c07b"
+            "color": "#ff00ff"
           }
         },
-        "freedomAide.tagNoActiveArr": {
+        "freedomAide.wxml-tagNoActiveArr": {
           "type": "array",
           "description": "高亮所忽略的组件数组",
           "default": [
@@ -468,17 +438,17 @@
             "web-vie"
           ]
         },
-        "freedomAide.supportedLanguages": {
+        "freedomAide.vue-supportedLanguages": {
           "type": "array",
           "default": [
-            "vue"
+            ".vue"
           ],
           "items": {
             "type": "string"
           },
           "description": "应使用扩展名的vscode语言名称列表"
         },
-        "freedomAide.targetFileExtensions": {
+        "freedomAide.vue-targetFileExtensions": {
           "type": "array",
           "default": [
             ".vue"
@@ -488,7 +458,7 @@
           },
           "description": "应尝试查找定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
         },
-        "freedomAide.arrowParens": {
+        "freedomAide.vue-arrowParens": {
           "type": "string",
           "enum": [
             "avoid",
@@ -498,13 +468,13 @@
           "markdownDescription": "在唯一的箭头函数参数周围包括括号.",
           "scope": "resource"
         },
-        "freedomAide.bracketSpacing": {
+        "freedomAide.vue-bracketSpacing": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "控制对象文字内部空间的打印.",
           "scope": "resource"
         },
-        "freedomAide.endOfLine": {
+        "freedomAide.vue-endOfLine": {
           "type": "string",
           "enum": [
             "auto",
@@ -516,7 +486,7 @@
           "markdownDescription": "指定Vue 3代码段使用的行的末尾.",
           "scope": "resource"
         },
-        "freedomAide.htmlWhitespaceSensitivity": {
+        "freedomAide.vue-htmlWhitespaceSensitivity": {
           "type": "string",
           "enum": [
             "css",
@@ -527,42 +497,24 @@
           "markdownDescription": "指定HTML文件的全局空白敏感度。\n有效选项：\n-`css`-尊重css显示属性的默认值。\n-`strict`-空格被认为是敏感的。\n-`ignores`-空格被认为是不敏感的.",
           "scope": "resource"
         },
-        "freedomAide.insertPragma": {
+        "freedomAide.vue-insertPragma": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Vue 3 Snippets可以在文件的顶部插入一个特殊的@format标记，指定文件已经用它进行了格式化。当与“--require pragma”选项一起使用时，这种标记效果很好。如果文件顶部已经有一个文档块，则此选项将使用@format标记向其添加新行.",
+          "markdownDescription": "在文件的顶部插入一个特殊的@format标记，指定文件已经用它进行了格式化。当与“--require pragma”选项一起使用时，这种标记效果很好。如果文件顶部已经有一个文档块，则此选项将使用@format标记向其添加新行.",
           "scope": "resource"
         },
-        "freedomAide.jsxBracketSameLine": {
+        "freedomAide.vue-format-save-code": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "如果为true，则将多行jsx元素的“>”放在最后一行的末尾，而不是单独放在下一行.",
-          "scope": "resource"
+          "description": "vue文件文件保存时自动格式化"
         },
-        "freedomAide.jsxSingleQuote": {
-          "type": "boolean",
-          "default": false,
-          "markdownDescription": "在JSX中使用单引号而不是双引号.",
-          "scope": "resource"
-        },
-        "freedomAide.printWidth": {
+        "freedomAide.vue-printWidth": {
           "type": "integer",
           "default": 90,
           "markdownDescription": "将代码拟合在此行限制内.",
           "scope": "resource"
         },
-        "freedomAide.proseWrap": {
-          "type": "string",
-          "enum": [
-            "preserve",
-            "always",
-            "never"
-          ],
-          "default": "preserve",
-          "markdownDescription": "（Markdown）用多行文字包装散文.",
-          "scope": "resource"
-        },
-        "freedomAide.quoteProps": {
+        "freedomAide.vue-quoteProps": {
           "type": "string",
           "enum": [
             "as-needed",
@@ -573,31 +525,31 @@
           "markdownDescription": "引用对象中的特性时发生更改.",
           "scope": "resource"
         },
-        "freedomAide.requirePragma": {
+        "freedomAide.vue-requirePragma": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Vue 3 Snippets可以将自己限制为仅格式化在文件顶部包含特殊注释（称为杂注）的文件。当逐渐将大型、未格式化的代码库转换为它时，这非常有用.",
+          "markdownDescription": "将自己限制为仅格式化在文件顶部包含特殊注释（称为杂注）的文件。当逐渐将大型、未格式化的代码库转换为它时，这非常有用.",
           "scope": "resource"
         },
-        "freedomAide.semi": {
+        "freedomAide.vue-semi": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "是否在每行末尾添加分号.",
           "scope": "resource"
         },
-        "freedomAide.singleQuote": {
+        "freedomAide.vue-singleQuote": {
           "type": "boolean",
           "default": false,
           "markdownDescription": "如果为true，将使用单引号而不是双引号.",
           "scope": "resource"
         },
-        "freedomAide.tabWidth": {
+        "freedomAide.vue-tabWidth": {
           "type": "integer",
           "default": 2,
           "markdownDescription": "每个选项卡应使用的空间数.",
           "scope": "resource"
         },
-        "freedomAide.trailingComma": {
+        "freedomAide.vue-trailingComma": {
           "type": "string",
           "enum": [
             "none",
@@ -608,16 +560,39 @@
           "markdownDescription": "尽可能控制尾部逗号的打印。有效选项：\n-`none`-没有尾随逗号\n-`es5`-在es5中有效的尾随逗号（对象、数组等）\n-`all`-尽可能尾随逗号（函数参数）.",
           "scope": "resource"
         },
-        "freedomAide.useTabs": {
+        "freedomAide.vue-useTabs": {
           "type": "boolean",
           "default": false,
           "markdownDescription": "用制表符缩进行.",
           "scope": "resource"
         },
-        "freedomAide.vueIndentScriptAndStyle": {
+        "freedomAide.vue-vueIndentScriptAndStyle": {
           "type": "boolean",
           "default": false,
           "markdownDescription": "是否缩进Vue文件中“<script>”和“<style>”标记内的代码。有些人（比如Vue的创建者）不缩进以保存缩进级别，但这可能会破坏编辑器中的代码折叠.",
+          "scope": "resource"
+        },
+        "freedomAide.jsx-jsxBracketSameLine": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "如果为true，则将多行jsx元素的“>”放在最后一行的末尾，而不是单独放在下一行.",
+          "scope": "resource"
+        },
+        "freedomAide.jsx-jsxSingleQuote": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "在JSX中使用单引号而不是双引号.",
+          "scope": "resource"
+        },
+        "freedomAide.markdown-proseWrap": {
+          "type": "string",
+          "enum": [
+            "preserve",
+            "always",
+            "never"
+          ],
+          "default": "preserve",
+          "markdownDescription": "（Markdown）用多行文字包装散文.",
           "scope": "resource"
         }
       }
