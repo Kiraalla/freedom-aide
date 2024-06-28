@@ -17,8 +17,7 @@
 
 | 缩写| 描述 |
 | ---- | ---- |
-| bd | 简单注释结构 |
-| df | 布局样式 |
+| df | flex布局 |
 | fs | 文字样式 |
 | ov1 | 文字省略 |
 | ov2 | 文字省略-多行 |
@@ -26,24 +25,336 @@
 | poscx | 绝对定位-左右居中 |
 | poscy | 绝对定位-上下居中 |
 | posc | 绝对定位-居中 |
-| before | 伪类-before |
-| after | 伪类-after |
-| hover | 伪类-hover |
-| focus | 伪类-focus |
-| active | 伪类-active |
-| disabled | 伪类-disabled |
-| var | 变量 |
-| btn | 按钮 |
-| reset | 标签样式重置 |
-| link | 标签样式-链接 |
-| title | 标签样式-标题 |
-| p | 标签样式-段落 |
-| ul | 标签样式-列表 |
-| li | 标签样式-列表项 |
-| table | 标签样式-表格 |
-| tr | 标签样式-表格行 |
-| td | 标签样式-表格单元格 |
-| form | 标签样式-表单 |
+| ai | initial value: stretch |
+| aib | align-items: baseline; |
+| aic | align-items: center; |
+| aifs | align-items: flex-start; |
+| aife | align-items: flex-end; |
+| ais | align-items: stretch; |
+| as | initial value: auto |
+| ani | animation: name duration timing-function delay direction count fill-mode play-state |
+| anide | animation-delay |
+| anidi | initial value: normal |
+| anidu | animation-duration |
+| anifm | initial value: none |
+| aniic | initial value: 1 |
+| anin | animation-name |
+| anips | initial value: running |
+| anitf | initial value: ease |
+| bg | background: image position/size repeat attachment box box |
+| bga | initial value: scroll |
+| bgc | background-color |
+| bgcl | initial value: border-box |
+| bgi | background-image |
+| bgo | initial value: padding-box |
+| bgp | background-position |
+| bgr | initial value: repeat |
+| bgrr | background-repeat: repeat; |
+| bgrx | background-repeat: repeat-x; |
+| bgry | background-repeat: repeat-y; |
+| bgrn | background-repeat: no-repeat; |
+| bgs | background-size |
+| bor | border |
+| born | border: none; |
+| borc | border-color |
+| bors | border-style |
+| borw | border-width |
+| borb | border-bottom |
+| borl | border-left |
+| borr | border-right |
+| bort | border-top |
+| br | border-radius |
+| bot | bottom |
+| bos | box-shadow: x-offset y-offset blur spread color |
+| boz | initial value: content-box |
+| clr | clear |
+| col | color |
+| con | content |
+| cur | initial value: auto |
+| curp | cursor: pointer; |
+| curd | cursor: default; |
+| dis | display |
+| disb | display: block; |
+| disi | display: inline-block; |
+| disn | display: none; |
+| disf | display: flex; |
+| flex | flex: grow shrink basis |
+| fle | flex |
+| fld | initial value: row |
+| fldr | flex-direction: row; |
+| fldc | flex-direction: column; |
+| flf | flex-flow |
+| flw | initial value: nowrap |
+| fl | float |
+| fll | float: left; |
+| flr | float: right; |
+| fln | float: none; |
+| ff | font-family |
+| fz | font-size |
+| fst | font-style |
+| fsti | font-style: italic; |
+| fstn | font-style: normal; |
+| fsto | font-style: oblique; |
+| fw | font-weight |
+| fwb | font-weight: bold; |
+| fwl | font-weight: light; |
+| fwn | font-weight: normal; |
+| ft | font: [weight style variant stretch] size/line-height family |
+| hei | height |
+| jc | initial value: flex-start |
+| jcfs | justify-content: flex-start; |
+| jcfe | justify-content: flex-end; |
+| jcc | justify-content: center; |
+| jcsa | justify-content: space-around; |
+| jcsb | justify-content: space-between; |
+| lis | list-style: type position image |
+| lisp | initial value: outside |
+| list | initial value: disc |
+| listc | list-style-type: circle; |
+| listd | list-style-type: disc; |
+| listn | list-style-type: none; |
+| lists | list-style-type: square; |
+| listlr | list-style-type: lower-roman; |
+| listur | list-style-type: upper-roman; |
+| lef | left |
+| lh | line-height |
+| ls | letter-spacing |
+| lsn | letter-spacing: normal; |
+| mar | margin |
+| marb | margin-bottom |
+| marl | margin-left |
+| marr | margin-right |
+| mart | margin-top |
+| mara | margin: 0 auto; |
+| mih | min-height |
+| miw | min-width |
+| mah | max-height |
+| maw | max-width |
+| opa | opacity |
+| ov | overflow |
+| ova | overflow: auto; |
+| ovh | overflow: hidden; |
+| ovs | overflow: scroll; |
+| ovv | overflow: visible; |
+| pad | padding |
+| padb | padding-bottom |
+| padl | padding-left |
+| padr | padding-right |
+| padt | padding-top |
+| pos | position |
+| posa | position: absolute; |
+| posf | position: fixed; |
+| posr | position: relative; |
+| poss | position: sticky; |
+| rig | right |
+| ta | text-align |
+| tac | text-align: center; |
+| tal | text-align: left; |
+| tar | text-align: right; |
+| td | text-decoration |
+| tdu | text-decoration: underline; |
+| tdn | text-decoration: none; |
+| tdl | text-decoration: line-through; |
+| ti | text-indent |
+| ts | text-shadow: x-offset y-offset blur spread color |
+| tt | text-transform |
+| top | top |
+| va | vertical-align |
+| vab | vertical-align: bottom; |
+| vam | vertical-align: middle; |
+| vat | vertical-align: top; |
+| vis | visibility |
+| visv | visibility: visible; |
+| vish | visibility: hidden; |
+| wb | word-break |
+| wid | width |
+| wida | width: auto; |
+| ws | white-space |
+| wsn | white-space: nowrap; |
+| wsp | white-space: pre; |
+| ww | word-wrap |
+| zi | z-index |
+| imp | import; |
+| mix | mixin |
+| inc | include |
+| key | keyframes |
+| med | media |
+| ! | important |
+| i | important |
+
+### HTML代码块
+
+| 缩写| 描述 |
+| ---- | ---- |
+| doctype | 定义文档类型 |
+| a | HTML - 定义超链接 |
+| abbr | HTML - 定义缩写 |
+| address | HTML - 定义地址元素 |
+| area | HTML - 定义图像地图内的区域 |
+| article | HTML - 定义文章 |
+| aside | HTML - 定义页面内容之外的内容 |
+| audio | HTML - 定义声音内容 |
+| b | HTML - 定义粗体文本 |
+| base | HTML - 定义页面中所有链接的基本URL |
+| bdi | HTML - 用于隔离方向性未知的文本 |
+| bdo | HTML - 定义文本显示的方向 |
+| big | HTML - 用于放大文本 |
+| blockquote | HTML - 定义长引号 |
+| body | HTML - 定义主体元素 |
+| br | HTML - 插入换行符 |
+| button | HTML - 定义一个按钮 |
+| canvas | HTML - 定义图形 |
+| caption | HTML - 定义表格标题 |
+| cite | HTML - 定义引文 |
+| code | HTML - 定义代码文本 |
+| col | HTML - 定义表列的col属性 |
+| colgroup | HTML - 定义表列组 |
+| command | HTML - 定义命令按钮 not supported |
+| datalist | HTML - 定义下拉列表 |
+| dd | HTML - 定义dd |
+| del | HTML - 定义已删除的文本 |
+| details | HTML - 定义元素的详细信息 |
+| dialog | HTML - 定义对话框（dialog） |
+| dfn | HTML - 定义一个 definition term |
+| div | HTML - 定义文档中的div |
+| dl | HTML - 定义一个dl |
+| dt | HTML - 定义一个dt |
+| em | HTML - 定义强调文本 |
+| embed | HTML - 定义插件的外部交互内容 |
+| fieldset | HTML - 定义字段集 |
+| figcaption | HTML - 定义图形的标题 |
+| figure | HTML - 定义一组媒体内容及其标题 |
+| footer | HTML - 定义文档的页脚 |
+| form | HTML - 定义表单 |
+| h1 | HTML - 定义h1 |
+| h2 | HTML - 定义h2 |
+| h3 | HTML - 定义h3 |
+| h4 | HTML - 定义h4 |
+| h5 | HTML - 定义h5 |
+| h6 | HTML - 定义h6 |
+| head | HTML - 定义有关文档的信息 |
+| header | HTML - 定义文档的头部 |
+| hgroup | HTML - 定义文档中某一节的信息 |
+| hr | HTML - 定义水平线 |
+| html | HTML - 定义一个HTML文档 |
+| html5 | HTML - 定义html5文档的模板 |
+| i | HTML - 定义斜体文本 |
+| iframe | HTML - 定义内联iframe |
+| img | HTML - 定义图像 |
+| input | HTML - Defi定义输入字段 |
+| ins | HTML - 定义插入的文本 |
+| keygen | HTML - 定义表单中生成的密钥 |
+| kbd | HTML - 定义键盘文本 |
+| label | HTML - 定义内联窗口 |
+| legend | HTML - 定义字段集中的标题 |
+| li | HTML - 定义列表项 |
+| link | HTML - 定义资源引用 |
+| main | HTML - 定义图像映射 |
+| map | HTML - 定义图像映射 |
+| mark | HTML - 定义标记的文本 |
+| menu | HTML - 定义菜单列表 |
+| menuitem | HTML - 定义菜单项 |
+| meta | HTML - 定义元信息 |
+| meter | HTML - 定义预定义范围内的测量值 |
+| nav | HTML - 定义导航链接 |
+| noscript | HTML - 定义noscript部分 |
+| object | HTML - 定义嵌入对象 |
+| ol | HTML - 定义有序列表 |
+| optgroup | HTML - 定义选项组 |
+| option | HTML - 定义下拉列表中的选项 |
+| output | HTML - 定义某些类型的输出 |
+| p | HTML - 定义段落 |
+| param | HTML - 定义对象的参数 |
+| pre | HTML - 定义预格式化的文本 |
+| progress | HTML - 定义进度条 |
+| q | HTML - 定义短引号 |
+| rp | HTML - 在ruby注释中用于定义显示不支持ruby元素的浏览器的内容 |
+| rt | HTML - 定义对ruby注释的解释 |
+| ruby | HTML - 定义ruby注释 |
+| s | HTML - 用于定义删除线文本 |
+| samp | HTML - 定义示例代码 |
+| script | HTML - 定义脚本 |
+| section | HTML - 定义 section |
+| select | HTML - 定义 list |
+| small | HTML - 定义小文本 |
+| source | HTML - 定义媒体资源 |
+| span | HTML - 定义 span |
+| strong | HTML - 定义 strong |
+| style | HTML - 定义 style |
+| sub | HTML - 定义下标 |
+| sup | HTML - 定义上标 |
+| summary | HTML - 定义detail元素的可见标题 |
+| table | HTML - 定义 table |
+| tbody | HTML - 定义 table body |
+| td | HTML - 定义 table cell |
+| textarea | HTML - 定义 text area |
+| tfoot | HTML - 定义 table footer |
+| thead | HTML - 定义 table head |
+| th | HTML - 定义 table header |
+| time | HTML - 定义日期/时间 |
+| title | HTML - 定义文档标题 |
+| tr | HTML - 定义 table row |
+| track | HTML - 定义 table row |
+| u | HTML - 用于定义带下划线的文本 |
+| ul | HTML - 定义 unordered list |
+| var | HTML - 定义 variable |
+| video | HTML - 定义 video |
+
+
+### PUG代码块
+
+| 缩写| 描述 |
+| ---- | ---- |
+| vText | "Expects: string" |
+| vHtml | "Expects: string" |
+| vShow | "Expects: any" |
+| vIf | "Expects: any" |
+| vElse | "Does not expect expression. previous sibling element must have v-if or v-else-if." |
+| vElseIf | "Expects: any. previous sibling element must have v-if or v-else-if." |
+| vForWithoutKey | "Expects: Array | Object | number | string" |
+| vFor | "Expects: Array | Object | number | string" |
+| vOn | "Expects: Function | Inline Statement" |
+| vBind | "Expects: any (with argument) | Object (without argument)" |
+| vModel | "Expects: varies based on value of form inputs element or output of components" |
+| vPre | "Does not expect expression" |
+| vCloak | "Does not expect expression" |
+| vOnce | "Does not expect expression" |
+| key | "Expects: string. Children of the same common parent must have unique keys. Duplicate keys will cause render errors." |
+| ref | "Expects: string. ref is used to register a reference to an element or a child component. The reference will be registered under the parent component’s $refs object. If used on a plain DOM element, the reference will be that element; if used on a child component, the reference will be component instance." |
+| slotA | "slot=''. Expects: string. Used on content inserted into child components to indicate which named slot the content belongs to." |
+| slotE | "<slot></slot>. Expects: string. Used on content inserted into child components to indicate which named slot the content belongs to." |
+| slotScope | "Used to denote an element or component as a scoped slot." |
+| scope | "Used to denote a template element as a scoped slot" |
+| component | "component element" |
+| keepAlive | "keep-alive element" |
+| transition | "transition element" |
+| transitionGroup | "transition-group element" |
+| enterClass | "enter-class=''. Expects: string." |
+| leaveClass | "leave-class=''. Expects: string." |
+| appearClass | "appear-class=''. Expects: string." |
+| enterToClass | "enter-to-class=''. Expects: string." |
+| leaveToClass | "leave-to-class=''. Expects: string." |
+| appearToClass | "appear-to-class=''. Expects: string." |
+| enterActiveClass | "enter-active-class=''. Expects: string." |
+| leaveActiveClass | "leave-active-class=''. Expects: string." |
+| appearActiveClass | "appear-active-class=''. Expects: string." |
+| beforeEnterEvent | "@before-enter=''" |
+| beforeLeaveEvent | "@before-leave=''" |
+| beforeAppearEvent | "@before-appear=''" |
+| enterEvent | "@enter=''" |
+| leaveEvent | "@leave=''" |
+| appearEvent | "@appear=''" |
+| afterEnterEvent | "@after-enter=''" |
+| afterLeaveEvent | "@after-leave=''" |
+| afterAppearEvent | "@after-appear=''" |
+| enterCancelledEvent | "@enter-cancelled=''" |
+| leaveCancelledEvent | "@leave-cancelled='' (v-show only)" |
+| appearCancelledEvent | "@appear-cancelled=''" |
+| routerLink | "router-link element" |
+| routerLinkTo | "router-link (to='') . router-link element" |
+| to | "to=''" |
+| tag | "tag=''" |
+| routerView | "router-view element" |
 
 
 ### JS代码块
@@ -51,59 +362,97 @@
 | 缩写| 描述 |
 | ---- | ---- |
 | *f | 函数注释 |
-| ci | "console.info" |
-| cl | "console.log" |
-| ce | "console.error" |
-| cw | "console.warn" |
-| cd | "console.dir" |
-| ae | "addEventListener" |
-| ac | "appendChild" |
-| rc | "removeChild" |
-| cel | "createElement" |
-| cdf | "createDocumentFragment" |
-| ca | "classList.add" |
-| ct | "classList.toggle" |
-| cr | "classList.remove" |
-| gi | "getElementById" |
-| gc | "getElementsByClassName" |
-| gt | "getElementsByTagName" |
-| ga | "getAttribute" |
-| sa | "setAttribute" |
-| ra | "removeAttribute" |
-| ih | "innerHTML" |
-| tc | "textContent" |
-| qs | "querySelector" |
-| qsa | "querySelectorAll" |
-| fl | for 循环 |
-| rfl | reverse for 循环 |
-| fi | for in 循环 |
-| fo | for of 循环 (ES6) |
-| wl | while 循环 |
-| fn | 定义name函数 |
-| iife | 立即调用的函数表达式 (IIFE) |
-| fa | apply函数 |
-| fc | call函数 |
-| fb | bind函数 |
-| af | 无body箭头函数 (ES6) |
-| afb | 带body箭头函数 (ES6) |
-| gf | 生成器函数 (ES6) |
-| gfn | 定义name生成器函数 (ES6) |
-| seq | 生成一个 0 - (length-1) 的连续数字的数组 |
-| fe | forEach 循环 |
+| imp | Imports entire module statement in ES6 syntax |
+| imn | Imports entire module in ES6 syntax without module name |
+| imd | Imports only a portion of the module in ES6 syntax |
+| ime | Imports everything as alias from the module in ES6 syntax |
+| ima | Imports a specific portion of the module by assigning a local alias in ES6 syntax |
+| rqr | Require a package |
+| req | Require a package to const |
+| mde | Module exports from Common JS, node syntax at ES6 |
+| env | Export named variable in ES6 syntax |
+| enf | Export named function in ES6 syntax |
+| edf | Export default function in ES6 syntax |
+| ecl | Export default class in ES6 syntax |
+| ece | Export default class which extends a base one in ES6 syntax |
+| con | Add default constructor in a class in ES6 syntax |
+| met | Creates a method inside a class in ES6 syntax |
+| pge | Creates a getter property inside a class in ES6 syntax |
+| pse | Creates a setter property inside a class in ES6 syntax |
+| fre | Creates a forEach statement in ES6 syntax |
+| fof | Iterating over property names of iterable objects |
+| fin | Iterating over property values of iterable objects |
+| anfn | Creates an anonymous function in ES6 syntax |
+| nfn | Creates a named function in ES6 syntax |
+| dob | Creates and assigns a local variable using object destructing |
+| dar | Creates and assigns a local variable using array destructing |
+| prom | Creates and returns a new Promise in the standard ES6 syntax |
+| thenc | Add the .then and .catch methods to handle promises |
+| cas | If the specified expression is false, the message is written to the console along with a stack trace |
+| ccl | Clears the console |
+| cco | Writes the the number of times that count() has been invoked at the same line and with the same label |
+| cdb | Displays a message in the console. Also display a blue right arrow icon along with the logged message in Safari |
+| cgr | Groups and indents all following output by an additional level, until console.groupEnd() is called. |
+| cge | Closes out the corresponding console.group(). |
+| clo | Displays an object in the console with its name |
+| ctr | Prints a stack trace from the point where the method was called |
+| clt | Displays tabular data as a table. |
+| cti | Sets starting point for execution time measurement |
+| cte | Sets end point for execution time measurement |
+| ci | Code snippet for \"console.info\" |
+| cl | Code snippet for \"console.log\" |
+| ce | Code snippet for \"console.error\" |
+| cw | Code snippet for \"console.warn\" |
+| cd | Code snippet for \"console.dir\" |
+| ae | Code snippet for \"addEventListener\" |
+| ac | Code snippet for \"appendChild\" |
+| rc | Code snippet for \"removeChild\" |
+| cel | Code snippet for \"createElement\" |
+| cdf | Code snippet for \"createDocumentFragment\" |
+| ca | Code snippet for \"classList.add\" |
+| ct | Code snippet for \"classList.toggle\" |
+| cr | Code snippet for \"classList.remove\" |
+| gi | Code snippet for \"getElementById\" |
+| gc | Code snippet for \"getElementsByClassName\" |
+| gt | Code snippet for \"getElementsByTagName\" |
+| ga | Code snippet for \"getAttribute\" |
+| sa | Code snippet for \"setAttribute\" |
+| ra | Code snippet for \"removeAttribute\" |
+| ih | Code snippet for \"innerHTML\" |
+| tc | Code snippet for \"textContent\" |
+| qs | Code snippet for \"querySelector\" |
+| qsa | Code snippet for \"querySelectorAll\" |
+| fl | for loop |
+| rfl | reverse for loop |
+| fi | for in loop |
+| fo | for of loop (ES6) |
+| wl | while loop |
+| f | anonymous function |
+| fn | named function |
+| iife | immediately-invoked function expression (IIFE) |
+| fa | function apply |
+| fc | function call |
+| fb | function bind |
+| af | arrow function (ES6) |
+| afb | arrow function with body (ES6) |
+| gf | generator function (ES6) |
+| gfn | named generator function (ES6) |
+| seq | sequence of 0..n |
+| fe | forEach loop |
 | map | map |
 | reduce | reduce |
 | filter | filter |
 | find | find |
-| jp | 'JSON.parse' |
-| js | 'JSON.stringify' |
-| si | 'setInterval' |
-| st | 'setTimeout' |
-| us | 'use strict' |
-| al | 'alert' |
-| co | 'confirm' |
-| pm | 'prompt' |
-| ter | 三元运算符 |
-| de | "debugger" |
+| jp | Code snippet for 'JSON.parse' |
+| js | Code snippet for 'JSON.stringify' |
+| sti | Code snippet for 'setInterval' |
+| sto | Code snippet for 'setTimeout' |
+| us | Code snippet for 'use strict' |
+| al | Code snippet for 'alert' |
+| co | Code snippet for 'confirm' |
+| pm | Code snippet for 'prompt' |
+| ter | ternary operator |
+| de | Code snippet for \"debugger\" |
 
 
 ### JQ代码块

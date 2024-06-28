@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.24",
+  "version": "0.0.26",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -263,6 +263,14 @@
         "path": "./snippets/basic/css.json"
       },
       {
+        "language": "scss",
+        "path": "./snippets/basic/css.json"
+      },
+      {
+        "language": "less",
+        "path": "./snippets/basic/css.json"
+      },
+      {
         "language": "html",
         "path": "./snippets/basic/html.json"
       },
@@ -398,7 +406,7 @@
           "type": "object",
           "description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
           "default": {
-            "color": "#ff00ff"
+            "color": "#00ffff"
           }
         },
         "freedomAide.wxml-tagNoActiveArr": {
@@ -441,7 +449,7 @@
         "freedomAide.vue-supportedLanguages": {
           "type": "array",
           "default": [
-            ".vue"
+            "vue", "javascript", "typescript"
           ],
           "items": {
             "type": "string"
@@ -451,12 +459,12 @@
         "freedomAide.vue-targetFileExtensions": {
           "type": "array",
           "default": [
-            ".vue"
+            ".vue", ".js", ".ts"
           ],
           "items": {
             "type": "string"
           },
-          "description": "应尝试查找定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
+          "description": "应尝试查找的目标定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
         },
         "freedomAide.vue-arrowParens": {
           "type": "string",
@@ -483,7 +491,7 @@
             "cr"
           ],
           "default": "lf",
-          "markdownDescription": "指定Vue 3代码段使用的行的末尾.",
+          "markdownDescription": "指定Vue3代码段使用的行的末尾.",
           "scope": "resource"
         },
         "freedomAide.vue-htmlWhitespaceSensitivity": {

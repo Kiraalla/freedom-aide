@@ -96,3 +96,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.24]
 
  - 修复大量bug，大量大量大量……
+
+## [0.0.25]
+
+ - 再修一个bug
+
+## [0.0.26]
+
+ - 再修一个bug
