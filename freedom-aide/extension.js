@@ -74,7 +74,13 @@ function activate(context) {
     const start = new vscode.Position(0, 0);
     const end = new vscode.Position(lineCount + 1, 0);
     const range = new vscode.Range(start, end);
-    const prettierText = prettier.format(text, { ...options, filepath });
+    let prettierText = prettier.format(text, { ...options, filepath });
+
+    // 追加规则：‘calc'与第一个';'之间所有的+、-、*、/、%符号两边都加上空格
+    prettierText = prettierText.replace(/calc\(([^;]+)\)/g, (match, p1) => {
+      return `calc(${p1.replace(/([+\-*/%])/g, ' $1 ').replace(/\s+/g, ' ')})`;
+    });
+    
     editor.edit((editBuilder, error) => {
       error && window.showErrorMessage(error);
       editBuilder.replace(range, prettierText);
@@ -564,7 +570,7 @@ function activate(context) {
 
   // 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
   vscode.commands.executeCommand('extension.getSetting');
-	vscode.commands.executeCommand('extension.vuePeek');
+  vscode.commands.executeCommand('extension.vuePeek');
   vscode.commands.executeCommand('extension.jumpDefinitionWxml');
   vscode.commands.executeCommand('extension.jumpDefinitionJson');
   vscode.commands.executeCommand('extension.jumpDefinitionWxmlItem');
