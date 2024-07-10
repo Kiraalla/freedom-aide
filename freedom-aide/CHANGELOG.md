@@ -108,3 +108,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.27]
 
  - 再修一个bug...
+
+## [0.0.28]
+
+ - 再修一个bug...(这次是一个小bug，接下来将进入一个稳定的阶段。)

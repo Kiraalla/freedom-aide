@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -70,6 +70,15 @@
           "Vue-PostCSS",
           "Vue-POSTCSS",
           "vue-postcss"
+        ],
+        "configuration": "./languages/vue-postcss-language-configuration.json"
+      },
+      {
+        "id": "vue-css",
+        "aliases": [
+          "Vue-CSS",
+          "Vue-Css",
+          "vue-css"
         ],
         "configuration": "./languages/vue-postcss-language-configuration.json"
       }
@@ -449,7 +458,9 @@
         "freedomAide.vue-supportedLanguages": {
           "type": "array",
           "default": [
-            "vue", "javascript", "typescript"
+            "vue",
+            "javascript",
+            "typescript"
           ],
           "items": {
             "type": "string"
@@ -459,7 +470,9 @@
         "freedomAide.vue-targetFileExtensions": {
           "type": "array",
           "default": [
-            ".vue", ".js", ".ts"
+            ".vue",
+            ".js",
+            ".ts"
           ],
           "items": {
             "type": "string"
