@@ -112,3 +112,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.28]
 
  - 再修一个bug...(这次是一个小bug，接下来将进入一个稳定的阶段。)
+
+## [0.0.29]
+
+ - 优化一下代码块，vue文件中无法应用js的基础代码块，现在可以了。(对照表没有更新，但代码块可以正常对照使用)
+ - vue文件的style内的calc计算属性中的%符号会在格式化时添加空格引起错误，现在修复了。

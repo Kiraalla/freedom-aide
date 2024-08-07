@@ -78,7 +78,7 @@ function activate(context) {
 
     // 追加规则：‘calc'与第一个';'之间所有的+、-、*、/、%符号两边都加上空格
     prettierText = prettierText.replace(/calc\(([^;]+)\)/g, (match, p1) => {
-      return `calc(${p1.replace(/([+\-*/%])/g, ' $1 ').replace(/\s+/g, ' ')})`;
+      return `calc(${p1.replace(/([+\-*/])/g, ' $1 ').replace(/\s+/g, ' ')})`;
     });
     
     editor.edit((editBuilder, error) => {

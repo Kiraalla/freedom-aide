@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -56,13 +56,6 @@
           "Vue-html"
         ],
         "configuration": "./languages/vue-html-language-configuration.json"
-      },
-      {
-        "id": "vue-js",
-        "aliases": [
-          "Vue-js"
-        ],
-        "configuration": "./languages/vue-js-language-configuration.json"
       },
       {
         "id": "vue-postcss",
@@ -212,12 +205,10 @@
           ],
           "source.stylus": "stylus",
           "source.js": [
-            "javascript",
-            "vue-js"
+            "javascript"
           ],
           "source.ts": [
             "typescript",
-            "vue-js",
             "javascript"
           ],
           "source.coffee": "coffeescript",
@@ -284,6 +275,10 @@
         "path": "./snippets/basic/html.json"
       },
       {
+        "language": "jade",
+        "path": "./snippets/basic/pug.json"
+      },
+      {
         "language": "javascript",
         "path": "./snippets/basic/javascript.json"
       },
@@ -291,10 +286,8 @@
         "language": "javascript",
         "path": "./snippets/basic/jq.json"
       },
-      {
-        "language": "jade",
-        "path": "./snippets/basic/pug.json"
-      },
+
+
       {
         "language": "html",
         "path": "./snippets/layui/layui-html.json"
@@ -303,6 +296,8 @@
         "language": "javascript",
         "path": "./snippets/layui/layui-jq.json"
       },
+
+
       {
         "language": "wxml",
         "path": "./snippets/weapp/miniprogram-wxml.json"
@@ -311,10 +306,8 @@
         "language": "javascript",
         "path": "./snippets/weapp/miniprogram-js.json"
       },
-      {
-        "language": "html",
-        "path": "./snippets/vant/vant-html.json"
-      },
+
+
       {
         "language": "wxml",
         "path": "./snippets/vant/vant-wxml.json"
@@ -324,28 +317,22 @@
         "path": "./snippets/vant/vant-json.json"
       },
       {
-        "language": "javascript",
-        "path": "./snippets/vant/vant-js.json"
-      },
-      {
-        "language": "vue",
-        "path": "./snippets/vant/vant-vue.json"
+        "language": "html",
+        "path": "./snippets/vant/vant-html.json"
       },
       {
         "language": "vue-html",
         "path": "./snippets/vant/vant-html.json"
       },
       {
-        "language": "vue-js",
-        "path": "./snippets/vant/vant-js.json"
+        "language": "vue",
+        "path": "./snippets/vant/vant-vue.json"
       },
+
+      
       {
         "language": "html",
         "path": "./snippets/vue/html.json"
-      },
-      {
-        "language": "vue",
-        "path": "./snippets/vue/vue.json"
       },
       {
         "language": "vue-html",
@@ -356,12 +343,16 @@
         "path": "./snippets/vue/vue-html.json"
       },
       {
-        "language": "vue-js",
-        "path": "./snippets/vue/javascript.json"
+        "language": "vue",
+        "path": "./snippets/basic/javascript.json"
       },
       {
-        "language": "vue-js",
-        "path": "./snippets/vue/vue-js.json"
+        "language": "vue",
+        "path": "./snippets/vue/vue-1.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue/vue-2.json"
       }
     ],
     "keybindings": [
@@ -514,7 +505,7 @@
             "strict",
             "ignore"
           ],
-          "default": "css",
+          "default": "ignore",
           "markdownDescription": "指定HTML文件的全局空白敏感度。\n有效选项：\n-`css`-尊重css显示属性的默认值。\n-`strict`-空格被认为是敏感的。\n-`ignores`-空格被认为是不敏感的.",
           "scope": "resource"
         },
