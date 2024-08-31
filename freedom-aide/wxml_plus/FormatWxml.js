@@ -8,11 +8,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 const cny_js_beautify_1 = require("cny_js_beautify");
+
 class FormatWxml {
   init() {
     this.editor = vscode_1.window.activeTextEditor;
-    if (!this.editor)
-      throw new Error('no active editor');
+    if (!this.editor) throw new Error('no active editor');
     if (this.editor.document.languageId === 'wxml') {
       const doc = this.editor.document;
       const text = this.beauty(doc.getText());
@@ -20,74 +20,61 @@ class FormatWxml {
       this.writeToFile(text);
     }
   }
+
   getConfig() {
-    let wxmlFormatConf = vscode_1.workspace
-      .getConfiguration('freedomAide')
-      .get('format', {});
-    if (!wxmlFormatConf) {
-      return;
-    }
-    return wxmlFormatConf;
+    return vscode_1.workspace.getConfiguration('freedomAide').get('format', {});
   }
+
   beauty(text) {
-    // 使用正则表达式匹配style属性
-    const styleRegex = /style\s*=\s*["']([^"']*)["']/g;
-    let match;
-    let formattedText = text;
-
-    while ((match = styleRegex.exec(text)) !== null) {
-      const originalStyle = match[1];
-      const formattedStyle = this.formatStyle(originalStyle);
-      formattedText = formattedText.replace(originalStyle, formattedStyle);
-    }
-
-    // 确保{{}}内部的内容与其保持一个字符的距离
-    const variableRegex = /({{)(.*?)(}})/g;
-    formattedText = formattedText.replace(variableRegex, (match, p1, p2, p3) => {
-      return `${p1} ${p2.trim()} ${p3}`;
-    });
-
-    // 避免在show?后面添加;
-    formattedText = formattedText.replace(/(\?)\s*;/g, '$1');
-
-    // 避免在}}后面添加;
-    formattedText = formattedText.replace(/(\}\})\s*;/g, '$1');
-
-    let str = cny_js_beautify_1.html(formattedText, this.getConfig());
-    return `${str}\n`;
+    const formattedText = this.formatStyles(text);
+    const finalText = this.formatVariables(formattedText);
+    const beautifiedText = cny_js_beautify_1.html(finalText, this.getConfig());
+    return `${beautifiedText}\n`;
   }
+
+  formatStyles(text) {
+    const styleRegex = /style\s*=\s*["']([^"']*)["']/g;
+    return text.replace(styleRegex, (match, originalStyle) => {
+      const formattedStyle = this.formatStyle(originalStyle);
+      return match.replace(originalStyle, formattedStyle);
+    });
+  }
+
   formatStyle(style) {
     const properties = style.split(';').filter(prop => prop.trim() !== '');
-    const formattedProperties = properties.map(prop => {
+    return properties.map(prop => {
       const [name, value] = prop.split(':').map(part => part.trim());
-      if (name && value) {
-        const formattedValue = this.formatCalc(value);
-        return `${name}: ${formattedValue}`;
-      }
-      return prop;
-    });
-    return formattedProperties.join('; ') + ';';
+      return name && value ? `${name}: ${this.formatCalc(value)}` : prop;
+    }).join('; ') + ';';
   }
-  formatCalc(value) {
-    // 确保 value 是字符串
-    value = String(value);
 
+  formatCalc(value) {
+    value = String(value);
     if (value.startsWith('calc(') && value.endsWith(')')) {
       const calcExpression = value.slice(5, -1).trim();
-      const formattedCalcExpression = calcExpression.split(/\s*([\+\-\*\/])\s*/).join(' ');
-      return `calc(${formattedCalcExpression})`;
+      return `calc(${calcExpression.split(/\s*([\+\-\*\/])\s*/).join(' ')})`;
     }
     return value;
   }
 
+  formatVariables(text) {
+    return text.replace(/({{)(.*?)(}})/g, (match, p1, p2, p3) => `${p1} ${p2.trim()} ${p3}`)
+      .replace(/(\?)\s*;/g, '$1');
+  }
+
   writeToFile(str) {
-    let start = new vscode_1.Position(0, 0);
-    let end = new vscode_1.Position(this.lineNumber + 1, 0);
-    let range = new vscode_1.Range(start, end);
-    this.editor.edit((editBuilder, error) => {
-      error && vscode_1.window.showErrorMessage(error);
-      editBuilder.replace(range, str);
-    });
+    const start = new vscode_1.Position(0, 0);
+    const end = new vscode_1.Position(this.lineNumber + 1, 0);
+    const range = new vscode_1.Range(start, end);
+    this.editor.edit(editBuilder => editBuilder.replace(range, str))
+      .then(success => {
+        if (!success) {
+          vscode_1.window.showErrorMessage('Failed to write to file');
+        }
+      }, error => {
+        vscode_1.window.showErrorMessage(error);
+      });
   }
 }
+
 exports.default = FormatWxml;

@@ -123,3 +123,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
  - 优化一下代码块，text标签有时候不需要添加类名，且不需要换行，现在通过text可以添加无类名的text标签，通过textc可以添加有类名的text标签，且换行。
  - 修复bug，修复了wxml中的style标签的格式化问题，它错误地将三元表达式的?后面追加了一个分号，且在{{}}后面也会追加分号，现在修复了。
  - 修复bug，在微信小程序中，创建页面时自动追加路径到app.js的pages中，但在分包里创建页面路径还是会追加到主包的pages中，现在修复了。在对应分包的pages上右键创建页面时，会自动选择分包的pages。
+
+## [0.0.31]
+
+ - 小优化
