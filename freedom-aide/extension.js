@@ -80,7 +80,7 @@ function activate(context) {
     prettierText = prettierText.replace(/calc\(([^;]+)\)/g, (match, p1) => {
       return `calc(${p1.replace(/([+\-*/])/g, ' $1 ').replace(/\s+/g, ' ')})`;
     });
-    
+
     editor.edit((editBuilder, error) => {
       error && window.showErrorMessage(error);
       editBuilder.replace(range, prettierText);
@@ -260,36 +260,43 @@ function activate(context) {
       // 获取当前工作区文件夹
       const workspaceFolders = vscode.workspace.workspaceFolders;
       let relativePath = vscode.workspace.asRelativePath(pageFolderUri);
-      // 找到 pages 文件夹在相对路径中的位置
-      const pagesIndex = relativePath.indexOf('pages');
-      if (pagesIndex !== -1) {
-        // 截取 pages 文件夹后面的部分作为相对路径
-        relativePath = relativePath.slice(pagesIndex);
+      let path_parts = relativePath.split("pages/")
+      let before_pages = ''
+      if (path_parts.length > 1) {
+        before_pages = path_parts[0].replace(/\/$/, "")
       }
+      let after_pages = "pages/" + path_parts[1]
+
       // 假设您只有一个工作区文件夹，您可以根据自己的需求进行适当的更改
       const workspaceFolderUri = workspaceFolders[0].uri;
-
-      // 创建页面文件夹的 URI
-      const pagePath = `${relativePath}/index`;
-
       // 读取 app.json 文件内容
       const appJsonUri = vscode.Uri.joinPath(workspaceFolderUri, 'app.json');
       const appJsonContent = await vscode.workspace.fs.readFile(appJsonUri);
-
+      console.log(appJsonContent.toString());
       // 解析 app.json 文件内容
       const appJson = JSON.parse(appJsonContent.toString());
 
-      // 如果 app.json 中已存在相同路径，则不重复添加
-      if (!appJson.pages.includes(pagePath)) {
-        // 将页面路径添加到 app.json 中的 pages 字段
-        appJson.pages.push(pagePath);
-
-        // 将更新后的 app.json 内容写入文件
-        await vscode.workspace.fs.writeFile(appJsonUri, Buffer.from(JSON.stringify(appJson, null, 2)));
-        vscode.window.showInformationMessage(`路径"${pagePath}" 已添加到 app.json 中`);
-      } else {
-        vscode.window.showInformationMessage(`app.json 中已存在页面路径"${pagePath}"`);
+      // 添加到 pages 数组中
+      if (before_pages === '') {
+        if (!appJson.pages.includes(after_pages)) {
+          appJson.pages.push(after_pages);
+        }
       }
+
+      // 遍历 subPackages
+      if (appJson.subPackages) {
+        appJson.subPackages.forEach(subPackage => {
+          if (subPackage.root === before_pages && !subPackage.pages.includes(after_pages)) {
+            subPackage.pages.push(after_pages);
+          } else {
+            vscode.window.showInformationMessage(`app.json 中分包${before_pages}已存在页面路径"${after_pages}"`);
+          }
+
+        });
+      }
+      // 将更新后的 app.json 内容写入文件
+      await vscode.workspace.fs.writeFile(appJsonUri, Buffer.from(JSON.stringify(appJson, null, 2)));
+      vscode.window.showInformationMessage(`路径"${after_pages}" 已添加到 app.json 中`);
     }
   })
   registerCommand(context, 'extension.createdTools', async (resource) => {

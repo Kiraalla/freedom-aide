@@ -47,6 +47,11 @@ class FormatWxml {
       return `${p1} ${p2.trim()} ${p3}`;
     });
 
+    // 避免在show?后面添加;
+    formattedText = formattedText.replace(/(\?)\s*;/g, '$1');
+
+    // 避免在}}后面添加;
+    formattedText = formattedText.replace(/(\}\})\s*;/g, '$1');
 
     let str = cny_js_beautify_1.html(formattedText, this.getConfig());
     return `${str}\n`;
@@ -55,8 +60,11 @@ class FormatWxml {
     const properties = style.split(';').filter(prop => prop.trim() !== '');
     const formattedProperties = properties.map(prop => {
       const [name, value] = prop.split(':').map(part => part.trim());
-      const formattedValue = this.formatCalc(value);
-      return `${name}: ${formattedValue}`;
+      if (name && value) {
+        const formattedValue = this.formatCalc(value);
+        return `${name}: ${formattedValue}`;
+      }
+      return prop;
     });
     return formattedProperties.join('; ') + ';';
   }

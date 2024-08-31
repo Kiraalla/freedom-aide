@@ -89,6 +89,13 @@
   "text": {
     "prefix": "text",
     "body": [
+      "<text> ${1} </text>"
+    ],
+    "description": "文本"
+  },
+  "textc": {
+    "prefix": "textc",
+    "body": [
       "<text class=\"${1}\">",
       "\t${2}",
       "</text>"
@@ -164,7 +171,11 @@
   },
   "label": {
     "prefix": "label",
-    "body": ["<label class=\"${1}\" for=\"${2}\">", "\t${3}", "</label>"],
+    "body": [
+      "<label class=\"${1}\" for=\"${2}\">",
+      "\t${3}",
+      "</label>"
+    ],
     "description": "用来改进表单组件的可用性，使用for属性找到对应的id，或者将控件放在该标签下，当点击时，就会触发对应的控件。for优先级高于内部控件，内部有多个控件的时候默认触发第一个控件。目前可以绑定的控件有<button/>、<checkbox/>、<radio/>、<switch/>"
   },
   "picker": {
@@ -188,12 +199,20 @@
   },
   "picker-view-column": {
     "prefix": "picker-view-column",
-    "body": ["<picker-view-column>", "\t${1}", "</picker-view-column>"],
+    "body": [
+      "<picker-view-column>",
+      "\t${1}",
+      "</picker-view-column>"
+    ],
     "description": "仅可放置于<picker-view />中 其孩子节点的高度会自动设置成与picker-view的选中框的高度一致"
   },
   "radio-group": {
     "prefix": "radio-group",
-    "body": ["<radio-group bindchange=\"${1}\">", "\t${2}", "</radio-group>"],
+    "body": [
+      "<radio-group bindchange=\"${1}\">",
+      "\t${2}",
+      "</radio-group>"
+    ],
     "description": "单项选择器 内部由多个<radio/>组成"
   },
   "radio": {
@@ -263,10 +282,17 @@
     ],
     "description": "音频。1.6.0 版本开始，该组件不再维护"
   },
+  "img": {
+    "prefix": "img",
+    "body": [
+      "<image src=\"${0}\" class=\"${3|img-pic,img-avatar,img-icon|}\" mode=\"${1|scaleToFill,widthFix|}\"${2| lazy-load=\"true\" , |}/>"
+    ],
+    "description": "图片。默认宽度300px、高度225px。image组件中二维码/小程序码图片不支持长按识别"
+  },
   "image": {
     "prefix": "image",
     "body": [
-      "<image class=\"${1}\" src=\"${2}\" mode=\"${3:aspectFit|aspectFill|widthFix}\" lazy-load=\"${4:false}\" binderror=\"${5}\" bindload=\"${6}\">",
+      "<image class=\"${1}\" src=\"${2}\" mode=\"${3:|aspectFit,aspectFill,widthFix|}\" lazy-load=\"${4:false}\" binderror=\"${5}\" bindload=\"${6}\">",
       "\t${7}",
       "</image>"
     ],
@@ -314,7 +340,6 @@
     ],
     "description": "实时音视频录制。需要用户授权 scope.camera、scope.record。默认宽度为100%、无默认高度，请通过wxss设置宽高"
   },
-
   "map": {
     "prefix": "map",
     "body": [
@@ -340,7 +365,9 @@
   },
   "web-view": {
     "prefix": "web-view",
-    "body": ["<web-view src=\"${1}\" bindmessage=\"${2}\"></web-view>"],
+    "body": [
+      "<web-view src=\"${1}\" bindmessage=\"${2}\"></web-view>"
+    ],
     "description": "可以用来承载网页的容器，会自动铺满整个小程序页面"
   },
   "ad": {
@@ -352,7 +379,11 @@
   },
   "block": {
     "prefix": "block",
-    "body": ["<block wx:for=\"{{${1:items}}}\">", "\t${2}", "</block>"],
+    "body": [
+      "<block wx:for=\"{{${1:items}}}\">",
+      "\t${2}",
+      "</block>"
+    ],
     "description": "block标签，不是组件，只是包装元素，不会在页面中做任何渲染，只接受控制属性"
   }
 }
