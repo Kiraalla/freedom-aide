@@ -22,13 +22,28 @@ class FormatWxml {
   }
 
   getConfig() {
-    return vscode_1.workspace.getConfiguration('freedomAide').get('format', {});
+    const userConfig = vscode_1.workspace.getConfiguration('freedomAide');
+    return {
+      ...userConfig.get('format', {}),
+      // 添加缩进配置，默认为2个空格
+      indentSize: userConfig.get('indentSize', 2),
+      indentChar: userConfig.get('indentChar', ' ')
+    };
   }
 
   beauty(text) {
     const formattedText = this.formatStyles(text);
     const finalText = this.formatVariables(formattedText);
-    const beautifiedText = cny_js_beautify_1.html(finalText, this.getConfig());
+    const userConfig = this.getConfig();
+    // 添加自定义配置来处理text标签和缩进
+    const config = {
+      ...userConfig,
+      indent_size: userConfig.indentSize,
+      indent_char: userConfig.indentChar,
+      unformatted: ['text'], // 保持text标签内容在同一行
+      inline: ['text']       // 将text标签视为行内元素
+    };
+    const beautifiedText = cny_js_beautify_1.html(finalText, config);
     return `${beautifiedText}\n`;
   }
 
@@ -42,10 +57,11 @@ class FormatWxml {
 
   formatStyle(style) {
     const properties = style.split(';').filter(prop => prop.trim() !== '');
+    // 在属性之间添加分号和空格
     return properties.map(prop => {
       const [name, value] = prop.split(':').map(part => part.trim());
       return name && value ? `${name}: ${this.formatCalc(value)}` : prop;
-    }).join('; ') + ';';
+    }).join('; '); 
   }
 
   formatCalc(value) {

@@ -127,3 +127,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.31]
 
  - 小优化
+
+## [0.0.32]
+
+ - 优化wxml格式化功能，text标签现在会作为行盒，不再换行。行内style属性也不会在末尾追加分号。
+ - 新增了缩进配置项，默认2空格。

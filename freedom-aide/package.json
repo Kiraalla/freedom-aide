@@ -2,7 +2,7 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "publisher": "kira0522",
   "icon": "./logo.jpg",
   "engines": {
@@ -372,6 +372,17 @@
     "configuration": {
       "title": "freedom-aide",
       "properties": {
+        "freedomAide.indentSize": {
+          "type": "number",
+          "default": 2,
+          "description": "控制格式化时的缩进空格数"
+        },
+        "freedomAide.indentChar": {
+          "type": "string",
+          "default": " ",
+          "description": "控制格式化时的缩进字符，空格或tab",
+          "enum": [" ", "\t"]
+        },
         "freedomAide.wxml-format": {
           "type": "object",
           "description": "wxml格式化的属性。无特殊说明的配置的属性可以这里看https://github.com/beautify-web/js-beautify",
