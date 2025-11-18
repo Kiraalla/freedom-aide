@@ -132,3 +132,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
  - 优化wxml格式化功能，text标签现在会作为行盒，不再换行。行内style属性也不会在末尾追加分号。
  - 新增了缩进配置项，默认2空格。
+
+ ## [0.0.33]
+
+ - 修复bug，添加小程序页面时，app.json中注入的页面路径缺少/index的部分，现在添加上。
+
+## [Unreleased] - 2025-11-18
+
+- 新增配置 `freedomAide.wxml-attrs-single-line`：控制标签属性是否保持单行（`true` 表示尽量单行，`false` 或未设置使用默认策略：4 个及以上属性换行）。
+- 移除已弃用的旧配置 `freedomAide.wxml-attrs-multiline` 并清理相关兼容代码。

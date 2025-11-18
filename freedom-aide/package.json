@@ -2,8 +2,8 @@
   "name": "freedom-aide",
   "displayName": "自由の助手",
   "description": "",
-  "version": "0.0.32",
-  "publisher": "kira0522",
+  "version": "0.0.34",
+  "publisher": "Kiraalla",
   "icon": "./logo.jpg",
   "engines": {
     "vscode": "^1.88.0"
@@ -403,6 +403,23 @@
             "wrap_attributes": "force-expand-multiline"
           }
         },
+        "freedomAide.wxml-preserve-start-tag": {
+          "type": "boolean",
+          "default": true,
+          "description": "在格式化时优先保留原始起始标签，仅替换其内部的 style 值（更保守，默认启用）"
+        },
+        "freedomAide.wxml-mustache-spacing": {
+          "type": "string",
+          "enum": ["space", "preserve", "nospace"],
+          "default": "space",
+          "description": "控制 mustache 表达式的空格风格：'space' 在花括号内部两侧添加空格（默认），但对展开运算符 `...` 保留无空格；'preserve' 保持原样；'nospace' 移除花括号两侧空白。"
+        },
+        "freedomAide.wxml-attrs-single-line": {
+          "type": "boolean",
+          "default": null,
+          "description": "是否将标签属性保持为单行。true: 所有属性保持在一行；false 或未设置: 使用默认策略（4个及以上属性换行）。"
+        },
+        
         "freedomAide.wxml-format-save-code": {
           "type": "boolean",
           "description": "是否开启保存自动格式化",
@@ -624,7 +641,9 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "format-samples": "node ./test/wxml_format_samples.js",
+    "test-format": "node ./test/wxml_format_samples_test.js"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
@@ -638,6 +657,16 @@
   "dependencies": {
     "cny_js_beautify": "^0.0.8",
     "prettier": "^2.2.1",
-    "recast": "^0.23.6"
+    "recast": "^0.23.6",
+    "htmlparser2": "^8.0.1"
+  }
+  ,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kiraalla/freedom-aide.git"
+  },
+  "homepage": "https://github.com/Kiraalla/freedom-aide",
+  "bugs": {
+    "url": "https://github.com/Kiraalla/freedom-aide/issues"
   }
 }

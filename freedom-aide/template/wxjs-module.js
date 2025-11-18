@@ -5,8 +5,8 @@ exports.moduleFile =`const options = {
   },
   behaviors: [],
   properties: {
-    customClass: { type: String, value: '' }, // 自定义样式类名，用于覆盖默认样式
-    customStyle: { type: String, value: '' }, // 自定义样式，用于覆盖默认样式
+    customClass: { type: String, value: '' }, // 自定义样式类名
+    customStyle: { type: String, value: '' }, // 自定义样式
   },
   // 组件数据
   data: {

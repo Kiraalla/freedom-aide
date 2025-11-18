@@ -9,6 +9,50 @@
    
 - 后续会添加更多功能
 
+**源码与发布**
+
+本扩展已迁移到 GitHub 托管，源码与 issue 请访问：
+
+- 仓库: https://github.com/Kiraalla/freedom-aide
+- Issue: https://github.com/Kiraalla/freedom-aide/issues
+
+之前在云效上的发布已停止。如需我在本地替你将远端 origin 切换为 GitHub 并推送，我可以尝试（需要你的 git 认证）。
+
+
+
+## 配置项
+
+- **freedomAide.wxml-format**: WXML 格式化的详细选项，参考 `js-beautify` 的 HTML 配置。
+- **freedomAide.wxml-preserve-start-tag** (boolean, 默认 `true`):
+	- 启用后格式化器将尽量保留每个标签的原始起始标签文本，仅在起始标签内部替换 `style` 属性的值（最小变更策略）。
+	- 禁用后（设为 `false`），格式化器会重新构建属性列表并按规范化规则输出属性（可能改变属性的空白/引号样式，但更统一）。
+
+
+
+- **freedomAide.wxml-attrs-single-line** (boolean，可选)：
+	- `true`：所有标签属性都在一行（不换行）。
+	- `false` 或未设置：保持默认策略（4个及以上属性换行，否则一行）。
+
+示例（settings.json）:
+
+```json
+{
+	"freedomAide.wxml-preserve-start-tag": true,
+	"freedomAide.wxml-attrs-single-line": true,
+	"freedomAide.indentSize": 2
+}
+```
+
+### 在 VS Code 设置界面修改扩展配置
+
+你可以通过 VS Code 的设置界面可视化地修改 `freedomAide` 的配置项：
+
+- 打开命令面板（`Ctrl+Shift+P` 或 `F1`），输入并选择 `Preferences: Open Settings (UI)`。
+- 在设置搜索框中输入 `freedomAide` 或直接输入 `wxml-preserve-start-tag`。
+- 在搜索结果里找到 **freedomAide: Wxml-preserve-start-tag**，切换开关即可启用/禁用“保留原始起始标签”策略。
+
+更改完毕后，保存的设置会立即生效（对于打开的文件，可能需要重新格式化或重新打开文件以看到效果）。
+
 
 (下面是代码块对照，Ctrl+F快速查找)
 

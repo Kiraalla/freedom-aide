@@ -265,7 +265,7 @@ function activate(context) {
       if (path_parts.length > 1) {
         before_pages = path_parts[0].replace(/\/$/, "")
       }
-      let after_pages = "pages/" + path_parts[1]
+      let after_pages = "pages/" + path_parts[1] + "/index"
 
       // 假设您只有一个工作区文件夹，您可以根据自己的需求进行适当的更改
       const workspaceFolderUri = workspaceFolders[0].uri;

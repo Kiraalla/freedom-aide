@@ -8,6 +8,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 const cny_js_beautify_1 = require("cny_js_beautify");
+const format_core_1 = require('./format_core');
 
 class FormatWxml {
   init() {
@@ -22,60 +23,85 @@ class FormatWxml {
   }
 
   getConfig() {
+    // 读取用户在 package.json 中定义的配置项
     const userConfig = vscode_1.workspace.getConfiguration('freedomAide');
-    return {
-      ...userConfig.get('format', {}),
-      // 添加缩进配置，默认为2个空格
-      indentSize: userConfig.get('indentSize', 2),
-      indentChar: userConfig.get('indentChar', ' ')
-    };
-  }
-
-  beauty(text) {
-    const formattedText = this.formatStyles(text);
-    const finalText = this.formatVariables(formattedText);
-    const userConfig = this.getConfig();
-    // 添加自定义配置来处理text标签和缩进
-    const config = {
-      ...userConfig,
-      indent_size: userConfig.indentSize,
-      indent_char: userConfig.indentChar,
-      unformatted: ['text'], // 保持text标签内容在同一行
-      inline: ['text']       // 将text标签视为行内元素
-    };
-    const beautifiedText = cny_js_beautify_1.html(finalText, config);
-    return `${beautifiedText}\n`;
-  }
-
-  formatStyles(text) {
-    const styleRegex = /style\s*=\s*["']([^"']*)["']/g;
-    return text.replace(styleRegex, (match, originalStyle) => {
-      const formattedStyle = this.formatStyle(originalStyle);
-      return match.replace(originalStyle, formattedStyle);
+    // 主要的格式化选项存放在 freedomAide.wxml-format
+    /** @type {*} */
+    const formatCfg = userConfig.get('wxml-format', {});
+    // 只保留下划线风格，避免类型混乱
+    const indent_size = (formatCfg.indent_size || formatCfg.indentSize) || userConfig.get('indentSize', 2);
+    const indent_char = (formatCfg.indent_char || formatCfg.indentChar) || userConfig.get('indentChar', ' ');
+    return Object.assign({}, formatCfg, {
+      indent_size,
+      indent_char,
+      // 保留原始起始标签策略（默认 true）
+      preserveStartTag: userConfig.get('wxml-preserve-start-tag', true),
+      // mustache 空格策略: 'space' | 'preserve' | 'nospace'
+      mustacheSpacing: userConfig.get('wxml-mustache-spacing', 'space'),
+      // 新增：属性单行控制（true => 所有属性尽量保持在一行；false/null => 默认策略）
+      attrsSingleLine: userConfig.get('wxml-attrs-single-line', null),
     });
   }
 
-  formatStyle(style) {
-    const properties = style.split(';').filter(prop => prop.trim() !== '');
-    // 在属性之间添加分号和空格
-    return properties.map(prop => {
-      const [name, value] = prop.split(':').map(part => part.trim());
-      return name && value ? `${name}: ${this.formatCalc(value)}` : prop;
-    }).join('; '); 
+  beauty(text) {
+    // 使用独立的 format_core 处理解析与格式化（更稳健）
+    const userConfig = this.getConfig();
+    // 在 core 中已经处理了 mustache mask/unmask 与 style 格式化
+    return format_core_1.formatWxmlText(text, userConfig);
   }
+
+  // 将所有 {{...}} 替换为占位符，并返回映射表
+  maskMustache(text) {
+    const map = [];
+    let idx = 0;
+    const masked = text.replace(/{{([\s\S]*?)}}/g, (match, inner) => {
+      const token = `__WXML_EXPR_${idx}__`;
+      map.push({ token, original: match });
+      idx++;
+      return token;
+    });
+    return { text: masked, map };
+  }
+
+  // 把占位符替换回原始 mustache
+  unmaskMustache(text, map) {
+    if (!map || !map.length) return text;
+    // 替换时按 token 长度降序，避免部分覆盖
+    map.slice().sort((a, b) => b.token.length - a.token.length).forEach(({ token, original }) => {
+      text = text.split(token).join(original);
+    });
+    return text;
+  }
+
+  // style 格式化已在 format_core 中实现并导出（如需要可复用）
+  formatStyle(style) {
+    return format_core_1.formatStyle(style);
+  }
+
 
   formatCalc(value) {
     value = String(value);
-    if (value.startsWith('calc(') && value.endsWith(')')) {
-      const calcExpression = value.slice(5, -1).trim();
-      return `calc(${calcExpression.split(/\s*([\+\-\*\/])\s*/).join(' ')})`;
+    const m = value.match(/^calc\(([\s\S]*)\)$/);
+    if (m) {
+      try {
+        const calcExpression = m[1].trim();
+        // 仅在简单运算符周围添加空格，保留其它内容原样
+        return `calc(${calcExpression.replace(/\s*([+\-*/%])\s*/g, ' $1 ')})`;
+      }
+      catch (e) {
+        return value;
+      }
     }
     return value;
   }
 
   formatVariables(text) {
-    return text.replace(/({{)(.*?)(}})/g, (match, p1, p2, p3) => `${p1} ${p2.trim()} ${p3}`)
-      .replace(/(\?)\s*;/g, '$1');
+    // 只对 mustache 内部进行空白合并，但不触碰表达式内容（例如不改变运算顺序或插入/删除运算符）
+    return text.replace(/{{([\s\S]*?)}}/g, (match, inner) => {
+      // 保留扩展语法 {{...obj}}，对内部连续空白进行合并
+      const trimmed = inner.replace(/\s+/g, ' ').trim();
+      return `{{ ${trimmed} }}`;
+    });
   }
 
   writeToFile(str) {

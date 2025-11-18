@@ -1,7 +1,7 @@
 exports.containerFile =`const options = {
   data: {
   },
-  onLoad(options) {
+  onLoad() {
   },
   onReady() {
   },
