@@ -1,8 +1,58 @@
 # Change Log
 
-All notable changes to the "creat-weapp-template" extension will be documented in this file.
+All notable changes to the "freedom-aide" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+
+## [0.1.0] - 2025-11-20
+
+### 🎉 重大更新
+- **版本里程碑**: 从0.0.x系列升级到0.1.0，标志着扩展进入稳定阶段
+- **统一格式化架构**: 重构格式化系统，为WXML和Vue文件提供统一的格式化体验
+
+### ✨ 新功能
+- **配置系统升级**: 
+  - 新增统一的Prettier格式化配置，还支持WXML和Vue文件的独立配置，独立会覆盖统一
+
+### 🛠 功能优化
+- **格式化改进**:
+  - WXML和vue都使用Prettier了！
+
+### 🐛 问题修复
+- 修复大量历史遗留bug，提升扩展稳定性
+
+### ⚠️ 废弃配置
+以下配置项已废弃，请使用新的统一配置：
+
+**废弃的配置项**:
+- `freedomAide.wxml-format` (旧版WXML格式化配置)
+- `freedomAide.wxml-preserve-start-tag` (旧版标签保留配置)
+- 有点多，建议删了....
+
+**替代配置**:
+请使用新的统一配置项：
+```json
+{
+  "freedomAide.prettierOptions": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": false,
+    "singleAttributePerLine": false,
+    "bracketSameLine": false,
+    "htmlWhitespaceSensitivity": "ignore"
+  },
+  "freedomAide.mustacheSpacing": "space"
+}
+```
+
+## [历史版本]
+
+<details>
+<summary>点击展开历史版本记录</summary>
+
+[这里保留之前的所有版本记录内容]
 
 ## [0.0.1]
 
@@ -137,7 +187,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
  - 修复bug，添加小程序页面时，app.json中注入的页面路径缺少/index的部分，现在添加上。
 
-## [Unreleased] - 2025-11-18
-
-- 新增配置 `freedomAide.wxml-attrs-single-line`：控制标签属性是否保持单行（`true` 表示尽量单行，`false` 或未设置使用默认策略：4 个及以上属性换行）。
-- 移除已弃用的旧配置 `freedomAide.wxml-attrs-multiline` 并清理相关兼容代码。
+</details>

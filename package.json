@@ -1,0 +1,431 @@
+{
+  "name": "freedom-aide",
+  "displayName": "自由の助手",
+  "description": "",
+  "icon": "./logo.jpg",
+  "main": "./extension.js",
+  "version": "0.1.0",
+  "publisher": "Kiraalla",
+  "homepage": "https://github.com/Kiraalla/freedom-aide",
+  "bugs": {
+    "url": "https://github.com/Kiraalla/freedom-aide/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "keywords": [
+    "wxml",
+    "小程序",
+    "mini",
+    "wechat",
+    "weapp",
+    "js",
+    "jq",
+    "vue",
+    "vant",
+    "layui"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:wxml"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "wxml",
+        "extensions": [
+          ".wxml"
+        ],
+        "aliases": [
+          "WXML",
+          "wxml"
+        ]
+      },
+      {
+        "id": "vue",
+        "aliases": [
+          "Vue",
+          "vue"
+        ],
+        "extensions": [
+          ".vue"
+        ],
+        "configuration": "./languages/vue-language-configuration.json"
+      },
+      {
+        "id": "vue-html",
+        "aliases": [
+          "Vue-html"
+        ],
+        "configuration": "./languages/vue-html-language-configuration.json"
+      },
+      {
+        "id": "vue-postcss",
+        "aliases": [
+          "Vue-PostCSS",
+          "Vue-POSTCSS",
+          "vue-postcss"
+        ],
+        "configuration": "./languages/vue-postcss-language-configuration.json"
+      },
+      {
+        "id": "vue-css",
+        "aliases": [
+          "Vue-CSS",
+          "Vue-Css",
+          "vue-css"
+        ],
+        "configuration": "./languages/vue-postcss-language-configuration.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.createMiniappModule",
+        "title": "创建小程序组件"
+      },
+      {
+        "command": "extension.createMiniappPage",
+        "title": "创建小程序页面"
+      },
+      {
+        "command": "extension.createdHtml",
+        "title": "创建HTML文件模板"
+      },
+      {
+        "command": "extension.createdVue2",
+        "title": "创建Vue2文件模板"
+      },
+      {
+        "command": "extension.createdVue3",
+        "title": "创建Vue3文件模板"
+      },
+      {
+        "command": "extension.createdVuex",
+        "title": "创建Vuex文件模板"
+      },
+      {
+        "command": "extension.createdPinia",
+        "title": "创建Pinia文件模板"
+      },
+      {
+        "command": "extension.createdService",
+        "title": "创建Service文件模板"
+      },
+      {
+        "command": "extension.createdTools",
+        "title": "创建Tools文件模板"
+      },
+      {
+        "command": "extension.formatUnified",
+        "title": "格式化文档 (WXML/Vue)"
+      },
+      {
+        "when": "editorLangId == vue",
+        "command": "extension.formatvue",
+        "title": "Vue 格式化"
+      },
+      {
+        "when": "editorLangId == wxml",
+        "command": "extension.formatwxml",
+        "title": "Wxml 格式化"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "extension.createdHtml",
+          "when": "resourceScheme == 'file'",
+          "group": "1_creatTools"
+        },
+        {
+          "command": "extension.createdVue2",
+          "when": "resourceScheme == 'file'",
+          "group": "1_creatTools"
+        },
+        {
+          "command": "extension.createdVue3",
+          "when": "resourceScheme == 'file'",
+          "group": "1_creatTools"
+        },
+        {
+          "command": "extension.createdPinia",
+          "when": "resourceScheme == 'file'",
+          "group": "2_creatTools"
+        },
+        {
+          "command": "extension.createdVuex",
+          "when": "resourceScheme == 'file'",
+          "group": "2_creatTools"
+        },
+        {
+          "command": "extension.createdService",
+          "when": "resourceScheme == 'file'",
+          "group": "2_creatTools"
+        },
+        {
+          "command": "extension.createMiniappModule",
+          "when": "resourceScheme == 'file'",
+          "group": "3_creatTemplate"
+        },
+        {
+          "command": "extension.createMiniappPage",
+          "when": "resourceScheme == 'file'",
+          "group": "3_creatTemplate"
+        },
+        {
+          "command": "extension.createdTools",
+          "when": "resourceScheme == 'file'",
+          "group": "4_creatTools"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "extension.formatUnified",
+          "when": "editorLangId == wxml || editorLangId == vue"
+        }
+      ]
+    },
+    "grammars": [
+      {
+        "language": "vue",
+        "scopeName": "source.vue",
+        "path": "./syntaxes/vue/vue-generated.json",
+        "embeddedLanguages": {
+          "text.html.basic": "html",
+          "text.html.vue-html": "vue-html",
+          "text.jade.slm": "slm",
+          "text.pug": "jade",
+          "text.haml": "haml",
+          "text.slim": "slim",
+          "text.html.liquid": "liquid",
+          "source.css": "css",
+          "source.css.scss": [
+            "scss",
+            "css"
+          ],
+          "source.css.less": [
+            "less",
+            "css"
+          ],
+          "source.css.postcss": [
+            "vue-postcss",
+            "css"
+          ],
+          "source.sass": [
+            "sass",
+            "css"
+          ],
+          "source.stylus": "stylus",
+          "source.js": [
+            "javascript"
+          ],
+          "source.ts": [
+            "typescript",
+            "javascript"
+          ],
+          "source.coffee": "coffeescript",
+          "text.html.markdown": "md",
+          "source.yaml": "yaml",
+          "source.json": "json",
+          "source.php": "php",
+          "source.graphql": "graphql"
+        }
+      },
+      {
+        "language": "vue-postcss",
+        "scopeName": "source.css.postcss",
+        "path": "./syntaxes/vue/vue-postcss.json"
+      },
+      {
+        "language": "vue-html",
+        "scopeName": "text.html.vue-html",
+        "path": "./syntaxes/vue/vue-html.tmLanguage.json",
+        "embeddedLanguages": {
+          "source.js": "javascript"
+        }
+      },
+      {
+        "path": "./syntaxes/pug/directives.tmLanguage.json",
+        "scopeName": "vue.pug.directives",
+        "injectTo": [
+          "source.vue"
+        ]
+      },
+      {
+        "path": "./syntaxes/pug/interpolations.tmLanguage.json",
+        "scopeName": "vue.pug.interpolations",
+        "injectTo": [
+          "source.vue"
+        ]
+      },
+      {
+        "language": "wxml",
+        "scopeName": "text.wxml.basic",
+        "path": "./syntaxes/wxml/wxml.tmLanguage.json"
+      },
+      {
+        "language": "wxml",
+        "scopeName": "text.wxml.derivative",
+        "path": "./syntaxes/wxml/wxml-derivative.tmLanguage.json"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "editor.action.formatDocument",
+        "key": "shift+alt+f",
+        "mac": "shift+alt+f",
+        "when": "editorTextFocus && !editorReadonly && (editorLangId == wxml || editorLangId == vue)"
+      }
+    ],
+    "configuration": {
+      "title": "freedom-aide",
+      "properties": {
+        "freedomAide.mustacheSpacing": {
+          "type": "string",
+          "enum": [
+            "space",
+            "preserve",
+            "nospace"
+          ],
+          "default": "space",
+          "description": "控制 mustache 表达式的空格风格（适用于 WXML 和 Vue 文件）"
+        },
+        "freedomAide.prettierOptions": {
+          "type": "object",
+          "description": "Prettier 统一配置（适用于 Vue 和 WXML）",
+          "default": {
+            "printWidth": 80,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": false,
+            "singleQuote": false,
+            "singleAttributePerLine": false,
+            "bracketSameLine": false,
+            "htmlWhitespaceSensitivity": "ignore"
+          }
+        },
+        "freedomAide.vuePrettierOptions": {
+          "type": "object",
+          "description": "Vue 文件的 Prettier 独立配置",
+          "default": {}
+        },
+        "freedomAide.wxmlPrettierOptions": {
+          "type": "object",
+          "description": "WXML 文件的 Prettier 独立配置",
+          "default": {}
+        },
+        "freedomAide.vue-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否在保存 Vue 文件时自动触发格式化"
+        },
+        "freedomAide.wxml-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否在保存 WXML 文件时自动触发格式化"
+        },
+        "freedomAide.wxml-activeDisable": {
+          "type": "boolean",
+          "description": "是否禁用高亮组件",
+          "default": false
+        },
+        "freedomAide.wxml-activeColor": {
+          "type": "object",
+          "description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
+          "default": {
+            "color": "#00ffff"
+          }
+        },
+        "freedomAide.wxml-tagNoActiveArr": {
+          "type": "array",
+          "description": "高亮所忽略的组件数组",
+          "default": [
+            "view",
+            "scroll-view",
+            "swiper",
+            "movable-view",
+            "cover-view",
+            "text",
+            "icon",
+            "progress",
+            "rich-text",
+            "button",
+            "checkbox",
+            "form",
+            "input",
+            "label",
+            "picker",
+            "picker-view",
+            "radio",
+            "slider",
+            "switch",
+            "textarea",
+            "navigator",
+            "functional-page-navigator",
+            "image",
+            "audio",
+            "video",
+            "map",
+            "canvas",
+            "ad",
+            "official-account",
+            "open-data",
+            "web-vie"
+          ]
+        },
+        "freedomAide.vue-supportedLanguages": {
+          "type": "array",
+          "default": [
+            "vue",
+            "javascript",
+            "typescript"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "应使用扩展名的vscode语言名称列表"
+        },
+        "freedomAide.vue-targetFileExtensions": {
+          "type": "array",
+          "default": [
+            ".vue",
+            ".js",
+            ".ts"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "应尝试查找的目标定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test",
+    "format-samples": "node ./test/wxml_format_samples.js",
+    "test-format": "node ./test/wxml_format_samples_test.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.88.0",
+    "@vscode/test-cli": "^0.0.8",
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "prettier": "^2.2.1",
+    "recast": "^0.23.6",
+    "htmlparser2": "^8.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kiraalla/freedom-aide.git"
+  }
+}
