@@ -18,4 +18,3 @@ function saveFormat(wxml) {
     });
 }
 exports.default = saveFormat;
-//# sourceMappingURL=saveFormat.js.map

@@ -13,7 +13,7 @@ class ConfigManager {
    * @returns {object} 合并后的配置对象
    */
   static getMergedPrettierConfig(fileType) {
-    const config = vscode.workspace.getConfiguration('freedomAide');
+    const config = vscode.workspace.getConfiguration('freedomHelper');
     
     // 获取统一配置
     const unifiedOptions = config.get('prettierOptions', {});
@@ -36,7 +36,7 @@ class ConfigManager {
    * @returns {string} 空格模式：'space' | 'preserve' | 'nospace'
    */
   static getMustacheSpacingConfig() {
-    const config = vscode.workspace.getConfiguration('freedomAide');
+    const config = vscode.workspace.getConfiguration('freedomHelper');
     const mustacheSpacing = config.get('mustacheSpacing', 'space');
     return mustacheSpacing;
   }

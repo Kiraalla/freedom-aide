@@ -1,4 +1,4 @@
-### 自由の助手 v0.1.0
+### 自由助手 v0.1.0
 
 一个功能丰富的VS Code扩展，专为小程序和Vue开发设计，提供模板创建、代码格式化、代码块等强大功能。
 
@@ -12,6 +12,7 @@
 - **状态管理**: 创建Pinia、Vuex模块
 - **工具文件**: 快速创建工具类、Service层文件
 - **HTML模板**: 标准HTML页面模板
+- **属性输入优化**: 在wxml、vue、html中添加属性并键入等号时，每次都需要手动输入双引号，这样很麻烦，现在可以在输入`=`时补全`:""`了
 
 ### 代码格式化
 - **统一格式化器**: 为WXML和Vue文件提供一致的格式化体验
@@ -31,9 +32,9 @@
 ### 基础配置
 ```json
 {
-  "freedomAide.vue-format-save-code": false,
-  "freedomAide.wxml-format-save-code": false,
-  "freedomAide.prettierOptions": {
+  "freedomHelper.vue-format-save-code": false,
+  "freedomHelper.wxml-format-save-code": false,
+  "freedomHelper.prettierOptions": {
     "printWidth": 80,
       "tabWidth": 2,
       "useTabs": false,
@@ -49,7 +50,7 @@
 ### 格式化配置
 ```json
 {
-  "freedomAide.prettierOptions": {
+  "freedomHelper.prettierOptions": {
     "printWidth": 80,
     "tabWidth": 2,
     "useTabs": false,
@@ -59,15 +60,15 @@
     "bracketSameLine": false,
     "htmlWhitespaceSensitivity": "ignore"
   },
-  "freedomAide.mustacheSpacing": "space"
+  "freedomHelper.mustacheSpacing": "space"
 }
 ```
 
 ### Vue特定配置
 ```json
 {
-  "freedomAide.vue-supportedLanguages": ["vue", "javascript", "typescript"],
-  "freedomAide.vue-targetFileExtensions": [".vue", ".js", ".ts"]
+  "freedomHelper.vue-supportedLanguages": ["vue", "javascript", "typescript"],
+  "freedomHelper.vue-targetFileExtensions": [".vue", ".js", ".ts"]
 }
 ```
 
@@ -78,8 +79,8 @@
 ### 已废弃的配置项
 以下配置在v0.1.0中已废弃，将在未来版本中移除：
 
-- `freedomAide.wxml-format`
-- `freedomAide.wxml-preserve-start-tag` 
+- `freedomHelper.wxml-format`
+- `freedomHelper.wxml-preserve-start-tag` 
 - 有点多，建议删了....
 
 ### 迁移到新配置
@@ -88,15 +89,15 @@
 **之前**:
 ```json
 {
-  "freedomAide.wxml-preserve-start-tag": true,
-  "freedomAide.wxml-attrs-mode": "auto"
+  "freedomHelper.wxml-preserve-start-tag": true,
+  "freedomHelper.wxml-attrs-mode": "auto"
 }
 ```
 
 **现在**:
 ```json
 {
-  "freedomAide.prettierOptions": {
+  "freedomHelper.prettierOptions": {
     "singleAttributePerLine": false,
     "bracketSameLine": false
   }
@@ -108,7 +109,7 @@
 ## 📝 使用方法
 
 ### 命令面板
-通过 `Ctrl+Shift+P` (Windows) 或 `Cmd+Shift+P` (Mac) 打开命令面板，搜索"自由の助手"相关命令。
+通过 `Ctrl+Shift+P` (Windows) 或 `Cmd+Shift+P` (Mac) 打开命令面板，搜索"自由助手"相关命令。
 
 ### 右键菜单
 在资源管理器中右键点击文件夹，选择相应的创建模板选项。
@@ -122,7 +123,7 @@
 
 如果遇到任何问题或有功能建议，请通过以下方式反馈：
 
-- GitHub Issues: [https://github.com/Kiraalla/freedom-aide/issues](https://github.com/Kiraalla/freedom-aide/issues)
+- GitHub Issues: [https://github.com/Kiraalla/freedom-helper/issues](https://github.com/Kiraalla/freedom-helper/issues)
 
 ---
 
@@ -138,6 +139,7 @@
 | fs     | 文字样式                                                                            |
 | ov1    | 文字省略                                                                            |
 | ov2    | 文字省略-多行                                                                       |
+| rela   | 相对定位                                                                  |
 | posl0  | 绝对定位-上左                                                                       |
 | poscx  | 绝对定位-左右居中                                                                   |
 | poscy  | 绝对定位-上下居中                                                                   |

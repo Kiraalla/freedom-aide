@@ -48,4 +48,3 @@ class PeekFileDefinitionProvider {
     }
 }
 exports.default = PeekFileDefinitionProvider;
-//# sourceMappingURL=PeekFileDefinitionProvider.js.map

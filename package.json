@@ -1,14 +1,14 @@
 {
-  "name": "freedom-aide",
-  "displayName": "自由の助手",
+  "name": "freedom-helper",
+  "displayName": "自由助手",
   "description": "",
   "icon": "./logo.jpg",
   "main": "./extension.js",
   "version": "0.1.0",
   "publisher": "Kiraalla",
-  "homepage": "https://github.com/Kiraalla/freedom-aide",
+  "homepage": "https://github.com/Kiraalla/freedom-helper",
   "bugs": {
-    "url": "https://github.com/Kiraalla/freedom-aide/issues"
+    "url": "https://github.com/Kiraalla/freedom-helper/issues"
   },
   "license": "MIT",
   "engines": {
@@ -281,9 +281,9 @@
       }
     ],
     "configuration": {
-      "title": "freedom-aide",
+      "title": "freedom-helper",
       "properties": {
-        "freedomAide.mustacheSpacing": {
+        "freedomHelper.mustacheSpacing": {
           "type": "string",
           "enum": [
             "space",
@@ -293,7 +293,7 @@
           "default": "space",
           "description": "控制 mustache 表达式的空格风格（适用于 WXML 和 Vue 文件）"
         },
-        "freedomAide.prettierOptions": {
+        "freedomHelper.prettierOptions": {
           "type": "object",
           "description": "Prettier 统一配置（适用于 Vue 和 WXML）",
           "default": {
@@ -307,39 +307,39 @@
             "htmlWhitespaceSensitivity": "ignore"
           }
         },
-        "freedomAide.vuePrettierOptions": {
+        "freedomHelper.vuePrettierOptions": {
           "type": "object",
           "description": "Vue 文件的 Prettier 独立配置",
           "default": {}
         },
-        "freedomAide.wxmlPrettierOptions": {
+        "freedomHelper.wxmlPrettierOptions": {
           "type": "object",
           "description": "WXML 文件的 Prettier 独立配置",
           "default": {}
         },
-        "freedomAide.vue-format-save-code": {
+        "freedomHelper.vue-format-save-code": {
           "type": "boolean",
           "default": false,
           "description": "是否在保存 Vue 文件时自动触发格式化"
         },
-        "freedomAide.wxml-format-save-code": {
+        "freedomHelper.wxml-format-save-code": {
           "type": "boolean",
           "default": false,
           "description": "是否在保存 WXML 文件时自动触发格式化"
         },
-        "freedomAide.wxml-activeDisable": {
+        "freedomHelper.wxml-activeDisable": {
           "type": "boolean",
           "description": "是否禁用高亮组件",
           "default": false
         },
-        "freedomAide.wxml-activeColor": {
+        "freedomHelper.wxml-activeColor": {
           "type": "object",
           "description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
           "default": {
             "color": "#00ffff"
           }
         },
-        "freedomAide.wxml-tagNoActiveArr": {
+        "freedomHelper.wxml-tagNoActiveArr": {
           "type": "array",
           "description": "高亮所忽略的组件数组",
           "default": [
@@ -376,7 +376,7 @@
             "web-vie"
           ]
         },
-        "freedomAide.vue-supportedLanguages": {
+        "freedomHelper.vue-supportedLanguages": {
           "type": "array",
           "default": [
             "vue",
@@ -388,7 +388,7 @@
           },
           "description": "应使用扩展名的vscode语言名称列表"
         },
-        "freedomAide.vue-targetFileExtensions": {
+        "freedomHelper.vue-targetFileExtensions": {
           "type": "array",
           "default": [
             ".vue",
@@ -401,7 +401,69 @@
           "description": "应尝试查找的目标定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
         }
       }
-    }
+    },
+    "snippets": [
+      {
+        "language": "css",
+        "path": "./snippets/basic/css.json"
+      },
+      {
+        "language": "html",
+        "path": "./snippets/basic/html.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/basic/javascript.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/basic/jq.json"
+      },
+      {
+        "language": "pug",
+        "path": "./snippets/basic/pug.json"
+      },
+      {
+        "language": "html",
+        "path": "./snippets/layui/layui-html.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/layui/layui-jq.json"
+      },
+      {
+        "language": "html",
+        "path": "./snippets/vant/vant-html.json"
+      },
+      {
+        "language": "json",
+        "path": "./snippets/vant/vant-json.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vant/vant-vue.json"
+      },
+      {
+        "language": "wxml",
+        "path": "./snippets/vant/vant-wxml.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue/vue-html.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue/vue-js.json"
+      },
+      {
+        "language": "wxml",
+        "path": "./snippets/weapp/miniprogram-wxml.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/weapp/miniprogram-js.json"
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",
@@ -426,6 +488,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kiraalla/freedom-aide.git"
+    "url": "https://github.com/Kiraalla/freedom-helper.git"
   }
 }

@@ -11,9 +11,9 @@ exports.config = {
     tagNoActiveArr: [],
 };
 function getConfig(e) {
-    if (e && !e.affectsConfiguration('freedomAide'))
+    if (e && !e.affectsConfiguration('freedomHelper'))
         return;
-    const wxml = vscode_1.workspace.getConfiguration('freedomAide');
+    const wxml = vscode_1.workspace.getConfiguration('freedomHelper');
     exports.config.activeColor = wxml.get('wxml-activeColor', {});
     exports.config.activeDisable = wxml.get('wxml-activeDisable', false);
     exports.config.tagNoActiveArr = wxml.get('wxml-tagNoActiveArr', []);

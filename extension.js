@@ -31,12 +31,73 @@ const createdWxModuleJs = require('./template/wxjs-module')
 const languageConfiguration = {
   wordPattern: /(\w+((-\w+)+)?)/
 };
-
+// 多语言属性自动补全提供器
+function setupAutoQuote(context) {
+    let isProcessing = false;
+    
+    vscode.workspace.onDidChangeTextDocument((event) => {
+        if (isProcessing) return;
+        
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) return;
+        
+        // 只处理支持的文档类型
+        const supportedLanguages = ['wxml', 'html', 'vue'];
+        if (!supportedLanguages.includes(event.document.languageId)) return;
+        
+        // 检查是否输入了等号
+        for (const change of event.contentChanges) {
+            if (change.text === '=' && change.rangeLength === 0) {
+                isProcessing = true;
+                
+                setTimeout(() => {
+                    const document = editor.document;
+                    const position = editor.selection.active;
+                    const line = document.lineAt(position.line);
+                    const lineText = line.text;
+                    
+                    // 找到等号的位置
+                    const equalIndex = position.character - 1;
+                    
+                    // 替换等号为 =""
+                    const newLineText = 
+                        lineText.substring(0, equalIndex) + 
+                        '=""' + 
+                        lineText.substring(equalIndex + 1);
+                    
+                    editor.edit(edit => {
+                        // 替换整行文本
+                        const lineRange = new vscode.Range(
+                            line.lineNumber, 0,
+                            line.lineNumber, line.text.length
+                        );
+                        edit.replace(lineRange, newLineText);
+                    }).then(success => {
+                        if (success) {
+                            // 移动光标到引号中间
+                            const newPos = new vscode.Position(
+                                position.line, 
+                                equalIndex + 2 // ="|"
+                            );
+                            editor.selection = new vscode.Selection(newPos, newPos);
+                        }
+                        isProcessing = false;
+                    }).catch(err => {
+                        console.error('自动补全失败:', err);
+                        isProcessing = false;
+                    });
+                }, 10);
+                
+                break;
+            }
+        }
+    });
+}
 // 创建文档格式化器
 class FreedomDocumentFormattingEditProvider {
   provideDocumentFormattingEdits(document, options, token) {
     const languageId = document.languageId;
-    
+
     // 只处理 WXML 和 Vue 文件
     if (languageId !== 'wxml' && languageId !== 'vue') {
       return;
@@ -45,19 +106,19 @@ class FreedomDocumentFormattingEditProvider {
     try {
       const text = document.getText();
       let formattedText;
-      
+
       if (languageId === 'vue') {
         formattedText = format_core.unifiedFormat(text, 'vue');
       } else if (languageId === 'wxml') {
         formattedText = format_core.unifiedFormat(text, 'wxml');
       }
-      
+
       // 返回格式化后的文本编辑
       const fullRange = new vscode.Range(
         document.positionAt(0),
         document.positionAt(text.length)
       );
-      
+
       return [vscode.TextEdit.replace(fullRange, formattedText)];
     } catch (error) {
       vscode.window.showErrorMessage(`${languageId} 格式化失败: ${error.message}`);
@@ -71,28 +132,30 @@ class FreedomDocumentFormattingEditProvider {
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  console.log('=== 自由の助手扩展已激活 ===');
-  
+  console.log('=== 自由助手扩展已激活 ===');
+
   // 创建输出通道用于调试
-  const outputChannel = vscode.window.createOutputChannel('自由の助手');
+  const outputChannel = vscode.window.createOutputChannel('自由助手');
   context.subscriptions.push(outputChannel);
   outputChannel.appendLine('扩展已激活');
+  // 注册多语言属性自动补全
+  setupAutoQuote(context);
 
   // 注册文档格式化器 - 这是解决格式化问题的关键
   const formattingProvider = new FreedomDocumentFormattingEditProvider();
-  
+
   // 为 WXML 注册格式化器
   context.subscriptions.push(
     vscode.languages.registerDocumentFormattingEditProvider(
-      { language: 'wxml' }, 
+      { language: 'wxml' },
       formattingProvider
     )
   );
-  
+
   // 为 Vue 注册格式化器
   context.subscriptions.push(
     vscode.languages.registerDocumentFormattingEditProvider(
-      { language: 'vue' }, 
+      { language: 'vue' },
       formattingProvider
     )
   );
@@ -100,28 +163,28 @@ function activate(context) {
   // 注册范围格式化器（可选）
   context.subscriptions.push(
     vscode.languages.registerDocumentRangeFormattingEditProvider(
-      { language: 'wxml' }, 
+      { language: 'wxml' },
       formattingProvider
     )
   );
-  
+
   context.subscriptions.push(
     vscode.languages.registerDocumentRangeFormattingEditProvider(
-      { language: 'vue' }, 
+      { language: 'vue' },
       formattingProvider
     )
   );
 
   // 注册命令：切换格式化开关
   registerCommand(context, 'extension.compileOff', () => {
-    let config = vscode.workspace.getConfiguration("freedomAide");
+    let config = vscode.workspace.getConfiguration("freedomHelper");
     config.update("vue-format-save-code", true);
     config.update("wxml-format-save-code", true);
     outputChannel.appendLine('格式化开关已开启');
   });
 
   registerCommand(context, 'extension.compileOn', () => {
-    let config = vscode.workspace.getConfiguration("freedomAide");
+    let config = vscode.workspace.getConfiguration("freedomHelper");
     config.update("vue-format-save-code", false);
     config.update("wxml-format-save-code", false);
     outputChannel.appendLine('格式化开关已关闭');
@@ -130,7 +193,7 @@ function activate(context) {
   // 格式化统一命令 - 使用内置格式化命令
   registerCommand(context, 'extension.formatUnified', async () => {
     outputChannel.appendLine('=== 统一格式化命令被触发 ===');
-    
+
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
       vscode.window.showErrorMessage('没有活动的编辑器');
@@ -214,7 +277,7 @@ function activate(context) {
   // 保存时自动格式化（根据配置）
   context.subscriptions.push(vscode.workspace.onWillSaveTextDocument(event => {
     try {
-      const cfg = vscode.workspace.getConfiguration('freedomAide');
+      const cfg = vscode.workspace.getConfiguration('freedomHelper');
       const doc = event.document;
 
       outputChannel.appendLine(`保存时格式化检查: ${doc.languageId}`);
@@ -244,7 +307,7 @@ function activate(context) {
   });
 
   registerCommand(context, 'extension.vuePeek', () => {
-    const configParams = vscode.workspace.getConfiguration('freedomAide');
+    const configParams = vscode.workspace.getConfiguration('freedomHelper');
     const supportedLanguages = configParams.get('vue-supportedLanguages');
     const targetFileExtensions = configParams.get('vue-targetFileExtensions');
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(supportedLanguages, new PeekFileDefinitionProvider_1.default(targetFileExtensions)));
@@ -712,7 +775,7 @@ function activate(context) {
   outputChannel.appendLine('所有功能已初始化完成');
   outputChannel.show(); // 显示输出面板便于调试
 
-  console.log('自由の助手扩展激活完成');
+  console.log('自由助手扩展激活完成');
 }
 
 /**

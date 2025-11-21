@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "freedom-aide" extension will be documented in this file.
+All notable changes to the "freedom-helper" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
@@ -13,6 +13,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### ✨ 新功能
 - **配置系统升级**: 
   - 新增统一的Prettier格式化配置，还支持WXML和Vue文件的独立配置，独立会覆盖统一
+- **属性输入优化**: 
+  - 在wxml、vue、html中添加属性并键入等号时，每次都需要手动输入双引号，这样很麻烦，现在可以在输入`=`时补全`:""`了
 
 ### 🛠 功能优化
 - **格式化改进**:
@@ -20,20 +22,21 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### 🐛 问题修复
 - 修复大量历史遗留bug，提升扩展稳定性
+- 优化了部分代码块，因为代码块体量大，很多重复，后面几个小版本会优化掉大量代码块。不习惯的建议自己维护`snippets`文件夹
 
 ### ⚠️ 废弃配置
 以下配置项已废弃，请使用新的统一配置：
 
 **废弃的配置项**:
-- `freedomAide.wxml-format` (旧版WXML格式化配置)
-- `freedomAide.wxml-preserve-start-tag` (旧版标签保留配置)
+- `freedomHelper.wxml-format` (旧版WXML格式化配置)
+- `freedomHelper.wxml-preserve-start-tag` (旧版标签保留配置)
 - 有点多，建议删了....
 
 **替代配置**:
 请使用新的统一配置项：
 ```json
 {
-  "freedomAide.prettierOptions": {
+  "freedomHelper.prettierOptions": {
     "printWidth": 80,
     "tabWidth": 2,
     "useTabs": false,
@@ -43,7 +46,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
     "bracketSameLine": false,
     "htmlWhitespaceSensitivity": "ignore"
   },
-  "freedomAide.mustacheSpacing": "space"
+  "freedomHelper.mustacheSpacing": "space"
 }
 ```
 
