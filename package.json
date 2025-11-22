@@ -1,6 +1,6 @@
 {
   "name": "freedom-helper",
-  "displayName": "自由助手",
+  "displayName": "自由的助手",
   "description": "",
   "icon": "./logo.jpg",
   "main": "./extension.js",
