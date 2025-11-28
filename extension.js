@@ -1,6 +1,5 @@
 // @ts-nocheck
 const vscode = require('vscode');
-const prettier = require("prettier");
 const wxml_format = require("./wxml_plus/FormatWxml");
 const light_activeText = require("./wxml_plus/ActiveText");
 const saveFormat_1 = require("./wxml_plus/saveFormat");
@@ -10,6 +9,8 @@ const wxmlCompletionItemProvider = require('./util/wxmlCompletionItemProvider')
 const wxmlDefinitionProvider = require('./util/wxmlDefinitionProvider')
 const jsonDefinitionProvider = require('./util/jsonDefinitionProvider')
 const format_core = require('./wxml_plus/format_core')
+const Logger = require('./util/logger')
+const FileCreator = require('./util/fileCreator')
 
 const documentSelector = [
   { scheme: 'file', language: 'wxml', pattern: '**/*.wxml' },
@@ -17,7 +18,7 @@ const documentSelector = [
 const documentSelectorJson = [
   { scheme: 'file', language: 'json', pattern: '**/*.json' },
 ]
-const createdPloyfill = require('./template/tools/ployfill')
+const createdPolyfill = require('./template/tools/polyfill')
 const createdUtils = require('./template/tools/utils')
 const createdVue2 = require('./template/vue2-component')
 const createdVue3 = require('./template/vue3-component')
@@ -83,7 +84,7 @@ function setupAutoQuote(context) {
                         }
                         isProcessing = false;
                     }).catch(err => {
-                        console.error('自动补全失败:', err);
+                        // 静默处理错误，避免干扰用户
                         isProcessing = false;
                     });
                 }, 10);
@@ -132,12 +133,18 @@ class FreedomDocumentFormattingEditProvider {
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  console.log('=== 自由助手扩展已激活 ===');
-
-  // 创建输出通道用于调试
+  // 创建输出通道
   const outputChannel = vscode.window.createOutputChannel('自由助手');
   context.subscriptions.push(outputChannel);
-  outputChannel.appendLine('扩展已激活');
+  
+  // 获取调试模式配置
+  const config = vscode.workspace.getConfiguration('freedomHelper');
+  const debugMode = config.get('debugMode', false);
+  
+  // 创建日志记录器
+  const logger = new Logger(outputChannel, debugMode);
+  logger.info('扩展已激活');
+  
   // 注册多语言属性自动补全
   setupAutoQuote(context);
 
@@ -175,24 +182,36 @@ function activate(context) {
     )
   );
 
+  // 监听配置变化，更新调试模式
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration(e => {
+      if (e.affectsConfiguration('freedomHelper.debugMode')) {
+        const config = vscode.workspace.getConfiguration('freedomHelper');
+        const debugMode = config.get('debugMode', false);
+        logger.setDebugMode(debugMode);
+        logger.info(`调试模式已${debugMode ? '启用' : '禁用'}`);
+      }
+    })
+  );
+
   // 注册命令：切换格式化开关
   registerCommand(context, 'extension.compileOff', () => {
     let config = vscode.workspace.getConfiguration("freedomHelper");
     config.update("vue-format-save-code", true);
     config.update("wxml-format-save-code", true);
-    outputChannel.appendLine('格式化开关已开启');
+    logger.info('格式化开关已开启');
   });
 
   registerCommand(context, 'extension.compileOn', () => {
     let config = vscode.workspace.getConfiguration("freedomHelper");
     config.update("vue-format-save-code", false);
     config.update("wxml-format-save-code", false);
-    outputChannel.appendLine('格式化开关已关闭');
+    logger.info('格式化开关已关闭');
   });
 
   // 格式化统一命令 - 使用内置格式化命令
   registerCommand(context, 'extension.formatUnified', async () => {
-    outputChannel.appendLine('=== 统一格式化命令被触发 ===');
+    logger.debug('统一格式化命令被触发');
 
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -201,25 +220,25 @@ function activate(context) {
     }
 
     const languageId = editor.document.languageId;
-    outputChannel.appendLine(`格式化语言: ${languageId}`);
+    logger.debug(`格式化语言: ${languageId}`);
 
     try {
       if (languageId === 'vue' || languageId === 'wxml') {
-        // 使用 VS Code 内置的格式化命令，这会触发我们注册的文档格式化器
         await vscode.commands.executeCommand('editor.action.formatDocument');
         vscode.window.showInformationMessage(`${languageId} 文件格式化完成`);
+        logger.debug(`${languageId} 文件格式化完成`);
       } else {
         vscode.window.showWarningMessage(`不支持 ${languageId} 文件的格式化`);
       }
     } catch (error) {
       vscode.window.showErrorMessage(`格式化失败: ${error.message}`);
-      outputChannel.appendLine(`格式化错误: ${error.message}`);
+      logger.error('格式化失败', error);
     }
   });
 
   // Vue 格式化命令 - 返回 Promise
   registerCommand(context, 'extension.formatvue', () => {
-    outputChannel.appendLine('=== Vue 格式化命令被触发 ===');
+    logger.debug('Vue 格式化命令被触发');
     return new Promise((resolve, reject) => {
       const editor = vscode.window.activeTextEditor;
 
@@ -244,17 +263,20 @@ function activate(context) {
         }).then(success => {
           if (success) {
             vscode.window.showInformationMessage('Vue 文件格式化完成');
+            logger.debug('Vue 文件格式化完成');
             resolve();
           } else {
             vscode.window.showErrorMessage('Vue 文件格式化失败');
             reject(new Error('Vue 文件格式化失败'));
           }
         }).catch(error => {
+          logger.error('Vue 格式化失败', error);
           reject(error);
         });
 
       } catch (error) {
         vscode.window.showErrorMessage(`Vue 格式化失败: ${error.message}`);
+        logger.error('Vue 格式化失败', error);
         reject(error);
       }
     });
@@ -262,13 +284,15 @@ function activate(context) {
 
   // WXML 格式化命令 - 返回 Promise  
   registerCommand(context, 'extension.formatwxml', () => {
-    outputChannel.appendLine('=== WXML 格式化命令被触发 ===');
+    logger.debug('WXML 格式化命令被触发');
     return new Promise((resolve, reject) => {
       try {
         const wxml = new wxml_format.default();
         wxml.init();
+        logger.debug('WXML 文件格式化完成');
         resolve();
       } catch (error) {
+        logger.error('WXML 格式化失败', error);
         reject(error);
       }
     });
@@ -280,67 +304,69 @@ function activate(context) {
       const cfg = vscode.workspace.getConfiguration('freedomHelper');
       const doc = event.document;
 
-      outputChannel.appendLine(`保存时格式化检查: ${doc.languageId}`);
-
       if ((doc.languageId === 'vue' && cfg.get('vue-format-save-code')) ||
         (doc.languageId === 'wxml' && cfg.get('wxml-format-save-code'))) {
-        outputChannel.appendLine(`触发保存时格式化: ${doc.languageId}`);
+        logger.debug(`触发保存时格式化: ${doc.languageId}`);
         event.waitUntil(vscode.commands.executeCommand('editor.action.formatDocument'));
       }
     }
     catch (e) {
-      // 忽略保存时格式化的错误，避免阻塞保存流程
-      console.warn('保存时格式化错误:', e);
-      outputChannel.appendLine(`保存时格式化错误: ${e.message}`);
+      // 静默处理错误，避免阻塞保存流程
+      logger.error('保存时格式化错误', e);
     }
   }));
 
-  // 获取设置命令
-  registerCommand(context, 'extension.getSetting', () => {
-    const wxml = new wxml_format.default();
-    config_1.getConfig();
-    const activeText = new light_activeText.default(config_1.config);
-    config_1.configActivate(activeText, () => {
-      saveFormat_1.default(wxml);
-    });
-    outputChannel.appendLine('设置已获取');
+  // 初始化 WXML 设置
+  const wxml = new wxml_format.default();
+  config_1.getConfig();
+  const activeText = new light_activeText.default(config_1.config);
+  config_1.configActivate(activeText, () => {
+    saveFormat_1.default(wxml);
   });
+  logger.debug('WXML 设置已初始化');
 
-  registerCommand(context, 'extension.vuePeek', () => {
-    const configParams = vscode.workspace.getConfiguration('freedomHelper');
-    const supportedLanguages = configParams.get('vue-supportedLanguages');
-    const targetFileExtensions = configParams.get('vue-targetFileExtensions');
-    context.subscriptions.push(vscode.languages.registerDefinitionProvider(supportedLanguages, new PeekFileDefinitionProvider_1.default(targetFileExtensions)));
-    context.subscriptions.push(vscode.languages.setLanguageConfiguration('vue', languageConfiguration));
-  });
+  // 注册 Vue 定义跳转提供器
+  const configParams = vscode.workspace.getConfiguration('freedomHelper');
+  const supportedLanguages = configParams.get('vue-supportedLanguages');
+  const targetFileExtensions = configParams.get('vue-targetFileExtensions');
+  context.subscriptions.push(
+    vscode.languages.registerDefinitionProvider(
+      supportedLanguages, 
+      new PeekFileDefinitionProvider_1.default(targetFileExtensions)
+    )
+  );
+  context.subscriptions.push(
+    vscode.languages.setLanguageConfiguration('vue', languageConfiguration)
+  );
+  logger.debug('Vue 定义跳转已注册');
 
-  // WXML 定义跳转
-  registerCommand(context, 'extension.jumpDefinitionWxml', () => {
-    context.subscriptions.push(
-      vscode.languages.registerDefinitionProvider(
-        documentSelector,
-        wxmlDefinitionProvider,
-      ));
-  });
+  // 注册 WXML 定义跳转提供器
+  context.subscriptions.push(
+    vscode.languages.registerDefinitionProvider(
+      documentSelector,
+      wxmlDefinitionProvider
+    )
+  );
+  logger.debug('WXML 定义跳转已注册');
 
-  // JSON 定义跳转
-  registerCommand(context, 'extension.jumpDefinitionJson', () => {
-    context.subscriptions.push(
-      vscode.languages.registerDefinitionProvider(
-        documentSelectorJson,
-        jsonDefinitionProvider,
-      ));
-  });
+  // 注册 JSON 定义跳转提供器
+  context.subscriptions.push(
+    vscode.languages.registerDefinitionProvider(
+      documentSelectorJson,
+      jsonDefinitionProvider
+    )
+  );
+  logger.debug('JSON 定义跳转已注册');
 
-  // WXML 自动补全
-  registerCommand(context, 'extension.jumpDefinitionWxmlItem', () => {
-    context.subscriptions.push(
-      vscode.languages.registerCompletionItemProvider(
-        documentSelector,
-        wxmlCompletionItemProvider,
-        ...[' '],
-      ));
-  });
+  // 注册 WXML 自动补全提供器
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      documentSelector,
+      wxmlCompletionItemProvider,
+      ' '
+    )
+  );
+  logger.debug('WXML 自动补全已注册');
 
   // 创建小程序组件
   registerCommand(context, 'extension.createMiniappModule', async (resource) => {
@@ -354,48 +380,32 @@ function activate(context) {
       return;
     }
 
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const componentFolderUri = vscode.Uri.joinPath(folderUri, componentName);
+    const wxmlContent = `<view class="wy-${componentName} {{customClass}}" style="{{customStyle}}">
+  <!-- wy-${componentName}组件 -->
+</view>`;
 
-    try {
-      await vscode.workspace.fs.stat(componentFolderUri);
-      const result = await vscode.window.showWarningMessage(`文件夹"${componentName}" 已存在，无法创建！`);
-      return;
-    } catch (error) {
-      if (error.code !== 'FileNotFound') {
-        vscode.window.showErrorMessage(`检查文件夹是否存在时出错: ${error.message}`);
-        return;
-      }
-
-      await vscode.workspace.fs.createDirectory(componentFolderUri);
-      const filesToCreate = ['index.wxml', 'index.scss', 'index.json', 'index.js'];
-
-      for (const fileName of filesToCreate) {
-        if (fileName === 'index.json') {
-          const initialContent = {
-            component: true,
-            styleIsolation: 'apply-shared',
-            usingComponents: {},
-          };
-          const jsonContent = JSON.stringify(initialContent, null, 4);
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(jsonContent, 'utf8'));
-        } else if (fileName === 'index.js') {
-          const initialJsContent = createdWxModuleJs.moduleFile;
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
-        } else if (fileName === 'index.wxml') {
-          const initialJsContent = `
-            <view class="wy-${componentName} {{customClass}}" style="{{customStyle}}">
-              <!-- wy-${componentName}组件 -->
-            </view>
-          `.replace(/^\s+/gm, '');
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
-        } else {
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), new Uint8Array());
+    const files = [
+      { name: 'index.wxml', content: wxmlContent },
+      { name: 'index.scss', content: '' },
+      { 
+        name: 'index.json', 
+        content: {
+          component: true,
+          styleIsolation: 'apply-shared',
+          usingComponents: {},
         }
-      }
-      vscode.window.showInformationMessage('小程序组件模板创建成功！');
-      outputChannel.appendLine(`创建小程序组件: ${componentName}`);
-    }
+      },
+      { name: 'index.js', content: createdWxModuleJs.moduleFile }
+    ];
+
+    await FileCreator.createFolderWithFiles(
+      resource,
+      '请输入组件名称',
+      componentName,
+      files,
+      '小程序组件模板创建成功！',
+      logger
+    );
   });
 
   // 创建小程序页面
@@ -410,80 +420,97 @@ function activate(context) {
       return;
     }
 
+    const wxmlContent = `<view>
+  <!-- ${pageName}页面 -->
+</view>`;
+
+    const files = [
+      { name: 'index.wxml', content: wxmlContent },
+      { name: 'index.scss', content: '' },
+      { 
+        name: 'index.json', 
+        content: {
+          navigationBarTitleText: "",
+          usingComponents: {},
+        }
+      },
+      { name: 'index.js', content: createdWxPageJs.containerFile }
+    ];
+
     const folderUri = vscode.Uri.file(resource.fsPath);
     const pageFolderUri = vscode.Uri.joinPath(folderUri, pageName);
 
-    try {
-      await vscode.workspace.fs.stat(pageFolderUri);
-      const result = await vscode.window.showWarningMessage(`文件夹"${pageName}" 已存在，无法创建！`);
+    const result = await FileCreator.createFolderWithFiles(
+      resource,
+      '请输入页面名称',
+      pageName,
+      files,
+      '小程序页面模板创建成功！',
+      logger
+    );
+
+    if (!result) {
       return;
-    } catch (error) {
-      if (error.code !== 'FileNotFound') {
-        vscode.window.showErrorMessage(`检查文件夹是否存在时出错: ${error.message}`);
+    }
+
+    // 添加页面到 app.json
+    try {
+      const workspaceFolders = vscode.workspace.workspaceFolders;
+      if (!workspaceFolders || workspaceFolders.length === 0) {
+        logger.warn('未找到工作区文件夹');
         return;
       }
 
-      await vscode.workspace.fs.createDirectory(pageFolderUri);
-      const filesToCreate = ['index.wxml', 'index.scss', 'index.json', 'index.js'];
-
-      for (const fileName of filesToCreate) {
-        if (fileName === 'index.json') {
-          const initialContent = {
-            navigationBarTitleText: "",
-            usingComponents: {},
-          };
-          const jsonContent = JSON.stringify(initialContent, null, 4);
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), Buffer.from(jsonContent, 'utf8'));
-        } else if (fileName === 'index.js') {
-          const initialJsContent = createdWxPageJs.containerFile;
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
-        } else if (fileName === 'index.wxml') {
-          const initialJsContent = `
-            <view>
-              <!-- ${pageName}页面 -->
-            </view>
-          `.replace(/^\s+/gm, '');
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), Buffer.from(initialJsContent, 'utf8'));
-        } else {
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(pageFolderUri, fileName), new Uint8Array());
-        }
-      }
-      vscode.window.showInformationMessage('小程序页面模板创建成功！');
-      outputChannel.appendLine(`创建小程序页面: ${pageName}`);
-
-      // 添加页面到 app.json
-      const workspaceFolders = vscode.workspace.workspaceFolders;
-      let relativePath = vscode.workspace.asRelativePath(pageFolderUri);
-      let path_parts = relativePath.split("pages/")
-      let before_pages = ''
+      const relativePath = vscode.workspace.asRelativePath(pageFolderUri);
+      const path_parts = relativePath.split("pages/");
+      let before_pages = '';
       if (path_parts.length > 1) {
-        before_pages = path_parts[0].replace(/\/$/, "")
+        before_pages = path_parts[0].replace(/\/$/, "");
       }
-      let after_pages = "pages/" + path_parts[1] + "/index"
+      const after_pages = "pages/" + path_parts[1] + "/index";
 
       const workspaceFolderUri = workspaceFolders[0].uri;
       const appJsonUri = vscode.Uri.joinPath(workspaceFolderUri, 'app.json');
+      
       const appJsonContent = await vscode.workspace.fs.readFile(appJsonUri);
       const appJson = JSON.parse(appJsonContent.toString());
 
+      // 主包页面
       if (before_pages === '') {
+        if (!appJson.pages) {
+          appJson.pages = [];
+        }
         if (!appJson.pages.includes(after_pages)) {
           appJson.pages.push(after_pages);
+          logger.info(`页面路径"${after_pages}"已添加到主包`);
+        } else {
+          vscode.window.showInformationMessage(`页面路径"${after_pages}"已存在于主包中`);
+        }
+      } else {
+        // 分包页面
+        if (appJson.subPackages) {
+          const targetSubPackage = appJson.subPackages.find(sp => sp.root === before_pages);
+          if (targetSubPackage) {
+            if (!targetSubPackage.pages) {
+              targetSubPackage.pages = [];
+            }
+            if (!targetSubPackage.pages.includes(after_pages)) {
+              targetSubPackage.pages.push(after_pages);
+              logger.info(`页面路径"${after_pages}"已添加到分包"${before_pages}"`);
+            } else {
+              vscode.window.showInformationMessage(`分包"${before_pages}"中已存在页面路径"${after_pages}"`);
+            }
+          } else {
+            logger.warn(`未找到分包"${before_pages}"`);
+          }
         }
       }
 
-      if (appJson.subPackages) {
-        appJson.subPackages.forEach(subPackage => {
-          if (subPackage.root === before_pages && !subPackage.pages.includes(after_pages)) {
-            subPackage.pages.push(after_pages);
-          } else {
-            vscode.window.showInformationMessage(`app.json 中分包${before_pages}已存在页面路径"${after_pages}"`);
-          }
-        });
-      }
-
-      await vscode.workspace.fs.writeFile(appJsonUri, Buffer.from(JSON.stringify(appJson, null, 2)));
-      vscode.window.showInformationMessage(`路径"${after_pages}" 已添加到 app.json 中`);
+      await vscode.workspace.fs.writeFile(appJsonUri, Buffer.from(JSON.stringify(appJson, null, 2), 'utf8'));
+      vscode.window.showInformationMessage(`路径"${after_pages}"已添加到 app.json 中`);
+    } catch (error) {
+      vscode.window.showErrorMessage(`更新 app.json 失败: ${error.message}`);
+      logger.error('更新 app.json 失败', error);
     }
   });
 
@@ -495,287 +522,134 @@ function activate(context) {
     });
 
     if (!toolsName) {
-      vscode.window.showErrorMessage('工具文件夹名称不能为空,已设置为默认值tools!');
+      vscode.window.showErrorMessage('工具文件夹名称不能为空，已设置为默认值 tools！');
       toolsName = 'tools';
     }
 
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const componentFolderUri = vscode.Uri.joinPath(folderUri, toolsName);
+    const files = [
+      { name: 'polyfill.js', content: createdPolyfill.contentFile },
+      { name: 'utils.js', content: createdUtils.contentFile }
+    ];
 
-    try {
-      await vscode.workspace.fs.stat(componentFolderUri);
-      const result = await vscode.window.showWarningMessage(`文件夹"${toolsName}" 已存在，无法创建！`);
-      return;
-    } catch (error) {
-      if (error.code !== 'FileNotFound') {
-        vscode.window.showErrorMessage(`检查文件夹是否存在时出错: ${error.message}`);
-        return;
-      }
-
-      await vscode.workspace.fs.createDirectory(componentFolderUri);
-      const filesToCreate = ['ployfill.js', 'utils.js'];
-
-      for (const fileName of filesToCreate) {
-        if (fileName === 'ployfill.js') {
-          const initialContent = createdPloyfill.contentFile;
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialContent, 'utf8'));
-        } else if (fileName === 'utils.js') {
-          const initialContent = createdUtils.contentFile;
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), Buffer.from(initialContent, 'utf8'));
-        } else {
-          await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(componentFolderUri, fileName), new Uint8Array());
-        }
-      }
-      vscode.window.showInformationMessage('工具文件模板创建成功！');
-      outputChannel.appendLine(`创建工具文件: ${toolsName}`);
-    }
+    await FileCreator.createFolderWithFiles(
+      resource,
+      '请输入工具文件夹名称',
+      toolsName,
+      files,
+      '工具文件模板创建成功！',
+      logger
+    );
   });
 
   // 创建 Vue2 文件
   registerCommand(context, 'extension.createdVue2', async (resource) => {
-    let vue2ModuleName = await vscode.window.showInputBox({
-      prompt: '请输入vue2文件模板名称',
-      placeHolder: '请输入vue2文件模板名称',
-    });
+    const fileUri = await FileCreator.createTemplateFile(
+      resource,
+      '请输入 Vue2 文件模板名称',
+      'vue2_module',
+      '.vue',
+      createdVue2.componentFile,
+      'Vue2 文件模板创建成功！',
+      logger
+    );
 
-    if (!vue2ModuleName) {
-      vscode.window.showErrorMessage('vue2文件模板名称不能为空,已设置为默认值vue2_module.vue!');
-      vue2ModuleName = 'vue2_module';
+    if (fileUri) {
+      const document = await vscode.workspace.openTextDocument(fileUri);
+      await vscode.window.showTextDocument(document);
     }
-
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const fileFolderUri = vscode.Uri.joinPath(folderUri, vue2ModuleName + '.vue');
-    const initialContent = createdVue2.componentFile;
-
-    try {
-      await vscode.workspace.fs.stat(fileFolderUri);
-      const overwrite = '覆盖';
-      const cancel = '取消';
-      const result = await vscode.window.showWarningMessage(`文件"${vue2ModuleName}.vue" 已存在，是否覆盖？`, overwrite, cancel);
-
-      if (result === overwrite) {
-        await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-        vscode.window.showInformationMessage('vue2文件模板创建成功！');
-      } else {
-        vscode.window.showInformationMessage('取消创建操作.');
-        return;
-      }
-    } catch (error) {
-      await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-      vscode.window.showInformationMessage('vue2文件模板创建成功！');
-    }
-
-    const document = await vscode.workspace.openTextDocument(fileFolderUri);
-    await vscode.window.showTextDocument(document);
-    outputChannel.appendLine(`创建 Vue2 文件: ${vue2ModuleName}`);
   });
 
   // 创建 Vue3 文件
   registerCommand(context, 'extension.createdVue3', async (resource) => {
-    let vue3ModuleName = await vscode.window.showInputBox({
-      prompt: '请输入vue3文件模板名称',
-      placeHolder: '请输入vue3文件模板名称',
-    });
+    const fileUri = await FileCreator.createTemplateFile(
+      resource,
+      '请输入 Vue3 文件模板名称',
+      'vue3_module',
+      '.vue',
+      createdVue3.componentFile,
+      'Vue3 文件模板创建成功！',
+      logger
+    );
 
-    if (!vue3ModuleName) {
-      vscode.window.showErrorMessage('vue3文件模板名称不能为空,已设置为默认值vue3_module.vue!');
-      vue3ModuleName = 'vue3_module';
+    if (fileUri) {
+      const document = await vscode.workspace.openTextDocument(fileUri);
+      await vscode.window.showTextDocument(document);
     }
-
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const fileFolderUri = vscode.Uri.joinPath(folderUri, vue3ModuleName + '.vue');
-    const initialContent = createdVue3.componentFile;
-
-    try {
-      await vscode.workspace.fs.stat(fileFolderUri);
-      const overwrite = '覆盖';
-      const cancel = '取消';
-      const result = await vscode.window.showWarningMessage(`文件"${vue3ModuleName}.vue" 已存在，是否覆盖？`, overwrite, cancel);
-
-      if (result === overwrite) {
-        await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-        vscode.window.showInformationMessage('vue3文件模板创建成功！');
-      } else {
-        vscode.window.showInformationMessage('取消创建操作.');
-        return;
-      }
-    } catch (error) {
-      await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-      vscode.window.showInformationMessage('vue3文件模板创建成功！');
-    }
-
-    const document = await vscode.workspace.openTextDocument(fileFolderUri);
-    await vscode.window.showTextDocument(document);
-    outputChannel.appendLine(`创建 Vue3 文件: ${vue3ModuleName}`);
   });
 
   // 创建 HTML 文件
   registerCommand(context, 'extension.createdHtml', async (resource) => {
-    let htmlModuleName = await vscode.window.showInputBox({
-      prompt: '请输入html文件模板名称',
-      placeHolder: '请输入html文件模板名称',
-    });
+    const fileUri = await FileCreator.createTemplateFile(
+      resource,
+      '请输入 HTML 文件模板名称',
+      'page',
+      '.html',
+      createdHtml.containerFile,
+      'HTML 文件模板创建成功！',
+      logger
+    );
 
-    if (!htmlModuleName) {
-      vscode.window.showErrorMessage('html文件模板名称不能为空,已设置为默认值page.html!');
-      htmlModuleName = 'page';
+    if (fileUri) {
+      const document = await vscode.workspace.openTextDocument(fileUri);
+      await vscode.window.showTextDocument(document);
     }
-
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const fileFolderUri = vscode.Uri.joinPath(folderUri, htmlModuleName + '.html');
-    const initialContent = createdHtml.containerFile;
-
-    try {
-      await vscode.workspace.fs.stat(fileFolderUri);
-      const overwrite = '覆盖';
-      const cancel = '取消';
-      const result = await vscode.window.showWarningMessage(`文件"${htmlModuleName}.html" 已存在，是否覆盖？`, overwrite, cancel);
-
-      if (result === overwrite) {
-        await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-        vscode.window.showInformationMessage('html文件模板创建成功！');
-      } else {
-        vscode.window.showInformationMessage('取消创建操作.');
-        return;
-      }
-    } catch (error) {
-      await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-      vscode.window.showInformationMessage('html文件模板创建成功！');
-    }
-
-    const document = await vscode.workspace.openTextDocument(fileFolderUri);
-    await vscode.window.showTextDocument(document);
-    outputChannel.appendLine(`创建 HTML 文件: ${htmlModuleName}`);
   });
 
   // 创建 Pinia 文件
   registerCommand(context, 'extension.createdPinia', async (resource) => {
-    let piniaModuleName = await vscode.window.showInputBox({
-      prompt: '请输入pinia文件模板名称',
-      placeHolder: '请输入pinia文件模板名称',
-    });
+    const fileUri = await FileCreator.createTemplateFile(
+      resource,
+      '请输入 Pinia 文件模板名称',
+      'pinia_module',
+      '.js',
+      createdPinia.moduleFile,
+      'Pinia 文件模板创建成功！',
+      logger
+    );
 
-    if (!piniaModuleName) {
-      vscode.window.showErrorMessage('pinia文件模板名称不能为空,已设置为默认值pinia_module.js!');
-      piniaModuleName = 'pinia_module';
+    if (fileUri) {
+      const document = await vscode.workspace.openTextDocument(fileUri);
+      await vscode.window.showTextDocument(document);
     }
-
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const fileFolderUri = vscode.Uri.joinPath(folderUri, piniaModuleName + '.js');
-    const initialContent = createdPinia.moduleFile;
-
-    try {
-      await vscode.workspace.fs.stat(fileFolderUri);
-      const overwrite = '覆盖';
-      const cancel = '取消';
-      const result = await vscode.window.showWarningMessage(`文件"${piniaModuleName}.js" 已存在，是否覆盖？`, overwrite, cancel);
-
-      if (result === overwrite) {
-        await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-        vscode.window.showInformationMessage('pinia文件模板创建成功！');
-      } else {
-        vscode.window.showInformationMessage('取消创建操作.');
-        return;
-      }
-    } catch (error) {
-      await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-      vscode.window.showInformationMessage('pinia文件模板创建成功！');
-    }
-
-    const document = await vscode.workspace.openTextDocument(fileFolderUri);
-    await vscode.window.showTextDocument(document);
-    outputChannel.appendLine(`创建 Pinia 文件: ${piniaModuleName}`);
   });
 
   // 创建 Vuex 文件
   registerCommand(context, 'extension.createdVuex', async (resource) => {
-    let vuexModuleName = await vscode.window.showInputBox({
-      prompt: '请输入vuex文件模板名称',
-      placeHolder: '请输入vuex文件模板名称',
-    });
+    const fileUri = await FileCreator.createTemplateFile(
+      resource,
+      '请输入 Vuex 文件模板名称',
+      'vuex_module',
+      '.js',
+      createdVuex.moduleFile,
+      'Vuex 文件模板创建成功！',
+      logger
+    );
 
-    if (!vuexModuleName) {
-      vscode.window.showErrorMessage('vuex文件模板名称不能为空,已设置为默认值vuex_module.js!');
-      vuexModuleName = 'vuex_module';
+    if (fileUri) {
+      const document = await vscode.workspace.openTextDocument(fileUri);
+      await vscode.window.showTextDocument(document);
     }
-
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const fileFolderUri = vscode.Uri.joinPath(folderUri, vuexModuleName + '.js');
-    const initialContent = createdVuex.moduleFile;
-
-    try {
-      await vscode.workspace.fs.stat(fileFolderUri);
-      const overwrite = '覆盖';
-      const cancel = '取消';
-      const result = await vscode.window.showWarningMessage(`文件"${vuexModuleName}.js" 已存在，是否覆盖？`, overwrite, cancel);
-
-      if (result === overwrite) {
-        await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-        vscode.window.showInformationMessage('vuex文件模板创建成功！');
-      } else {
-        vscode.window.showInformationMessage('取消创建操作.');
-        return;
-      }
-    } catch (error) {
-      await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-      vscode.window.showInformationMessage('vuex文件模板创建成功！');
-    }
-
-    const document = await vscode.workspace.openTextDocument(fileFolderUri);
-    await vscode.window.showTextDocument(document);
-    outputChannel.appendLine(`创建 Vuex 文件: ${vuexModuleName}`);
   });
 
   // 创建 Service 文件
   registerCommand(context, 'extension.createdService', async (resource) => {
-    let serviceModuleName = await vscode.window.showInputBox({
-      prompt: '请输入service文件模板名称',
-      placeHolder: '请输入service文件模板名称',
-    });
+    const fileUri = await FileCreator.createTemplateFile(
+      resource,
+      '请输入 Service 文件模板名称',
+      'service_module',
+      '.js',
+      createdService.serviceFile,
+      'Service 文件模板创建成功！',
+      logger
+    );
 
-    if (!serviceModuleName) {
-      vscode.window.showErrorMessage('service文件模板名称不能为空,已设置为默认值service_module.js!');
-      serviceModuleName = 'service_module';
+    if (fileUri) {
+      const document = await vscode.workspace.openTextDocument(fileUri);
+      await vscode.window.showTextDocument(document);
     }
-
-    const folderUri = vscode.Uri.file(resource.fsPath);
-    const fileFolderUri = vscode.Uri.joinPath(folderUri, serviceModuleName + '.js');
-    const initialContent = createdService.serviceFile;
-
-    try {
-      await vscode.workspace.fs.stat(fileFolderUri);
-      const overwrite = '覆盖';
-      const cancel = '取消';
-      const result = await vscode.window.showWarningMessage(`文件"${serviceModuleName}.js" 已存在，是否覆盖？`, overwrite, cancel);
-
-      if (result === overwrite) {
-        await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-        vscode.window.showInformationMessage('service文件模板创建成功！');
-      } else {
-        vscode.window.showInformationMessage('取消创建操作.');
-        return;
-      }
-    } catch (error) {
-      await vscode.workspace.fs.writeFile(fileFolderUri, Buffer.from(initialContent, 'utf8'));
-      vscode.window.showInformationMessage('service文件模板创建成功！');
-    }
-
-    const document = await vscode.workspace.openTextDocument(fileFolderUri);
-    await vscode.window.showTextDocument(document);
-    outputChannel.appendLine(`创建 Service 文件: ${serviceModuleName}`);
   });
 
-  // 在 activate 函数中调用注册的命令函数，以使其在扩展被激活时立即生效
-  vscode.commands.executeCommand('extension.getSetting');
-  vscode.commands.executeCommand('extension.vuePeek');
-  vscode.commands.executeCommand('extension.jumpDefinitionWxml');
-  vscode.commands.executeCommand('extension.jumpDefinitionJson');
-  vscode.commands.executeCommand('extension.jumpDefinitionWxmlItem');
-
-  outputChannel.appendLine('所有功能已初始化完成');
-  outputChannel.show(); // 显示输出面板便于调试
-
-  console.log('自由助手扩展激活完成');
+  logger.info('所有功能已初始化完成');
 }
 
 /**
@@ -783,7 +657,6 @@ function activate(context) {
  */
 function deactivate() {
   config_1.configDeactivate();
-  console.log('扩展 Freedom cide 已被禁用！');
 }
 
 /**

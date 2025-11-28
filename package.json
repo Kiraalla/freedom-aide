@@ -4,7 +4,7 @@
   "description": "",
   "icon": "./logo.jpg",
   "main": "./extension.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "Kiraalla",
   "homepage": "https://github.com/Kiraalla/freedom-helper",
   "bugs": {
@@ -42,6 +42,16 @@
         "aliases": [
           "WXML",
           "wxml"
+        ]
+      },
+      {
+        "id": "wxss",
+        "extensions": [
+          ".wxss"
+        ],
+        "aliases": [
+          "WXSS",
+          "wxss"
         ]
       },
       {
@@ -133,52 +143,56 @@
         "title": "Wxml 格式化"
       }
     ],
+    "submenus": [
+      {
+        "id": "freedomHelper.templates",
+        "label": "自由助手 - 创建模板"
+      }
+    ],
     "menus": {
       "explorer/context": [
         {
-          "command": "extension.createdHtml",
-          "when": "resourceScheme == 'file'",
-          "group": "1_creatTools"
-        },
+          "submenu": "freedomHelper.templates",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation@10"
+        }
+      ],
+      "freedomHelper.templates": [
         {
           "command": "extension.createdVue2",
-          "when": "resourceScheme == 'file'",
-          "group": "1_creatTools"
+          "group": "1_vue@1"
         },
         {
           "command": "extension.createdVue3",
-          "when": "resourceScheme == 'file'",
-          "group": "1_creatTools"
+          "group": "1_vue@2"
+        },
+        {
+          "command": "extension.createdHtml",
+          "group": "1_vue@3"
         },
         {
           "command": "extension.createdPinia",
-          "when": "resourceScheme == 'file'",
-          "group": "2_creatTools"
+          "group": "2_state@1"
         },
         {
           "command": "extension.createdVuex",
-          "when": "resourceScheme == 'file'",
-          "group": "2_creatTools"
+          "group": "2_state@2"
         },
         {
           "command": "extension.createdService",
-          "when": "resourceScheme == 'file'",
-          "group": "2_creatTools"
-        },
-        {
-          "command": "extension.createMiniappModule",
-          "when": "resourceScheme == 'file'",
-          "group": "3_creatTemplate"
+          "group": "2_state@3"
         },
         {
           "command": "extension.createMiniappPage",
-          "when": "resourceScheme == 'file'",
-          "group": "3_creatTemplate"
+          "group": "3_weapp@1"
+        },
+        {
+          "command": "extension.createMiniappModule",
+          "group": "3_weapp@2"
         },
         {
           "command": "extension.createdTools",
-          "when": "resourceScheme == 'file'",
-          "group": "4_creatTools"
+          "group": "4_tools@1"
         }
       ],
       "commandPalette": [
@@ -283,15 +297,20 @@
     "configuration": {
       "title": "freedom-helper",
       "properties": {
-        "freedomHelper.mustacheSpacing": {
-          "type": "string",
-          "enum": [
-            "space",
-            "preserve",
-            "nospace"
-          ],
-          "default": "space",
-          "description": "控制 mustache 表达式的空格风格（适用于 WXML 和 Vue 文件）"
+        "freedomHelper.debugMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否启用调试模式（显示详细日志）"
+        },
+        "freedomHelper.vue-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "保存 Vue 文件时自动格式化"
+        },
+        "freedomHelper.wxml-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "保存 WXML 文件时自动格式化"
         },
         "freedomHelper.prettierOptions": {
           "type": "object",
@@ -307,41 +326,61 @@
             "htmlWhitespaceSensitivity": "ignore"
           }
         },
+        "freedomHelper.mustacheSpacing": {
+          "type": "string",
+          "enum": [
+            "space",
+            "preserve",
+            "nospace"
+          ],
+          "default": "space",
+          "description": "Mustache 表达式的空格风格"
+        },
         "freedomHelper.vuePrettierOptions": {
           "type": "object",
-          "description": "Vue 文件的 Prettier 独立配置",
+          "description": "Vue 文件的 Prettier 独立配置（会覆盖统一配置）",
           "default": {}
         },
         "freedomHelper.wxmlPrettierOptions": {
           "type": "object",
-          "description": "WXML 文件的 Prettier 独立配置",
+          "description": "WXML 文件的 Prettier 独立配置（会覆盖统一配置）",
           "default": {}
         },
-        "freedomHelper.vue-format-save-code": {
+        "freedomHelper.enableJQuerySnippets": {
           "type": "boolean",
-          "default": false,
-          "description": "是否在保存 Vue 文件时自动触发格式化"
+          "default": true,
+          "description": "启用 jQuery 代码块"
         },
-        "freedomHelper.wxml-format-save-code": {
+        "freedomHelper.enableLayuiSnippets": {
           "type": "boolean",
-          "default": false,
-          "description": "是否在保存 WXML 文件时自动触发格式化"
+          "default": true,
+          "description": "启用 Layui 代码块"
+        },
+        "freedomHelper.enableVantSnippets": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用 Vant 代码块"
+        },
+        "freedomHelper.enableWeappSnippets": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用小程序代码块"
         },
         "freedomHelper.wxml-activeDisable": {
           "type": "boolean",
-          "description": "是否禁用高亮组件",
-          "default": false
+          "default": false,
+          "description": "禁用 WXML 标签高亮"
         },
         "freedomHelper.wxml-activeColor": {
           "type": "object",
-          "description": "高亮的颜色，可设置每个组件的自定义颜色, [tagName]:color",
+          "description": "WXML 标签高亮颜色配置",
           "default": {
             "color": "#00ffff"
           }
         },
         "freedomHelper.wxml-tagNoActiveArr": {
           "type": "array",
-          "description": "高亮所忽略的组件数组",
+          "description": "不高亮的 WXML 标签列表",
           "default": [
             "view",
             "scroll-view",
@@ -386,7 +425,7 @@
           "items": {
             "type": "string"
           },
-          "description": "应使用扩展名的vscode语言名称列表"
+          "description": "Vue 定义跳转支持的语言"
         },
         "freedomHelper.vue-targetFileExtensions": {
           "type": "array",
@@ -398,7 +437,7 @@
           "items": {
             "type": "string"
           },
-          "description": "应尝试查找的目标定义文件的扩展名列表。尝试这些扩展名的顺序是作为潜在文件名的进一步扩展名，也可以作为替代文件结尾，而不是现有的文件扩展名（如果可用）。"
+          "description": "Vue 定义跳转支持的文件扩展名"
         }
       }
     },
@@ -408,11 +447,51 @@
         "path": "./snippets/basic/css.json"
       },
       {
+        "language": "scss",
+        "path": "./snippets/basic/css.json"
+      },
+      {
+        "language": "less",
+        "path": "./snippets/basic/css.json"
+      },
+      {
+        "language": "sass",
+        "path": "./snippets/basic/css.json"
+      },
+      {
+        "language": "stylus",
+        "path": "./snippets/basic/css.json"
+      },
+      {
+        "language": "postcss",
+        "path": "./snippets/basic/css.json"
+      },
+      {
+        "language": "wxss",
+        "path": "./snippets/basic/css.json"
+      },
+      {
         "language": "html",
         "path": "./snippets/basic/html.json"
       },
       {
+        "language": "vue-html",
+        "path": "./snippets/basic/html.json"
+      },
+      {
         "language": "javascript",
+        "path": "./snippets/basic/javascript.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/basic/javascript.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/basic/javascript.json"
+      },
+      {
+        "language": "typescriptreact",
         "path": "./snippets/basic/javascript.json"
       },
       {
@@ -424,7 +503,15 @@
         "path": "./snippets/basic/pug.json"
       },
       {
+        "language": "jade",
+        "path": "./snippets/basic/pug.json"
+      },
+      {
         "language": "html",
+        "path": "./snippets/layui/layui-html.json"
+      },
+      {
+        "language": "vue-html",
         "path": "./snippets/layui/layui-html.json"
       },
       {
@@ -433,6 +520,10 @@
       },
       {
         "language": "html",
+        "path": "./snippets/vant/vant-html.json"
+      },
+      {
+        "language": "vue-html",
         "path": "./snippets/vant/vant-html.json"
       },
       {

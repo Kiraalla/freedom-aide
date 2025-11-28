@@ -1,4 +1,4 @@
-### 自由助手 v0.1.0
+### 自由助手 v0.1.1
 
 一个功能丰富的VS Code扩展，专为小程序和Vue开发设计，提供模板创建、代码格式化、代码块等强大功能。
 
@@ -12,15 +12,21 @@
 - **状态管理**: 创建Pinia、Vuex模块
 - **工具文件**: 快速创建工具类、Service层文件
 - **HTML模板**: 标准HTML页面模板
-- **属性输入优化**: 在wxml、vue、html中添加属性并键入等号时，每次都需要手动输入双引号，这样很麻烦，现在可以在输入`=`时补全`:""`了
+- **属性输入优化**: 在wxml、vue、html中添加属性并键入等号时，自动补全双引号 `=""`
 
 ### 代码格式化
 - **统一格式化器**: 为WXML和Vue文件提供一致的格式化体验
 - **智能配置**: 基于Prettier的可配置格式化选项
 - **保存时格式化**: 支持文件保存时自动格式化
+- **调试模式**: 可选的详细日志输出，方便问题排查
 
 ### 代码智能
 - **代码块支持**: 涵盖CSS、HTML、JS、Vue、小程序等众多技术栈
+  - CSS 代码块支持所有样式预处理器（SCSS、Less、Sass、Stylus、PostCSS、WXSS）
+  - HTML 代码块支持 Vue 模板
+  - JavaScript 代码块支持 TypeScript、JSX、TSX
+  - Vant/Layui 代码块支持 Vue 模板
+  - 可选择性启用/禁用特定框架的代码块
 - **语法高亮**: 自定义标签高亮，提升代码可读性
 - **定义跳转**: 支持WXML和Vue文件的组件跳转
 - **自动补全**: 丰富的代码片段和自动补全
@@ -29,25 +35,21 @@
 
 ## ⚙️ 配置说明
 
-### 基础配置
+### 快速开始
+
+最常用的配置：
+
 ```json
 {
-  "freedomHelper.vue-format-save-code": false,
-  "freedomHelper.wxml-format-save-code": false,
-  "freedomHelper.prettierOptions": {
-    "printWidth": 80,
-      "tabWidth": 2,
-      "useTabs": false,
-      "semi": false,
-      "singleQuote": false,
-      "singleAttributePerLine": false,
-      "bracketSameLine": false,
-      "htmlWhitespaceSensitivity": "ignore"
-    }
+  // 保存时自动格式化（推荐开启）
+  "freedomHelper.vue-format-save-code": true,
+  "freedomHelper.wxml-format-save-code": true
 }
 ```
 
 ### 格式化配置
+
+#### 统一配置（适用于所有文件）
 ```json
 {
   "freedomHelper.prettierOptions": {
@@ -64,13 +66,65 @@
 }
 ```
 
-### Vue特定配置
+#### 独立配置（可选，会覆盖统一配置）
+```json
+{
+  // Vue 文件独立配置
+  "freedomHelper.vuePrettierOptions": {
+    "singleQuote": true
+  },
+  
+  // WXML 文件独立配置
+  "freedomHelper.wxmlPrettierOptions": {
+    "printWidth": 100
+  }
+}
+```
+
+### 代码块控制（v0.1.1 新增）
+
+根据项目需求选择性启用代码块：
+
+```json
+{
+  "freedomHelper.enableJQuerySnippets": true,   // jQuery 代码块
+  "freedomHelper.enableLayuiSnippets": true,    // Layui 代码块
+  "freedomHelper.enableVantSnippets": true,     // Vant 代码块
+  "freedomHelper.enableWeappSnippets": true     // 小程序代码块
+}
+```
+
+### 高级配置
+
+#### WXML 标签高亮
+```json
+{
+  "freedomHelper.wxml-activeDisable": false,
+  "freedomHelper.wxml-activeColor": {
+    "color": "#00ffff"
+  }
+}
+```
+
+#### Vue 定义跳转
 ```json
 {
   "freedomHelper.vue-supportedLanguages": ["vue", "javascript", "typescript"],
   "freedomHelper.vue-targetFileExtensions": [".vue", ".js", ".ts"]
 }
 ```
+
+### 调试模式（v0.1.1 新增）
+
+遇到问题时启用：
+
+```json
+{
+  "freedomHelper.debugMode": true
+}
+```
+
+启用后可以在输出面板（查看 → 输出 → 选择"自由助手"）中查看详细的调试日志。
 
 ---
 
@@ -112,7 +166,11 @@
 通过 `Ctrl+Shift+P` (Windows) 或 `Cmd+Shift+P` (Mac) 打开命令面板，搜索"自由助手"相关命令。
 
 ### 右键菜单
-在资源管理器中右键点击文件夹，选择相应的创建模板选项。
+在资源管理器中右键点击文件夹，选择"自由助手 - 创建模板"，然后选择需要的模板类型：
+- **Vue 模板**: Vue2、Vue3、HTML
+- **状态管理**: Pinia、Vuex、Service
+- **小程序**: 页面、组件
+- **工具文件**: 工具类集合
 
 ### 快捷键
 - `Shift+Alt+F`: 格式化当前文档 (WXML/Vue)
@@ -131,7 +189,7 @@
 (下面是代码块对照，Ctrl+F快速查找)
 
 ## 代码块对照表
-### CSS代码块（css、scss、less文件可用）
+### CSS代码块（css、scss、less、sass、stylus、postcss、wxss 文件可用，Vue 文件的 style 块也可用）
 
 | 缩写   | 描述                                                                                |
 | ------ | ----------------------------------------------------------------------------------- |
