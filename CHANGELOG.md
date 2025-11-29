@@ -4,6 +4,41 @@ All notable changes to the "freedom-helper" extension will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.2] - 2025-11-29
+
+### ✨ 新功能
+- **WXSS 语法高亮**: 新增完整的 WXSS 文件语法高亮支持
+  - 支持所有 CSS 属性和值的高亮显示
+  - 支持小程序特有单位 `rpx` 的高亮
+  - 支持小程序组件选择器的高亮（view、text、image 等）
+  - 支持伪类和伪元素的高亮
+  - 支持 CSS 函数（rgb、rgba、calc、var 等）的高亮
+- **WXSS 代码格式化**: 新增 WXSS 文件的格式化功能
+  - 基于 Prettier 的 CSS 格式化引擎
+  - 支持统一配置和独立配置
+  - 支持保存时自动格式化
+  - 支持快捷键 `Shift+Alt+F` 格式化
+- **WXSS 语言配置**: 新增 WXSS 文件的编辑器配置
+  - 自动闭合括号和引号
+  - 注释快捷键支持
+  - 代码折叠支持
+  - 智能缩进
+
+### 🎯 配置增强
+- 新增 `freedomHelper.wxss-format-save-code` 配置项，控制 WXSS 保存时是否自动格式化
+- 新增 `freedomHelper.wxssPrettierOptions` 配置项，支持 WXSS 文件的独立格式化配置
+- 更新 `freedomHelper.prettierOptions` 描述，明确支持 WXSS 文件
+
+### 📝 命令增强
+- 新增 `extension.formatwxss` 命令，专门用于格式化 WXSS 文件
+- 更新 `extension.formatUnified` 命令，支持 WXSS 文件格式化
+- 快捷键 `Shift+Alt+F` 现在支持 WXSS 文件
+
+### 📚 文档更新
+- 更新 README.md，添加 WXSS 功能说明
+- 更新配置示例，包含 WXSS 相关配置
+- 创建测试用的 WXSS 示例文件
+
 ## [0.1.1] - 2025-11-28
 
 ### 🐛 Bug 修复

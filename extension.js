@@ -99,8 +99,8 @@ class FreedomDocumentFormattingEditProvider {
   provideDocumentFormattingEdits(document, options, token) {
     const languageId = document.languageId;
 
-    // 只处理 WXML 和 Vue 文件
-    if (languageId !== 'wxml' && languageId !== 'vue') {
+    // 只处理 WXML、Vue 和 WXSS 文件
+    if (languageId !== 'wxml' && languageId !== 'vue' && languageId !== 'wxss') {
       return;
     }
 
@@ -112,6 +112,8 @@ class FreedomDocumentFormattingEditProvider {
         formattedText = format_core.unifiedFormat(text, 'vue');
       } else if (languageId === 'wxml') {
         formattedText = format_core.unifiedFormat(text, 'wxml');
+      } else if (languageId === 'wxss') {
+        formattedText = format_core.unifiedFormat(text, 'wxss');
       }
 
       // 返回格式化后的文本编辑
@@ -167,6 +169,14 @@ function activate(context) {
     )
   );
 
+  // 为 WXSS 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'wxss' },
+      formattingProvider
+    )
+  );
+
   // 注册范围格式化器（可选）
   context.subscriptions.push(
     vscode.languages.registerDocumentRangeFormattingEditProvider(
@@ -178,6 +188,13 @@ function activate(context) {
   context.subscriptions.push(
     vscode.languages.registerDocumentRangeFormattingEditProvider(
       { language: 'vue' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'wxss' },
       formattingProvider
     )
   );
@@ -223,7 +240,7 @@ function activate(context) {
     logger.debug(`格式化语言: ${languageId}`);
 
     try {
-      if (languageId === 'vue' || languageId === 'wxml') {
+      if (languageId === 'vue' || languageId === 'wxml' || languageId === 'wxss') {
         await vscode.commands.executeCommand('editor.action.formatDocument');
         vscode.window.showInformationMessage(`${languageId} 文件格式化完成`);
         logger.debug(`${languageId} 文件格式化完成`);
@@ -298,6 +315,52 @@ function activate(context) {
     });
   });
 
+  // WXSS 格式化命令 - 返回 Promise
+  registerCommand(context, 'extension.formatwxss', () => {
+    logger.debug('WXSS 格式化命令被触发');
+    return new Promise((resolve, reject) => {
+      const editor = vscode.window.activeTextEditor;
+
+      if (!editor || !editor.document.fileName.endsWith('.wxss')) {
+        vscode.window.showErrorMessage('没有活动的 WXSS 编辑器');
+        reject(new Error('没有活动的 WXSS 编辑器'));
+        return;
+      }
+
+      const doc = editor.document;
+      const text = doc.getText();
+      const range = new vscode.Range(
+        new vscode.Position(0, 0),
+        new vscode.Position(doc.lineCount, 0)
+      );
+
+      try {
+        const formattedText = format_core.unifiedFormat(text, 'wxss');
+
+        editor.edit(editBuilder => {
+          editBuilder.replace(range, formattedText);
+        }).then(success => {
+          if (success) {
+            vscode.window.showInformationMessage('WXSS 文件格式化完成');
+            logger.debug('WXSS 文件格式化完成');
+            resolve();
+          } else {
+            vscode.window.showErrorMessage('WXSS 文件格式化失败');
+            reject(new Error('WXSS 文件格式化失败'));
+          }
+        }).catch(error => {
+          logger.error('WXSS 格式化失败', error);
+          reject(error);
+        });
+
+      } catch (error) {
+        vscode.window.showErrorMessage(`WXSS 格式化失败: ${error.message}`);
+        logger.error('WXSS 格式化失败', error);
+        reject(error);
+      }
+    });
+  });
+
   // 保存时自动格式化（根据配置）
   context.subscriptions.push(vscode.workspace.onWillSaveTextDocument(event => {
     try {
@@ -305,7 +368,8 @@ function activate(context) {
       const doc = event.document;
 
       if ((doc.languageId === 'vue' && cfg.get('vue-format-save-code')) ||
-        (doc.languageId === 'wxml' && cfg.get('wxml-format-save-code'))) {
+        (doc.languageId === 'wxml' && cfg.get('wxml-format-save-code')) ||
+        (doc.languageId === 'wxss' && cfg.get('wxss-format-save-code'))) {
         logger.debug(`触发保存时格式化: ${doc.languageId}`);
         event.waitUntil(vscode.commands.executeCommand('editor.action.formatDocument'));
       }

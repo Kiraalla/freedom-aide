@@ -4,7 +4,7 @@
   "description": "",
   "icon": "./logo.jpg",
   "main": "./extension.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "Kiraalla",
   "homepage": "https://github.com/Kiraalla/freedom-helper",
   "bugs": {
@@ -30,7 +30,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:wxml"
+    "onLanguage:wxml",
+    "onLanguage:wxss"
   ],
   "contributes": {
     "languages": [
@@ -52,7 +53,8 @@
         "aliases": [
           "WXSS",
           "wxss"
-        ]
+        ],
+        "configuration": "./languages/wxss-language-configuration.json"
       },
       {
         "id": "vue",
@@ -130,7 +132,7 @@
       },
       {
         "command": "extension.formatUnified",
-        "title": "格式化文档 (WXML/Vue)"
+        "title": "格式化文档 (WXML/Vue/WXSS)"
       },
       {
         "when": "editorLangId == vue",
@@ -141,6 +143,11 @@
         "when": "editorLangId == wxml",
         "command": "extension.formatwxml",
         "title": "Wxml 格式化"
+      },
+      {
+        "when": "editorLangId == wxss",
+        "command": "extension.formatwxss",
+        "title": "Wxss 格式化"
       }
     ],
     "submenus": [
@@ -198,7 +205,7 @@
       "commandPalette": [
         {
           "command": "extension.formatUnified",
-          "when": "editorLangId == wxml || editorLangId == vue"
+          "when": "editorLangId == wxml || editorLangId == vue || editorLangId == wxss"
         }
       ]
     },
@@ -284,6 +291,11 @@
         "language": "wxml",
         "scopeName": "text.wxml.derivative",
         "path": "./syntaxes/wxml/wxml-derivative.tmLanguage.json"
+      },
+      {
+        "language": "wxss",
+        "scopeName": "source.css.wxss",
+        "path": "./syntaxes/wxss/wxss.tmLanguage.json"
       }
     ],
     "keybindings": [
@@ -291,7 +303,7 @@
         "command": "editor.action.formatDocument",
         "key": "shift+alt+f",
         "mac": "shift+alt+f",
-        "when": "editorTextFocus && !editorReadonly && (editorLangId == wxml || editorLangId == vue)"
+        "when": "editorTextFocus && !editorReadonly && (editorLangId == wxml || editorLangId == vue || editorLangId == wxss)"
       }
     ],
     "configuration": {
@@ -312,9 +324,14 @@
           "default": false,
           "description": "保存 WXML 文件时自动格式化"
         },
+        "freedomHelper.wxss-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "保存 WXSS 文件时自动格式化"
+        },
         "freedomHelper.prettierOptions": {
           "type": "object",
-          "description": "Prettier 统一配置（适用于 Vue 和 WXML）",
+          "description": "Prettier 统一配置（适用于 Vue、WXML 和 WXSS）",
           "default": {
             "printWidth": 80,
             "tabWidth": 2,
@@ -344,6 +361,11 @@
         "freedomHelper.wxmlPrettierOptions": {
           "type": "object",
           "description": "WXML 文件的 Prettier 独立配置（会覆盖统一配置）",
+          "default": {}
+        },
+        "freedomHelper.wxssPrettierOptions": {
+          "type": "object",
+          "description": "WXSS 文件的 Prettier 独立配置（会覆盖统一配置）",
           "default": {}
         },
         "freedomHelper.enableJQuerySnippets": {

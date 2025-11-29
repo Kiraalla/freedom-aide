@@ -1,0 +1,419 @@
+/**
+ * WXSS 示例文件
+ * 展示 freedom-helper 扩展的 WXSS 支持功能
+ */
+
+/* ==================== 基础样式 ==================== */
+
+/* 页面容器 */
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* ==================== 布局样式 ==================== */
+
+/* Flex 布局 - 行 */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Flex 布局 - 列 */
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* 居中布局 */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== 文字样式 ==================== */
+
+/* 标题 */
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333333;
+  line-height: 1.5;
+  margin-bottom: 20rpx;
+}
+
+/* 副标题 */
+.subtitle {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #666666;
+  line-height: 1.4;
+  margin-bottom: 15rpx;
+}
+
+/* 正文 */
+.text {
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 1.6;
+}
+
+/* 文字省略 */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 多行文字省略 */
+.text-ellipsis-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==================== 卡片样式 ==================== */
+
+/* 基础卡片 */
+.card {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  margin-bottom: 20rpx;
+}
+
+/* 卡片标题 */
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 15rpx;
+}
+
+/* 卡片内容 */
+.card-content {
+  font-size: 26rpx;
+  color: #666666;
+  line-height: 1.6;
+}
+
+/* ==================== 按钮样式 ==================== */
+
+/* 主要按钮 */
+.btn-primary {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 44rpx;
+  border: none;
+  box-shadow: 0 8rpx 16rpx rgba(102, 126, 234, 0.3);
+}
+
+/* 次要按钮 */
+.btn-secondary {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #667eea;
+  background-color: #ffffff;
+  border: 2rpx solid #667eea;
+  border-radius: 44rpx;
+}
+
+/* 按钮禁用状态 */
+.btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ==================== 表单样式 ==================== */
+
+/* 输入框 */
+.input {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  color: #333333;
+  background-color: #f8f8f8;
+  border: 2rpx solid #e5e5e5;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+}
+
+/* 输入框聚焦状态 */
+.input:focus {
+  border-color: #667eea;
+  background-color: #ffffff;
+}
+
+/* 文本域 */
+.textarea {
+  width: 100%;
+  min-height: 200rpx;
+  padding: 20rpx 30rpx;
+  font-size: 28rpx;
+  color: #333333;
+  background-color: #f8f8f8;
+  border: 2rpx solid #e5e5e5;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+}
+
+/* ==================== 列表样式 ==================== */
+
+/* 列表项 */
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+/* 列表项图标 */
+.list-item-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 20rpx;
+}
+
+/* 列表项内容 */
+.list-item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 列表项标题 */
+.list-item-title {
+  font-size: 28rpx;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+/* 列表项描述 */
+.list-item-desc {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* ==================== 图片样式 ==================== */
+
+/* 圆形图片 */
+.img-circle {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* 圆角图片 */
+.img-rounded {
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+/* 图片容器 */
+.img-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 宽高比 */
+  overflow: hidden;
+}
+
+/* 图片填充 */
+.img-container image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==================== 动画样式 ==================== */
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 滑入动画 */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-up {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* 缩放动画 */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* ==================== 工具类 ==================== */
+
+/* 间距 */
+.mt-10 {
+  margin-top: 10rpx;
+}
+.mt-20 {
+  margin-top: 20rpx;
+}
+.mt-30 {
+  margin-top: 30rpx;
+}
+
+.mb-10 {
+  margin-bottom: 10rpx;
+}
+.mb-20 {
+  margin-bottom: 20rpx;
+}
+.mb-30 {
+  margin-bottom: 30rpx;
+}
+
+.ml-10 {
+  margin-left: 10rpx;
+}
+.ml-20 {
+  margin-left: 20rpx;
+}
+.ml-30 {
+  margin-left: 30rpx;
+}
+
+.mr-10 {
+  margin-right: 10rpx;
+}
+.mr-20 {
+  margin-right: 20rpx;
+}
+.mr-30 {
+  margin-right: 30rpx;
+}
+
+/* 内边距 */
+.p-10 {
+  padding: 10rpx;
+}
+.p-20 {
+  padding: 20rpx;
+}
+.p-30 {
+  padding: 30rpx;
+}
+
+/* 文字对齐 */
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+/* 颜色 */
+.text-primary {
+  color: #667eea;
+}
+.text-success {
+  color: #52c41a;
+}
+.text-warning {
+  color: #faad14;
+}
+.text-danger {
+  color: #f5222d;
+}
+.text-info {
+  color: #1890ff;
+}
+
+/* 背景色 */
+.bg-primary {
+  background-color: #667eea;
+}
+.bg-success {
+  background-color: #52c41a;
+}
+.bg-warning {
+  background-color: #faad14;
+}
+.bg-danger {
+  background-color: #f5222d;
+}
+.bg-info {
+  background-color: #1890ff;
+}
+
+/* ==================== 响应式 ==================== */
+
+/* 小程序组件通用样式 */
+view,
+text,
+image,
+button,
+input,
+textarea {
+  box-sizing: border-box;
+}
+
+/* 清除按钮默认样式 */
+button::after {
+  border: none;
+}
+
+/* 清除输入框默认样式 */
+input,
+textarea {
+  outline: none;
+}

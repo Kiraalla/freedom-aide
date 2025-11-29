@@ -15,7 +15,7 @@
 - **属性输入优化**: 在wxml、vue、html中添加属性并键入等号时，自动补全双引号 `=""`
 
 ### 代码格式化
-- **统一格式化器**: 为WXML和Vue文件提供一致的格式化体验
+- **统一格式化器**: 为WXML、Vue和WXSS文件提供一致的格式化体验
 - **智能配置**: 基于Prettier的可配置格式化选项
 - **保存时格式化**: 支持文件保存时自动格式化
 - **调试模式**: 可选的详细日志输出，方便问题排查
@@ -43,7 +43,8 @@
 {
   // 保存时自动格式化（推荐开启）
   "freedomHelper.vue-format-save-code": true,
-  "freedomHelper.wxml-format-save-code": true
+  "freedomHelper.wxml-format-save-code": true,
+  "freedomHelper.wxss-format-save-code": true
 }
 ```
 
@@ -77,6 +78,12 @@
   // WXML 文件独立配置
   "freedomHelper.wxmlPrettierOptions": {
     "printWidth": 100
+  },
+  
+  // WXSS 文件独立配置
+  "freedomHelper.wxssPrettierOptions": {
+    "singleQuote": true,
+    "printWidth": 120
   }
 }
 ```
@@ -173,7 +180,7 @@
 - **工具文件**: 工具类集合
 
 ### 快捷键
-- `Shift+Alt+F`: 格式化当前文档 (WXML/Vue)
+- `Shift+Alt+F`: 格式化当前文档 (WXML/Vue/WXSS)
 
 ---
 

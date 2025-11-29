@@ -95,11 +95,21 @@ function postprocessWxml(formattedVueCode) {
 /**
  * 统一格式化函数
  * @param {string} code - 要格式化的代码
- * @param {string} fileType - 文件类型 'vue' 或 'wxml'
+ * @param {string} fileType - 文件类型 'vue'、'wxml' 或 'wxss'
  * @returns {string} 格式化后的代码
  */
 function unifiedFormat(code, fileType) {
   try {
+    // WXSS 使用 CSS 格式化
+    if (fileType === 'wxss') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'css'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
     const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
     
     let codeToFormat = code;

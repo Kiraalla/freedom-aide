@@ -1,0 +1,15 @@
+/* 测试 WXSS 文件 */
+.container{display:flex;flex-direction:column;align-items:center;background-color:#f5f5f5;padding:20rpx;}
+
+.title{font-size:32rpx;color:#333;font-weight:bold;margin-bottom:10rpx;}
+
+.content{width:100%;padding:30rpx;background:#fff;border-radius:10rpx;box-shadow:0 2rpx 10rpx rgba(0,0,0,0.1);}
+
+.button{width:200rpx;height:80rpx;line-height:80rpx;text-align:center;background:linear-gradient(to right,#4facfe,#00f2fe);color:#fff;border-radius:40rpx;margin-top:20rpx;}
+
+/* 小程序组件样式 */
+view,text,image{box-sizing:border-box;}
+
+.flex-row{display:flex;flex-direction:row;justify-content:space-between;}
+
+.flex-col{display:flex;flex-direction:column;}
