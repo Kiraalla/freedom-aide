@@ -4,7 +4,38 @@ All notable changes to the "freedom-helper" extension will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.1.2] - 2025-11-29
+## [0.1.2] - 2025-12-05
+
+### 🐛 Bug 修复（共 5 个）
+
+#### 🔴 严重 BUG（高优先级）
+- **WXML/Vue 注释格式化修复**: 修复了注释内容被破坏的严重 BUG
+  - 问题：包含 HTML 代码的长注释在格式化时内容会丢失或损坏
+  - 修复：在格式化前保护注释内容，格式化后恢复
+  - 新增 `protectComments()` 函数：将注释替换为占位符
+  - 新增 `restoreComments()` 函数：将占位符替换回原始注释
+  - 影响：所有 WXML 和 Vue 文件中的 HTML 注释现在都能安全格式化
+  - Vue 文件：预防性修复，避免潜在问题
+  - 测试：WXML 10 个测试用例 + Vue 8 个测试用例全部通过
+- **app.json 更新机制改进**: 大幅改进小程序页面创建时的 app.json 更新逻辑
+  - 新增备份机制：修改前自动创建 app.json.backup 备份文件
+  - 新增 JSON 结构验证：防止格式错误导致文件损坏
+  - 新增错误恢复机制：写入失败时自动从备份恢复
+  - 改进错误提示：提供更友好和详细的错误信息
+  - 新增修改检测：只在确实需要修改时才写入文件
+  - 新增数组类型验证：确保 pages 和 subPackages 是数组类型
+
+#### 🟡 中低优先级 BUG
+- **自动补全引号优化**: 修复了在引号内输入等号时仍会触发自动补全的问题
+  - 现在会检查等号是否在引号内（通过计算引号数量）
+  - 检查等号前是否有合法的属性名
+  - 检查等号后是否已经有引号
+  - 避免在不合适的场景下触发补全，减少语法错误
+  - 测试：13 个测试用例全部通过
+- **README.md 格式修复**: 修复了文档中引号显示错误的问题
+- **代码折叠功能修复**: 修复了在嵌套结构中添加注释后代码折叠失效的问题
+  - 在 WXSS 和 WXML 语言配置中添加 `offSide: true` 启用基于缩进的折叠
+  - 支持 `#region`/`#endregion` 折叠标记
 
 ### ✨ 新功能
 - **WXSS 语法高亮**: 新增完整的 WXSS 文件语法高亮支持

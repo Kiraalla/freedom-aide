@@ -1,0 +1,59 @@
+<!-- 自动补全引号功能测试文件 -->
+
+<!-- 测试 1: 正常属性赋值 - 应该触发补全 -->
+<view class="container">
+  <!-- 在 class= 后输入等号，应该自动补全为 class="" -->
+</view>
+
+<!-- 测试 2: 在引号内输入等号 - 不应该触发补全 -->
+<view data-value="a=b">
+  <!-- 在 "a= 后输入等号，不应该补全 -->
+</view>
+
+<!-- 测试 3: 多个属性 -->
+<view class="container" id="main" data-index="0">
+  <!-- 每个属性的等号都应该正常补全 -->
+</view>
+
+<!-- 测试 4: 小程序指令 -->
+<view wx:if="{{show}}" wx:for="{{list}}" wx:key="id">
+  <!-- wx:if= 等指令应该正常补全 -->
+</view>
+
+<!-- 测试 5: 复杂表达式 -->
+<view data-json='{"key":"value","other":"data"}'>
+  <!-- 在单引号内的双引号不应该影响外部的补全 -->
+</view>
+
+<!-- 测试 6: data-* 属性 -->
+<view 
+  data-user-id="123"
+  data-user-name="张三"
+  data-config='{"a":1,"b":2}'>
+  <!-- data-* 属性应该正常补全 -->
+</view>
+
+<!-- 测试 7: 事件绑定 -->
+<view 
+  bindtap="handleTap"
+  catchtouchmove="handleMove"
+  bind:tap="handleTap2">
+  <!-- 事件绑定属性应该正常补全 -->
+</view>
+
+<!-- 测试 8: 样式属性 -->
+<view style="color: red; font-size: 14px;">
+  <!-- style 属性中的冒号和分号不应该影响补全 -->
+</view>
+
+<!-- 测试 9: 布尔属性 -->
+<button disabled="{{false}}" loading="{{true}}">
+  <!-- 布尔属性应该正常补全 -->
+</button>
+
+<!-- 测试 10: 自定义组件属性 -->
+<custom-component 
+  custom-prop="value"
+  bind:customevent="handleEvent">
+  <!-- 自定义组件属性应该正常补全 -->
+</custom-component>

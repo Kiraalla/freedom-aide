@@ -1,0 +1,56 @@
+<!-- WXML 注释格式化测试文件 -->
+
+<!-- 测试用例 1: 简单注释 -->
+<view>简单内容</view>
+
+<!-- 测试用例 2: 包含代码的短注释 -->
+<!-- <view>这是注释中的代码</view> -->
+<view>实际内容</view>
+
+<!-- 测试用例 3: 多行注释 -->
+<!-- 
+  <view class="complex">
+    <text>多行注释代码</text>
+  </view>
+-->
+<view>实际内容</view>
+
+<!-- 测试用例 4: 长注释（原问题） -->
+<!-- <view class="car-collection"><van-checkbox value="{{ isSelectAll }}" bind:change="onSelectAllChange">全选(1)</van-checkbox><view class="wy-flex-none"><van-button plain round type="primary" size="small" class="wy-ml-12" custom-class="w180">收藏</van-button><van-button plain round type="primary" size="small" color="#999" class="wy-ml-12" custom-class="w180">删除</van-button></view></view> -->
+<view>实际内容</view>
+
+<!-- 测试用例 5: 多个连续注释 -->
+<!-- 注释1 -->
+<!-- 注释2 -->
+<!-- 注释3 -->
+<view>内容</view>
+
+<!-- 测试用例 6: 嵌套结构中的注释 -->
+<view class="container">
+  <!-- 头部注释 -->
+  <view class="header">
+    <!-- <view>注释中的代码</view> -->
+    <text>标题</text>
+  </view>
+  <!-- 中间注释 -->
+  <view class="content">
+    <text>内容</text>
+  </view>
+  <!-- 底部注释 -->
+</view>
+
+<!-- 测试用例 7: 包含 Mustache 表达式的注释 -->
+<!-- <view>{{ value }}</view> -->
+<view>{{ actualValue }}</view>
+
+<!-- 测试用例 8: 包含小程序组件的注释 -->
+<!-- <van-button type="primary">按钮</van-button> -->
+<van-button type="default">实际按钮</van-button>
+
+<!-- 测试用例 9: 包含事件绑定的注释 -->
+<!-- <view bindtap="handleTap">点击</view> -->
+<view bindtap="handleRealTap">实际点击</view>
+
+<!-- 测试用例 10: 包含复杂属性的注释 -->
+<!-- <view class="item {{ active ? 'active' : '' }}" data-id="{{id}}" bindtap="handleTap">内容</view> -->
+<view class="real-item">实际内容</view>

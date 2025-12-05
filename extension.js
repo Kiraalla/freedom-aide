@@ -60,6 +60,40 @@ function setupAutoQuote(context) {
                     // 找到等号的位置
                     const equalIndex = position.character - 1;
                     
+                    // 检查是否在引号内
+                    const textBeforeEqual = lineText.substring(0, equalIndex);
+                    const textAfterEqual = lineText.substring(equalIndex + 1);
+                    
+                    // 计算引号数量，判断是否在引号内
+                    const doubleQuotesBefore = (textBeforeEqual.match(/"/g) || []).length;
+                    const singleQuotesBefore = (textBeforeEqual.match(/'/g) || []).length;
+                    
+                    // 如果引号数量为奇数，说明在引号内，不触发补全
+                    if (doubleQuotesBefore % 2 !== 0 || singleQuotesBefore % 2 !== 0) {
+                        isProcessing = false;
+                        return;
+                    }
+                    
+                    // 检查等号前是否有属性名（至少有一个非空白字符）
+                    const beforeEqual = textBeforeEqual.trimEnd();
+                    if (beforeEqual.length === 0 || /\s$/.test(textBeforeEqual)) {
+                        isProcessing = false;
+                        return;
+                    }
+                    
+                    // 检查等号前最后一个字符是否是合法的属性名字符
+                    const lastChar = beforeEqual[beforeEqual.length - 1];
+                    if (!/[a-zA-Z0-9_:-]/.test(lastChar)) {
+                        isProcessing = false;
+                        return;
+                    }
+                    
+                    // 检查等号后是否已经有引号
+                    if (/^\s*["']/.test(textAfterEqual)) {
+                        isProcessing = false;
+                        return;
+                    }
+                    
                     // 替换等号为 =""
                     const newLineText = 
                         lineText.substring(0, equalIndex) + 
@@ -536,44 +570,119 @@ function activate(context) {
       const workspaceFolderUri = workspaceFolders[0].uri;
       const appJsonUri = vscode.Uri.joinPath(workspaceFolderUri, 'app.json');
       
-      const appJsonContent = await vscode.workspace.fs.readFile(appJsonUri);
-      const appJson = JSON.parse(appJsonContent.toString());
+      // 读取 app.json 文件
+      let appJsonContent;
+      try {
+        appJsonContent = await vscode.workspace.fs.readFile(appJsonUri);
+      } catch (readError) {
+        vscode.window.showErrorMessage('未找到 app.json 文件，请确保在小程序项目根目录下');
+        logger.error('读取 app.json 失败', readError);
+        return;
+      }
+
+      // 创建备份
+      const backupUri = vscode.Uri.joinPath(workspaceFolderUri, 'app.json.backup');
+      try {
+        await vscode.workspace.fs.writeFile(backupUri, appJsonContent);
+        logger.debug('已创建 app.json 备份');
+      } catch (backupError) {
+        logger.warn('创建备份失败，继续执行', backupError);
+      }
+
+      // 解析 JSON
+      let appJson;
+      try {
+        appJson = JSON.parse(appJsonContent.toString());
+      } catch (parseError) {
+        vscode.window.showErrorMessage('app.json 格式错误，请检查 JSON 语法');
+        logger.error('解析 app.json 失败', parseError);
+        return;
+      }
+
+      // 验证 JSON 结构
+      if (typeof appJson !== 'object' || appJson === null || Array.isArray(appJson)) {
+        vscode.window.showErrorMessage('app.json 结构错误，根元素必须是对象');
+        logger.error('app.json 结构验证失败');
+        return;
+      }
+
+      // 记录修改前的状态
+      const originalJson = JSON.stringify(appJson);
+      let modified = false;
 
       // 主包页面
       if (before_pages === '') {
-        if (!appJson.pages) {
+        if (!Array.isArray(appJson.pages)) {
           appJson.pages = [];
         }
         if (!appJson.pages.includes(after_pages)) {
           appJson.pages.push(after_pages);
           logger.info(`页面路径"${after_pages}"已添加到主包`);
+          modified = true;
         } else {
           vscode.window.showInformationMessage(`页面路径"${after_pages}"已存在于主包中`);
+          return;
         }
       } else {
         // 分包页面
-        if (appJson.subPackages) {
-          const targetSubPackage = appJson.subPackages.find(sp => sp.root === before_pages);
-          if (targetSubPackage) {
-            if (!targetSubPackage.pages) {
-              targetSubPackage.pages = [];
-            }
-            if (!targetSubPackage.pages.includes(after_pages)) {
-              targetSubPackage.pages.push(after_pages);
-              logger.info(`页面路径"${after_pages}"已添加到分包"${before_pages}"`);
-            } else {
-              vscode.window.showInformationMessage(`分包"${before_pages}"中已存在页面路径"${after_pages}"`);
-            }
-          } else {
-            logger.warn(`未找到分包"${before_pages}"`);
+        if (!Array.isArray(appJson.subPackages)) {
+          vscode.window.showWarningMessage(`未找到分包配置，无法添加到分包"${before_pages}"`);
+          logger.warn('app.json 中没有 subPackages 配置');
+          return;
+        }
+
+        const targetSubPackage = appJson.subPackages.find(sp => sp.root === before_pages);
+        if (targetSubPackage) {
+          if (!Array.isArray(targetSubPackage.pages)) {
+            targetSubPackage.pages = [];
           }
+          if (!targetSubPackage.pages.includes(after_pages)) {
+            targetSubPackage.pages.push(after_pages);
+            logger.info(`页面路径"${after_pages}"已添加到分包"${before_pages}"`);
+            modified = true;
+          } else {
+            vscode.window.showInformationMessage(`分包"${before_pages}"中已存在页面路径"${after_pages}"`);
+            return;
+          }
+        } else {
+          vscode.window.showWarningMessage(`未找到分包"${before_pages}"，请先在 app.json 中配置该分包`);
+          logger.warn(`未找到分包"${before_pages}"`);
+          return;
         }
       }
 
-      await vscode.workspace.fs.writeFile(appJsonUri, Buffer.from(JSON.stringify(appJson, null, 2), 'utf8'));
-      vscode.window.showInformationMessage(`路径"${after_pages}"已添加到 app.json 中`);
+      // 只有在确实修改了内容时才写入文件
+      if (modified) {
+        try {
+          const newContent = JSON.stringify(appJson, null, 2);
+          await vscode.workspace.fs.writeFile(appJsonUri, Buffer.from(newContent, 'utf8'));
+          vscode.window.showInformationMessage(`路径"${after_pages}"已添加到 app.json 中`);
+          logger.info('app.json 更新成功');
+
+          // 删除备份文件
+          try {
+            await vscode.workspace.fs.delete(backupUri);
+            logger.debug('已删除备份文件');
+          } catch (deleteError) {
+            logger.debug('删除备份文件失败（可忽略）', deleteError);
+          }
+        } catch (writeError) {
+          vscode.window.showErrorMessage(`写入 app.json 失败: ${writeError.message}`);
+          logger.error('写入 app.json 失败', writeError);
+          
+          // 尝试恢复备份
+          try {
+            await vscode.workspace.fs.writeFile(appJsonUri, appJsonContent);
+            vscode.window.showInformationMessage('已从备份恢复 app.json');
+            logger.info('已从备份恢复 app.json');
+          } catch (restoreError) {
+            vscode.window.showErrorMessage('恢复备份失败，请手动检查 app.json.backup 文件');
+            logger.error('恢复备份失败', restoreError);
+          }
+        }
+      }
     } catch (error) {
-      vscode.window.showErrorMessage(`更新 app.json 失败: ${error.message}`);
+      vscode.window.showErrorMessage(`更新 app.json 时发生未知错误: ${error.message}`);
       logger.error('更新 app.json 失败', error);
     }
   });

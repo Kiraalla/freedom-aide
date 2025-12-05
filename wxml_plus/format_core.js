@@ -43,6 +43,42 @@ class ConfigManager {
 }
 
 /**
+ * 保护注释内容：将注释替换为占位符
+ * @param {string} code - 原始代码
+ * @returns {object} { code: 处理后的代码, comments: 注释映射表 }
+ */
+function protectComments(code) {
+  const comments = [];
+  let index = 0;
+  
+  // 替换 HTML 注释为占位符
+  const protectedCode = code.replace(/<!--[\s\S]*?-->/g, (match) => {
+    const placeholder = `<!--__COMMENT_PLACEHOLDER_${index}__-->`;
+    comments.push({ placeholder, original: match });
+    index++;
+    return placeholder;
+  });
+  
+  return { code: protectedCode, comments };
+}
+
+/**
+ * 恢复注释内容：将占位符替换回原始注释
+ * @param {string} code - 处理后的代码
+ * @param {Array} comments - 注释映射表
+ * @returns {string} 恢复注释后的代码
+ */
+function restoreComments(code, comments) {
+  let restoredCode = code;
+  
+  comments.forEach(({ placeholder, original }) => {
+    restoredCode = restoredCode.replace(placeholder, original);
+  });
+  
+  return restoredCode;
+}
+
+/**
  * WXML 预处理：将 WXML 包装在 Vue 模板中
  * @param {string} wxmlCode - 原始 WXML 代码
  * @returns {string} 包装后的 Vue 模板代码
@@ -114,11 +150,23 @@ function unifiedFormat(code, fileType) {
     
     let codeToFormat = code;
     let isWxml = false;
+    let savedComments = [];
+    let needCommentProtection = false;
 
     // WXML 预处理
     if (fileType === 'wxml') {
-      codeToFormat = preprocessWxml(code);
+      // 保护注释内容
+      const { code: protectedCode, comments } = protectComments(code);
+      savedComments = comments;
+      codeToFormat = preprocessWxml(protectedCode);
       isWxml = true;
+      needCommentProtection = true;
+    } else if (fileType === 'vue') {
+      // Vue 也保护注释内容（预防性修复）
+      const { code: protectedCode, comments } = protectComments(code);
+      savedComments = comments;
+      codeToFormat = protectedCode;
+      needCommentProtection = true;
     }
 
     // 强制覆盖关键配置，确保一致性
@@ -139,6 +187,11 @@ function unifiedFormat(code, fileType) {
     // WXML 后处理
     if (isWxml) {
       formatted = postprocessWxml(formatted);
+    }
+    
+    // 恢复注释内容（WXML 和 Vue 都需要）
+    if (needCommentProtection) {
+      formatted = restoreComments(formatted, savedComments);
     }
 
     // 应用 mustache 空格处理
