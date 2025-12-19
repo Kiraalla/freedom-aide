@@ -46,6 +46,12 @@ function setupAutoQuote(context) {
         const supportedLanguages = ['wxml', 'html', 'vue'];
         if (!supportedLanguages.includes(event.document.languageId)) return;
         
+        // 如果处于多光标编辑模式（如 Ctrl+F2 批量替换），不触发自动补全
+        if (vscode.window.activeTextEditor && vscode.window.activeTextEditor.selections && vscode.window.activeTextEditor.selections.length > 1) {
+            // 在多光标模式下选择不进行自动补全，避免意外批量插入
+            return;
+        }
+        
         // 检查是否输入了等号
         for (const change of event.contentChanges) {
             if (change.text === '=' && change.rangeLength === 0) {

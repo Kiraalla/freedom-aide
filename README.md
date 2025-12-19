@@ -14,7 +14,7 @@
 - **状态管理**: 创建Pinia、Vuex模块
 - **工具文件**: 快速创建工具类、Service层文件
 - **HTML模板**: 标准HTML页面模板
-- **属性输入优化**: 在wxml、vue、html中添加属性并键入等号时，自动补全双引号 `=""`"
+- **属性输入优化**: 在wxml、vue、html中添加属性并键入等号时，自动补全双引号 `=""`（支持多光标/批量编辑，为每个匹配位置补全）
 
 ### 代码格式化
 - **统一格式化器**: 为几乎所有常用的 Web 开发文件类型提供一致的格式化体验（WXML、Vue、WXSS、HTML、CSS、SCSS、Sass、Less、JavaScript、TypeScript）

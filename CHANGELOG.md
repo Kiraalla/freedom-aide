@@ -4,6 +4,11 @@ All notable changes to the "freedom-helper" extension will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.4] - 2025-12-19
+
+### ✨ 优化
+- **属性输入优化**: 在 wxml、vue、html 中添加属性并键入等号时，自动补全双引号 `=\"\"`，现在**支持多光标/批量编辑，为每个匹配位置补全**。
+
 ## [0.1.3] - 2025-12-08
 
 ### ✨ 新增功能
@@ -14,6 +19,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
   - 支持保存时自动格式化
   - 支持快捷键 `Shift+Alt+F` 格式化
   - 现在几乎支持所有常用的 Web 开发文件类型
+
 
 ### 🎯 配置增强
 - 新增 `freedomHelper.css-format-save-code` 配置项，控制 CSS 保存时是否自动格式化
