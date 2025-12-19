@@ -1,8 +1,8 @@
-### 自由助手 v0.1.2
+### 自由助手 v0.1.3
 
 一个功能丰富的VS Code扩展，专为小程序和Vue开发设计，提供模板创建、代码格式化、代码块等强大功能。
 
-**最新版本 v0.1.2 (2025-12-05)** - 新增 WXSS 完整支持 + 修复 5 个重要 BUG
+**最新版本 v0.1.3 (2025-12-08)** - 完整的代码格式化支持（HTML/CSS/SCSS/Sass/Less/JS/TS）
 
 ---
 
@@ -17,7 +17,7 @@
 - **属性输入优化**: 在wxml、vue、html中添加属性并键入等号时，自动补全双引号 `=""`"
 
 ### 代码格式化
-- **统一格式化器**: 为WXML、Vue和WXSS文件提供一致的格式化体验
+- **统一格式化器**: 为几乎所有常用的 Web 开发文件类型提供一致的格式化体验（WXML、Vue、WXSS、HTML、CSS、SCSS、Sass、Less、JavaScript、TypeScript）
 - **智能配置**: 基于Prettier的可配置格式化选项
 - **保存时格式化**: 支持文件保存时自动格式化
 - **调试模式**: 可选的详细日志输出，方便问题排查
@@ -46,7 +46,14 @@
   // 保存时自动格式化（推荐开启）
   "freedomHelper.vue-format-save-code": true,
   "freedomHelper.wxml-format-save-code": true,
-  "freedomHelper.wxss-format-save-code": true
+  "freedomHelper.wxss-format-save-code": true,
+  "freedomHelper.html-format-save-code": true,
+  "freedomHelper.css-format-save-code": true,
+  "freedomHelper.scss-format-save-code": true,
+  "freedomHelper.sass-format-save-code": true,
+  "freedomHelper.less-format-save-code": true,
+  "freedomHelper.javascript-format-save-code": true,
+  "freedomHelper.typescript-format-save-code": true
 }
 ```
 
@@ -86,6 +93,49 @@
   "freedomHelper.wxssPrettierOptions": {
     "singleQuote": true,
     "printWidth": 120
+  },
+  
+  // SCSS 文件独立配置
+  "freedomHelper.scssPrettierOptions": {
+    "singleQuote": true,
+    "printWidth": 120
+  },
+  
+  // Sass 文件独立配置
+  "freedomHelper.sassPrettierOptions": {
+    "singleQuote": true,
+    "printWidth": 100
+  },
+  
+  // Less 文件独立配置
+  "freedomHelper.lessPrettierOptions": {
+    "singleQuote": false,
+    "printWidth": 100
+  },
+  
+  // CSS 文件独立配置
+  "freedomHelper.cssPrettierOptions": {
+    "singleQuote": false,
+    "printWidth": 80
+  },
+  
+  // HTML 文件独立配置
+  "freedomHelper.htmlPrettierOptions": {
+    "printWidth": 100
+  },
+  
+  // JavaScript 文件独立配置
+  "freedomHelper.javascriptPrettierOptions": {
+    "singleQuote": true,
+    "semi": true,
+    "printWidth": 100
+  },
+  
+  // TypeScript 文件独立配置
+  "freedomHelper.typescriptPrettierOptions": {
+    "singleQuote": true,
+    "semi": true,
+    "printWidth": 100
   }
 }
 ```
@@ -182,7 +232,7 @@
 - **工具文件**: 工具类集合
 
 ### 快捷键
-- `Shift+Alt+F`: 格式化当前文档 (WXML/Vue/WXSS)
+- `Shift+Alt+F`: 格式化当前文档（支持所有文件类型）
 
 ---
 

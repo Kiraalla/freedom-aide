@@ -4,7 +4,7 @@
   "description": "",
   "icon": "./logo.jpg",
   "main": "./extension.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "Kiraalla",
   "homepage": "https://github.com/Kiraalla/freedom-helper",
   "bugs": {
@@ -31,7 +31,15 @@
   ],
   "activationEvents": [
     "onLanguage:wxml",
-    "onLanguage:wxss"
+    "onLanguage:wxss",
+    "onLanguage:vue",
+    "onLanguage:html",
+    "onLanguage:css",
+    "onLanguage:scss",
+    "onLanguage:sass",
+    "onLanguage:less",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
   ],
   "contributes": {
     "languages": [
@@ -132,7 +140,7 @@
       },
       {
         "command": "extension.formatUnified",
-        "title": "格式化文档 (WXML/Vue/WXSS)"
+        "title": "格式化文档 (统一格式化器)"
       },
       {
         "when": "editorLangId == vue",
@@ -148,6 +156,41 @@
         "when": "editorLangId == wxss",
         "command": "extension.formatwxss",
         "title": "Wxss 格式化"
+      },
+      {
+        "when": "editorLangId == scss",
+        "command": "extension.formatscss",
+        "title": "SCSS 格式化"
+      },
+      {
+        "when": "editorLangId == sass",
+        "command": "extension.formatsass",
+        "title": "Sass 格式化"
+      },
+      {
+        "when": "editorLangId == less",
+        "command": "extension.formatless",
+        "title": "Less 格式化"
+      },
+      {
+        "when": "editorLangId == css",
+        "command": "extension.formatcss",
+        "title": "CSS 格式化"
+      },
+      {
+        "when": "editorLangId == html",
+        "command": "extension.formathtml",
+        "title": "HTML 格式化"
+      },
+      {
+        "when": "editorLangId == javascript",
+        "command": "extension.formatjavascript",
+        "title": "JavaScript 格式化"
+      },
+      {
+        "when": "editorLangId == typescript",
+        "command": "extension.formattypescript",
+        "title": "TypeScript 格式化"
       }
     ],
     "submenus": [
@@ -205,7 +248,7 @@
       "commandPalette": [
         {
           "command": "extension.formatUnified",
-          "when": "editorLangId == wxml || editorLangId == vue || editorLangId == wxss"
+          "when": "editorLangId == wxml || editorLangId == vue || editorLangId == wxss || editorLangId == scss || editorLangId == sass || editorLangId == less || editorLangId == css || editorLangId == html || editorLangId == javascript || editorLangId == typescript"
         }
       ]
     },
@@ -303,35 +346,22 @@
         "command": "editor.action.formatDocument",
         "key": "shift+alt+f",
         "mac": "shift+alt+f",
-        "when": "editorTextFocus && !editorReadonly && (editorLangId == wxml || editorLangId == vue || editorLangId == wxss)"
+        "when": "editorTextFocus && !editorReadonly && (editorLangId == wxml || editorLangId == vue || editorLangId == wxss || editorLangId == scss || editorLangId == sass || editorLangId == less || editorLangId == css || editorLangId == html || editorLangId == javascript || editorLangId == typescript)"
       }
     ],
     "configuration": {
-      "title": "freedom-helper",
+      "title": "Freedom Helper",
       "properties": {
         "freedomHelper.debugMode": {
           "type": "boolean",
           "default": false,
-          "description": "是否启用调试模式（显示详细日志）"
-        },
-        "freedomHelper.vue-format-save-code": {
-          "type": "boolean",
-          "default": false,
-          "description": "保存 Vue 文件时自动格式化"
-        },
-        "freedomHelper.wxml-format-save-code": {
-          "type": "boolean",
-          "default": false,
-          "description": "保存 WXML 文件时自动格式化"
-        },
-        "freedomHelper.wxss-format-save-code": {
-          "type": "boolean",
-          "default": false,
-          "description": "保存 WXSS 文件时自动格式化"
+          "description": "是否启用调试模式（显示详细日志）",
+          "order": 0
         },
         "freedomHelper.prettierOptions": {
           "type": "object",
-          "description": "Prettier 统一配置（适用于 Vue、WXML 和 WXSS）",
+          "description": "📝 Prettier 统一配置（适用于所有支持的文件类型）",
+          "markdownDescription": "**统一格式化配置**\n\n适用于所有文件类型的基础配置。可以被各文件类型的独立配置覆盖。",
           "default": {
             "printWidth": 80,
             "tabWidth": 2,
@@ -341,7 +371,8 @@
             "singleAttributePerLine": false,
             "bracketSameLine": false,
             "htmlWhitespaceSensitivity": "ignore"
-          }
+          },
+          "order": 1
         },
         "freedomHelper.mustacheSpacing": {
           "type": "string",
@@ -351,58 +382,182 @@
             "nospace"
           ],
           "default": "space",
-          "description": "Mustache 表达式的空格风格"
+          "description": "Mustache 表达式的空格风格（{{ value }} 或 {{value}}）",
+          "order": 2
+        },
+        "freedomHelper.vue-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 Vue 文件时自动格式化",
+          "order": 10
+        },
+        "freedomHelper.wxml-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 WXML 文件时自动格式化",
+          "order": 11
+        },
+        "freedomHelper.wxss-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 WXSS 文件时自动格式化",
+          "order": 12
+        },
+        "freedomHelper.html-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 HTML 文件时自动格式化",
+          "order": 13
+        },
+        "freedomHelper.css-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 CSS 文件时自动格式化",
+          "order": 14
+        },
+        "freedomHelper.scss-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 SCSS 文件时自动格式化",
+          "order": 15
+        },
+        "freedomHelper.sass-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 Sass 文件时自动格式化",
+          "order": 16
+        },
+        "freedomHelper.less-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 Less 文件时自动格式化",
+          "order": 17
+        },
+        "freedomHelper.javascript-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 JavaScript 文件时自动格式化",
+          "order": 18
+        },
+        "freedomHelper.typescript-format-save-code": {
+          "type": "boolean",
+          "default": false,
+          "description": "💾 保存 TypeScript 文件时自动格式化",
+          "order": 19
         },
         "freedomHelper.vuePrettierOptions": {
           "type": "object",
-          "description": "Vue 文件的 Prettier 独立配置（会覆盖统一配置）",
-          "default": {}
+          "description": "⚙️ Vue 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**Vue 文件独立配置**\n\n仅适用于 `.vue` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 30
         },
         "freedomHelper.wxmlPrettierOptions": {
           "type": "object",
-          "description": "WXML 文件的 Prettier 独立配置（会覆盖统一配置）",
-          "default": {}
+          "description": "⚙️ WXML 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**WXML 文件独立配置**\n\n仅适用于 `.wxml` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 31
         },
         "freedomHelper.wxssPrettierOptions": {
           "type": "object",
-          "description": "WXSS 文件的 Prettier 独立配置（会覆盖统一配置）",
-          "default": {}
+          "description": "⚙️ WXSS 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**WXSS 文件独立配置**\n\n仅适用于 `.wxss` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 32
+        },
+        "freedomHelper.htmlPrettierOptions": {
+          "type": "object",
+          "description": "⚙️ HTML 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**HTML 文件独立配置**\n\n仅适用于 `.html` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 33
+        },
+        "freedomHelper.cssPrettierOptions": {
+          "type": "object",
+          "description": "⚙️ CSS 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**CSS 文件独立配置**\n\n仅适用于 `.css` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 34
+        },
+        "freedomHelper.scssPrettierOptions": {
+          "type": "object",
+          "description": "⚙️ SCSS 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**SCSS 文件独立配置**\n\n仅适用于 `.scss` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 35
+        },
+        "freedomHelper.sassPrettierOptions": {
+          "type": "object",
+          "description": "⚙️ Sass 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**Sass 文件独立配置**\n\n仅适用于 `.sass` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 36
+        },
+        "freedomHelper.lessPrettierOptions": {
+          "type": "object",
+          "description": "⚙️ Less 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**Less 文件独立配置**\n\n仅适用于 `.less` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 37
+        },
+        "freedomHelper.javascriptPrettierOptions": {
+          "type": "object",
+          "description": "⚙️ JavaScript 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**JavaScript 文件独立配置**\n\n仅适用于 `.js` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 38
+        },
+        "freedomHelper.typescriptPrettierOptions": {
+          "type": "object",
+          "description": "⚙️ TypeScript 文件的独立配置（会覆盖统一配置）",
+          "markdownDescription": "**TypeScript 文件独立配置**\n\n仅适用于 `.ts` 文件，会覆盖统一配置。",
+          "default": {},
+          "order": 39
         },
         "freedomHelper.enableJQuerySnippets": {
           "type": "boolean",
           "default": true,
-          "description": "启用 jQuery 代码块"
+          "description": "📦 启用 jQuery 代码块",
+          "order": 50
         },
         "freedomHelper.enableLayuiSnippets": {
           "type": "boolean",
           "default": true,
-          "description": "启用 Layui 代码块"
+          "description": "📦 启用 Layui 代码块",
+          "order": 51
         },
         "freedomHelper.enableVantSnippets": {
           "type": "boolean",
           "default": true,
-          "description": "启用 Vant 代码块"
+          "description": "📦 启用 Vant 代码块",
+          "order": 52
         },
         "freedomHelper.enableWeappSnippets": {
           "type": "boolean",
           "default": true,
-          "description": "启用小程序代码块"
+          "description": "📦 启用小程序代码块",
+          "order": 53
         },
         "freedomHelper.wxml-activeDisable": {
           "type": "boolean",
           "default": false,
-          "description": "禁用 WXML 标签高亮"
+          "description": "🎨 禁用 WXML 标签高亮",
+          "order": 60
         },
         "freedomHelper.wxml-activeColor": {
           "type": "object",
-          "description": "WXML 标签高亮颜色配置",
+          "description": "🎨 WXML 标签高亮颜色配置",
           "default": {
             "color": "#00ffff"
-          }
+          },
+          "order": 61
         },
         "freedomHelper.wxml-tagNoActiveArr": {
           "type": "array",
-          "description": "不高亮的 WXML 标签列表",
+          "description": "🎨 不高亮的 WXML 标签列表",
+          "markdownDescription": "**不高亮的标签列表**\n\n这些标签不会被高亮显示。",
+          "order": 62,
           "default": [
             "view",
             "scroll-view",
@@ -439,6 +594,8 @@
         },
         "freedomHelper.vue-supportedLanguages": {
           "type": "array",
+          "description": "🔍 Vue 定义跳转支持的语言",
+          "order": 70,
           "default": [
             "vue",
             "javascript",
@@ -446,11 +603,12 @@
           ],
           "items": {
             "type": "string"
-          },
-          "description": "Vue 定义跳转支持的语言"
+          }
         },
         "freedomHelper.vue-targetFileExtensions": {
           "type": "array",
+          "description": "🔍 Vue 定义跳转支持的文件扩展名",
+          "order": 71,
           "default": [
             ".vue",
             ".js",

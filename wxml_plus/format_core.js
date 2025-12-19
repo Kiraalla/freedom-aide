@@ -131,7 +131,7 @@ function postprocessWxml(formattedVueCode) {
 /**
  * 统一格式化函数
  * @param {string} code - 要格式化的代码
- * @param {string} fileType - 文件类型 'vue'、'wxml' 或 'wxss'
+ * @param {string} fileType - 文件类型 'vue'、'wxml'、'wxss'、'scss'、'sass'、'less'、'css'、'html'、'javascript' 或 'typescript'
  * @returns {string} 格式化后的代码
  */
 function unifiedFormat(code, fileType) {
@@ -142,6 +142,76 @@ function unifiedFormat(code, fileType) {
       const finalOptions = {
         ...prettierOptions,
         parser: 'css'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
+    // SCSS 使用 SCSS 格式化
+    if (fileType === 'scss') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'scss'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
+    // Sass 使用 SCSS 格式化（Prettier 不支持缩进式 Sass，使用 SCSS 作为替代）
+    if (fileType === 'sass') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'scss'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
+    // Less 使用 Less 格式化
+    if (fileType === 'less') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'less'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
+    // CSS 使用 CSS 格式化
+    if (fileType === 'css') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'css'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
+    // HTML 使用 HTML 格式化
+    if (fileType === 'html') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'html'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
+    // JavaScript 使用 Babel 格式化
+    if (fileType === 'javascript') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'babel'
+      };
+      return prettier.format(code, finalOptions);
+    }
+
+    // TypeScript 使用 TypeScript 格式化
+    if (fileType === 'typescript') {
+      const prettierOptions = ConfigManager.getMergedPrettierConfig(fileType);
+      const finalOptions = {
+        ...prettierOptions,
+        parser: 'typescript'
       };
       return prettier.format(code, finalOptions);
     }

@@ -4,6 +4,64 @@ All notable changes to the "freedom-helper" extension will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.3] - 2025-12-08
+
+### ✨ 新增功能
+- **完整的代码格式化支持**: 新增对 CSS、SCSS、Sass、Less、HTML、JavaScript 和 TypeScript 文件的完整格式化支持
+  - 基于 Prettier 的格式化引擎
+  - 与 WXML、Vue 的缩进等规则保持一致
+  - 支持统一配置和独立配置
+  - 支持保存时自动格式化
+  - 支持快捷键 `Shift+Alt+F` 格式化
+  - 现在几乎支持所有常用的 Web 开发文件类型
+
+### 🎯 配置增强
+- 新增 `freedomHelper.css-format-save-code` 配置项，控制 CSS 保存时是否自动格式化
+- 新增 `freedomHelper.scss-format-save-code` 配置项，控制 SCSS 保存时是否自动格式化
+- 新增 `freedomHelper.sass-format-save-code` 配置项，控制 Sass 保存时是否自动格式化
+- 新增 `freedomHelper.less-format-save-code` 配置项，控制 Less 保存时是否自动格式化
+- 新增 `freedomHelper.html-format-save-code` 配置项，控制 HTML 保存时是否自动格式化
+- 新增 `freedomHelper.javascript-format-save-code` 配置项，控制 JavaScript 保存时是否自动格式化
+- 新增 `freedomHelper.typescript-format-save-code` 配置项，控制 TypeScript 保存时是否自动格式化
+- 新增 `freedomHelper.cssPrettierOptions` 配置项，支持 CSS 文件的独立格式化配置
+- 新增 `freedomHelper.scssPrettierOptions` 配置项，支持 SCSS 文件的独立格式化配置
+- 新增 `freedomHelper.sassPrettierOptions` 配置项，支持 Sass 文件的独立格式化配置
+- 新增 `freedomHelper.lessPrettierOptions` 配置项，支持 Less 文件的独立格式化配置
+- 新增 `freedomHelper.htmlPrettierOptions` 配置项，支持 HTML 文件的独立格式化配置
+- 新增 `freedomHelper.javascriptPrettierOptions` 配置项，支持 JavaScript 文件的独立格式化配置
+- 新增 `freedomHelper.typescriptPrettierOptions` 配置项，支持 TypeScript 文件的独立格式化配置
+- 更新 `freedomHelper.prettierOptions` 描述，明确支持所有文件类型
+
+### 📝 命令增强
+- 新增 `extension.formatcss` 命令，专门用于格式化 CSS 文件
+- 新增 `extension.formatscss` 命令，专门用于格式化 SCSS 文件
+- 新增 `extension.formatsass` 命令，专门用于格式化 Sass 文件
+- 新增 `extension.formatless` 命令，专门用于格式化 Less 文件
+- 新增 `extension.formathtml` 命令，专门用于格式化 HTML 文件
+- 新增 `extension.formatjavascript` 命令，专门用于格式化 JavaScript 文件
+- 新增 `extension.formattypescript` 命令，专门用于格式化 TypeScript 文件
+- 更新 `extension.formatUnified` 命令，支持所有文件类型格式化
+- 快捷键 `Shift+Alt+F` 现在支持所有文件类型
+
+### 🎯 支持的文件类型总览
+
+| 文件类型 | 语法高亮 | 代码格式化 | 保存时格式化 | 代码片段 |
+|---------|---------|-----------|------------|---------|
+| 文件类型 | 语法高亮 | 代码格式化 | 保存时格式化 | 代码片段 |
+|---------|---------|-----------|------------|---------|
+| WXML    | ✅      | ✅        | ✅         | ✅      |
+| WXSS    | ✅      | ✅        | ✅         | ✅      |
+| Vue     | ✅      | ✅        | ✅         | ✅      |
+| HTML    | ✅      | ✅        | ✅         | ✅      |
+| CSS     | ✅      | ✅        | ✅         | ✅      |
+| SCSS    | ✅      | ✅        | ✅         | ✅      |
+| Sass    | ✅      | ✅        | ✅         | ✅      |
+| Less    | ✅      | ✅        | ✅         | ✅      |
+| JavaScript | ✅   | ✅        | ✅         | ✅      |
+| TypeScript | ✅   | ✅        | ✅         | ✅      |
+
+---
+
 ## [0.1.2] - 2025-12-05
 
 ### 🐛 Bug 修复（共 5 个）

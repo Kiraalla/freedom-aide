@@ -133,8 +133,9 @@ class FreedomDocumentFormattingEditProvider {
   provideDocumentFormattingEdits(document, options, token) {
     const languageId = document.languageId;
 
-    // 只处理 WXML、Vue 和 WXSS 文件
-    if (languageId !== 'wxml' && languageId !== 'vue' && languageId !== 'wxss') {
+    // 支持的文件类型
+    const supportedLanguages = ['wxml', 'vue', 'wxss', 'scss', 'sass', 'less', 'css', 'html', 'javascript', 'typescript'];
+    if (!supportedLanguages.includes(languageId)) {
       return;
     }
 
@@ -142,12 +143,27 @@ class FreedomDocumentFormattingEditProvider {
       const text = document.getText();
       let formattedText;
 
+      // 根据文件类型调用对应的格式化函数
       if (languageId === 'vue') {
         formattedText = format_core.unifiedFormat(text, 'vue');
       } else if (languageId === 'wxml') {
         formattedText = format_core.unifiedFormat(text, 'wxml');
       } else if (languageId === 'wxss') {
         formattedText = format_core.unifiedFormat(text, 'wxss');
+      } else if (languageId === 'scss') {
+        formattedText = format_core.unifiedFormat(text, 'scss');
+      } else if (languageId === 'sass') {
+        formattedText = format_core.unifiedFormat(text, 'sass');
+      } else if (languageId === 'less') {
+        formattedText = format_core.unifiedFormat(text, 'less');
+      } else if (languageId === 'css') {
+        formattedText = format_core.unifiedFormat(text, 'css');
+      } else if (languageId === 'html') {
+        formattedText = format_core.unifiedFormat(text, 'html');
+      } else if (languageId === 'javascript') {
+        formattedText = format_core.unifiedFormat(text, 'javascript');
+      } else if (languageId === 'typescript') {
+        formattedText = format_core.unifiedFormat(text, 'typescript');
       }
 
       // 返回格式化后的文本编辑
@@ -211,6 +227,62 @@ function activate(context) {
     )
   );
 
+  // 为 SCSS 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'scss' },
+      formattingProvider
+    )
+  );
+
+  // 为 Sass 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'sass' },
+      formattingProvider
+    )
+  );
+
+  // 为 Less 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'less' },
+      formattingProvider
+    )
+  );
+
+  // 为 CSS 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'css' },
+      formattingProvider
+    )
+  );
+
+  // 为 HTML 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'html' },
+      formattingProvider
+    )
+  );
+
+  // 为 JavaScript 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'javascript' },
+      formattingProvider
+    )
+  );
+
+  // 为 TypeScript 注册格式化器
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      { language: 'typescript' },
+      formattingProvider
+    )
+  );
+
   // 注册范围格式化器（可选）
   context.subscriptions.push(
     vscode.languages.registerDocumentRangeFormattingEditProvider(
@@ -229,6 +301,55 @@ function activate(context) {
   context.subscriptions.push(
     vscode.languages.registerDocumentRangeFormattingEditProvider(
       { language: 'wxss' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'scss' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'sass' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'less' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'css' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'html' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'javascript' },
+      formattingProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentRangeFormattingEditProvider(
+      { language: 'typescript' },
       formattingProvider
     )
   );
@@ -403,7 +524,14 @@ function activate(context) {
 
       if ((doc.languageId === 'vue' && cfg.get('vue-format-save-code')) ||
         (doc.languageId === 'wxml' && cfg.get('wxml-format-save-code')) ||
-        (doc.languageId === 'wxss' && cfg.get('wxss-format-save-code'))) {
+        (doc.languageId === 'wxss' && cfg.get('wxss-format-save-code')) ||
+        (doc.languageId === 'scss' && cfg.get('scss-format-save-code')) ||
+        (doc.languageId === 'sass' && cfg.get('sass-format-save-code')) ||
+        (doc.languageId === 'less' && cfg.get('less-format-save-code')) ||
+        (doc.languageId === 'css' && cfg.get('css-format-save-code')) ||
+        (doc.languageId === 'html' && cfg.get('html-format-save-code')) ||
+        (doc.languageId === 'javascript' && cfg.get('javascript-format-save-code')) ||
+        (doc.languageId === 'typescript' && cfg.get('typescript-format-save-code'))) {
         logger.debug(`触发保存时格式化: ${doc.languageId}`);
         event.waitUntil(vscode.commands.executeCommand('editor.action.formatDocument'));
       }
